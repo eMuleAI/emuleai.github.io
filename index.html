@@ -590,24 +590,22 @@
         <div class="figcap">LowID -&gt; HighID with direct UDP callback. No buddy required.</div>
       </div>
       <div class="figure">
-        <svg aria-label="LowID to LowID with Rendezvous via Buddies" height="460" role="img" viewBox="0 0 1280 520" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <svg aria-label="LowID to LowID with Rendezvous via Single Buddy" height="460" role="img" viewBox="0 0 1280 520" width="100%" xmlns="http://www.w3.org/2000/svg">
           <rect fill="none" height="520" rx="12" width="1280" x="0" y="0"></rect>
-          <g transform="translate(120,80)"><rect class="node alt" height="120" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="30">Buddy A (HighID)</text></g>
-          <g transform="translate(860,80)"><rect class="node alt" height="120" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="30">Buddy B (HighID)</text></g>
-          <g transform="translate(120,340)"><rect class="node" height="120" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="30">LowID A</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="54">Kad Open + Verified</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="76">Buddy: A</text></g>
-          <g transform="translate(860,340)"><rect class="node" height="120" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="30">LowID B</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="54">Kad Open + Verified</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="76">Buddy: B</text></g>
-          <defs><marker id="ma" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--primary)"></path></marker><marker id="mc" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--ok)"></path></marker></defs>
-          <path class="line-blue" d="M270,320 V220" fill="none" marker-end="url(#ma)" stroke-linecap="round" stroke-width="3"></path>
-          <text class="label" fill="var(--primary)" font-size="14" text-anchor="middle" x="270" y="216">ReaskCallbackUDP</text>
-          <path class="line-blue" d="M440,140 H840" fill="none" marker-end="url(#ma)" stroke-linecap="round" stroke-width="3"></path>
-          <text class="label" fill="var(--primary)" font-size="14" text-anchor="middle" x="636" y="126">Rendezvous</text>
-          <path class="line-blue" d="M1010,220 V320" fill="none" marker-end="url(#ma)" stroke-linecap="round" stroke-width="3"></path>
-          <text class="label" fill="var(--primary)" font-size="14" text-anchor="middle" x="1010" y="336">ReaskCallbackTCP</text>
-          <path class="line-green" d="M440,392 H840" fill="none" marker-end="url(#mc)" stroke-linecap="round" stroke-width="3"></path>
-          <path class="line-green" d="M840,408 H440" fill="none" marker-end="url(#mc)" stroke-linecap="round" stroke-width="3"></path>
-          <text class="label" fill="var(--ok)" font-size="14" text-anchor="middle" x="640" y="372">Bidirectional UDP hole punching -&gt; uTP</text>
+          <g transform="translate(470,40)"><rect class="node alt" height="110" rx="12" width="340"></rect><text class="title" font-size="18" x="16" y="34">Uploader-side Buddy (HighID)</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="58">Required for Kad rendezvous</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="80">Signals callback only</text></g>
+          <g transform="translate(150,260)"><rect class="node" height="110" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="32">LowID Downloader</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="56">Kad Open + Verified</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="78">Own buddy: optional</text></g>
+          <g transform="translate(830,260)"><rect class="node" height="110" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="32">LowID Uploader</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="56">Kad Open + Verified</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="78">Buddy: required</text></g>
+          <defs><marker id="srvBlue" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--primary)"></path></marker><marker id="srvGreen" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--ok)"></path></marker></defs>
+          <path class="line-blue" d="M360,240 L550,195" fill="none" marker-end="url(#srvBlue)" stroke-linecap="round" stroke-width="3"></path>
+          <text class="label" dy="0.35em" fill="var(--primary)" font-size="14" text-anchor="end" x="445" y="198">ReaskCallbackUDP</text>
+          <text class="label" fill="var(--primary)" font-size="14" text-anchor="middle" x="640" y="203">Kad rendezvous</text>
+          <path class="line-blue" d="M730,195 L920,240" fill="none" marker-end="url(#srvBlue)" stroke-linecap="round" stroke-width="3"></path>
+          <text class="label" dy="0.35em" fill="var(--primary)" font-size="14" text-anchor="start" x="835" y="198">ReaskCallbackTCP</text>
+          <path class="line-green" d="M480,320 H800" fill="none" marker-end="url(#srvGreen)" stroke-linecap="round" stroke-width="3"></path>
+          <path class="line-green" d="M800,340 H480" fill="none" marker-end="url(#srvGreen)" stroke-linecap="round" stroke-width="3"></path>
+          <text class="label" fill="var(--ok)" font-size="14" text-anchor="middle" x="640" y="300">Bidirectional UDP hole punching -&gt; uTP</text>
         </svg>
-        <div class="figcap">LowID &lt;-&gt; LowID via Kad rendezvous. In eMule AI, uploader-side buddy is mandatory for this path; dual-buddy setups still work.</div>
+        <div class="figcap">LowID &lt;-&gt; LowID via Kad rendezvous. In eMule AI, only the uploader-side buddy is required for this path; downloader-side buddy is optional.</div>
       </div>
       <div class="figure">
         <svg aria-label="LowID to LowID via eServer Buddy relay" height="420" role="img" viewBox="0 0 1280 420" width="100%" xmlns="http://www.w3.org/2000/svg">
