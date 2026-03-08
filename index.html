@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html data-theme="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>eMule AI</title>
+<meta content="Unified eMule AI documentation, NAT Traversal & uTP guide, release notes, and support hub." name="description"/>
+<meta content="eMule AI" property="og:title"/>
+<meta content="https://emuleai.github.io/eMuleAI/eMuleAI.png" property="og:image"/>
+<meta content="#111827" name="theme-color"/>
+<link href="https://emuleai.github.io/eMuleAI/" rel="canonical"/>
+<link href="./favicon.ico" rel="icon" sizes="any"/>
+<link href="./favicon.ico" rel="shortcut icon"/>
+<style>
+  :root{
+    --bg:#f7f8fb; --surface:#ffffff; --muted-surface:#f2f4f8; --ink:#0b1220; --muted:#5b6479; --border:#e5e7ef;
+    --primary:#2563eb; --primary-ink:#ffffff; --h1:#0b1220; --h2:#1d4ed8; --h3:#475569;
+    --ok:#16a34a; --warn:#f59e0b; --err:#ef4444;
+    --node-fill:#eef2ff; --node-alt-fill:#e0f2fe; --node-stroke:#3b82f6;
+    --card-radius:10px; --shadow-sm:0 1px 2px rgba(16,24,40,.06); --shadow-md:0 6px 20px rgba(16,24,40,.08);
+    --space:clamp(16px, 2.4vw, 24px); --content:1180px;
+    --accent-strong:#1d4ed8;
+  }
+  [data-theme="dark"]{
+    --bg:#0b1220; --surface:#0f162a; --muted-surface:#0c1426; --ink:#e6eaf5; --muted:#a6b0c8; --border:#1f2a44;
+    --primary:#3b82f6; --primary-ink:#0b1220; --h1:#e6eaf5; --h2:#60a5fa; --h3:#a8b1c9;
+    --ok:#22c55e; --warn:#fbbf24; --err:#f87171; --node-fill:#12203a; --node-alt-fill:#101b30; --node-stroke:#60a5fa;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.35); --shadow-md:0 8px 28px rgba(0,0,0,.38);
+    --accent-strong:#93c5fd;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.6;
+    font-size:clamp(15px, 1.5vw, 17px);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+  h1,h2,h3,h4{line-height:1.25; margin:0 0 8px}
+  h1{color:var(--h1); font-size:clamp(28px, 3.6vw, 42px); font-weight:800; letter-spacing:.1px}
+  .h2{color:var(--h2); font-weight:700; font-size:clamp(20px, 2.4vw, 28px); letter-spacing:.2px}
+  .h3,h3{color:var(--h3); font-weight:600; font-size:clamp(16px, 2vw, 20px)}
+  a{color:var(--primary); text-decoration:none}
+  a:hover{text-decoration:underline}
+  img,svg{max-width:100%; height:auto}
+  code,kbd,pre{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+  .container{max-width:var(--content); margin:0 auto; padding:0 var(--space)}
+  .visually-hidden{position:absolute; clip:rect(0 0 0 0); clip-path:inset(50%); height:1px; width:1px; overflow:hidden; white-space:nowrap}
+  .topbar{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:color-mix(in hsl, var(--surface), transparent 0%);
+    backdrop-filter:saturate(140%) blur(6px);
+    border-bottom:1px solid var(--border);
+  }
+  .topbar-inner{display:flex; align-items:center; justify-content:flex-end; gap:12px; padding:10px var(--space)}
+  .actions{display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:flex-end; margin-left:auto}
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 12px;
+    border-radius:8px;
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--ink);
+    box-shadow:var(--shadow-sm);
+    cursor:pointer;
+  }
+  .btn:hover{box-shadow:var(--shadow-md); text-decoration:none}
+  .btn.primary{background:var(--primary); border-color:color-mix(in srgb, var(--primary), #000 8%); color:var(--primary-ink)}
+  .btn.ghost{background:transparent}
+  .theme-button{
+    min-height:48px;
+    padding:6px 14px 6px 8px;
+    border-radius:999px;
+    border:1px solid color-mix(in srgb, var(--border), var(--primary) 14%);
+    background:
+      radial-gradient(circle at 18% 22%, color-mix(in srgb, var(--primary), transparent 85%), transparent 52%),
+      linear-gradient(180deg, color-mix(in srgb, var(--surface), #fff 12%), color-mix(in srgb, var(--muted-surface), transparent 12%));
+    box-shadow:var(--shadow-sm);
+    font-weight:700;
+    letter-spacing:.01em;
+  }
+  .theme-button:hover{
+    border-color:color-mix(in srgb, var(--border), var(--primary) 24%);
+  }
+  .theme-button .theme-chip{
+    width:30px;
+    height:30px;
+    display:grid;
+    place-items:center;
+    flex:0 0 auto;
+    border-radius:999px;
+    background:
+      radial-gradient(circle at 32% 30%, #fde68a 0 28%, #f59e0b 29% 42%, transparent 43%),
+      radial-gradient(circle at 68% 70%, #93c5fd 0 30%, #2563eb 31% 46%, transparent 47%),
+      linear-gradient(180deg, color-mix(in srgb, var(--muted-surface), #fff 10%), color-mix(in srgb, var(--surface), transparent 8%));
+    border:1px solid color-mix(in srgb, var(--border), transparent 8%);
+    box-shadow:inset 0 1px 0 color-mix(in srgb, #fff, transparent 45%);
+  }
+  .theme-button .theme-label{
+    white-space:nowrap;
+    line-height:1;
+  }
+  .translate-control{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-height:48px;
+    padding:4px 8px 4px 12px;
+    border:1px solid color-mix(in srgb, var(--border), var(--primary) 12%);
+    border-radius:999px;
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--surface), #fff 10%), color-mix(in srgb, var(--muted-surface), transparent 16%));
+    box-shadow:var(--shadow-sm);
+    min-width:0;
+  }
+  .translate-brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-width:0;
+    padding-right:10px;
+    border-right:1px solid color-mix(in srgb, var(--border), transparent 18%);
+  }
+  .google-wordmark{
+    display:inline-flex;
+    align-items:center;
+    gap:0;
+    font-size:.92em;
+    font-weight:700;
+    letter-spacing:-.015em;
+    white-space:nowrap;
+    line-height:1;
+  }
+  .google-wordmark .blue{color:#4285f4}
+  .google-wordmark .red{color:#ea4335}
+  .google-wordmark .yellow{color:#fbbc05}
+  .google-wordmark .green{color:#34a853}
+  .translate-select-shell{
+    position:relative;
+    display:flex;
+    align-items:center;
+    min-width:138px;
+  }
+  .translate-select-shell select{
+    width:100%;
+    appearance:none;
+    -webkit-appearance:none;
+    border:0;
+    outline:none;
+    min-height:40px;
+    padding:9px 30px 10px 10px;
+    border-radius:999px;
+    background:color-mix(in srgb, var(--muted-surface), transparent 4%);
+    color:var(--ink);
+    font:inherit;
+    font-size:.95em;
+    line-height:1.35;
+    box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--border), transparent 22%);
+  }
+  .translate-select-shell::after{
+    content:"";
+    position:absolute;
+    right:12px;
+    width:7px;
+    height:7px;
+    border-right:1.5px solid var(--muted);
+    border-bottom:1.5px solid var(--muted);
+    transform:rotate(45deg) translateY(-2px);
+    pointer-events:none;
+  }
+  .hero{
+    padding:clamp(28px, 4vw, 46px) 0;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, color-mix(in srgb, var(--muted-surface), transparent 20%), transparent);
+  }
+  .hero-shell{
+    display:grid;
+    grid-template-columns:minmax(0, 1.4fr) minmax(280px, .9fr);
+    gap:clamp(18px, 4vw, 42px);
+    align-items:center;
+  }
+  .hero p{margin:10px 0 0; max-width:760px; color:var(--muted)}
+  .hero-media{
+    display:flex;
+    justify-content:flex-end;
+  }
+  .hero-logo-card{
+    position:relative;
+    width:min(100%, 340px);
+    aspect-ratio:1;
+    padding:clamp(18px, 4vw, 28px);
+    border-radius:30px;
+    border:1px solid color-mix(in srgb, var(--border), var(--primary) 18%);
+    background:
+      radial-gradient(circle at top, color-mix(in srgb, var(--primary), transparent 84%), transparent 55%),
+      linear-gradient(180deg, color-mix(in srgb, var(--surface), #fff 8%), color-mix(in srgb, var(--muted-surface), transparent 8%));
+    box-shadow:var(--shadow-md);
+    overflow:hidden;
+    isolation:isolate;
+  }
+  .hero-logo-card::before{
+    content:"";
+    position:absolute;
+    inset:auto -18% -28% auto;
+    width:58%;
+    height:58%;
+    border-radius:999px;
+    background:color-mix(in srgb, var(--primary), transparent 78%);
+    filter:blur(34px);
+    z-index:-1;
+  }
+  .hero-logo-card::after{
+    content:"";
+    position:absolute;
+    inset:12px;
+    border-radius:24px;
+    border:1px solid color-mix(in srgb, var(--border), transparent 20%);
+    pointer-events:none;
+  }
+  .hero-logo-frame{
+    width:100%;
+    height:100%;
+    display:grid;
+    place-items:center;
+    padding:clamp(18px, 4vw, 30px);
+    border-radius:22px;
+    background:linear-gradient(180deg, color-mix(in srgb, var(--surface), transparent 0%), color-mix(in srgb, var(--muted-surface), transparent 8%));
+    box-shadow:inset 0 1px 0 color-mix(in srgb, #fff, transparent 60%);
+  }
+  .hero-logo-frame img{
+    width:min(100%, 240px);
+    height:auto;
+    display:block;
+    object-fit:contain;
+  }
+  .layout{display:grid; grid-template-columns:300px 1fr; gap:var(--space); margin-top:var(--space)}
+  .toc{
+    position:sticky;
+    top:calc(58px + var(--space));
+    align-self:start;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--card-radius);
+    box-shadow:var(--shadow-sm);
+    padding:14px;
+  }
+  .toc h3{margin:0 0 10px; font-size:14px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted)}
+  .toc-group + .toc-group{margin-top:10px}
+  .toc-trigger{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:10px 12px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--muted-surface);
+    color:var(--ink);
+    font:inherit;
+    font-weight:700;
+    text-align:left;
+    cursor:pointer;
+  }
+  .toc-trigger::after{content:"+"; color:var(--muted); font-size:18px; line-height:1}
+  .toc-group.is-open .toc-trigger::after{content:"-"}
+  .toc-links{
+    display:none;
+    margin-top:8px;
+    padding-left:10px;
+    border-left:1px solid var(--border);
+  }
+  .toc-group.is-open .toc-links{display:block}
+  .toc-links a{
+    display:block;
+    padding:7px 10px;
+    margin:3px 0;
+    border-radius:8px;
+    border:1px solid transparent;
+    color:var(--muted);
+  }
+  .toc-links a:hover,
+  .toc-links a.is-active{
+    background:var(--muted-surface);
+    border-color:var(--border);
+    color:var(--ink);
+    text-decoration:none;
+  }
+  .content{min-width:0}
+  section{scroll-margin-top:96px}
+  section + section{margin-top:calc(var(--space) * 1.4)}
+  .card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--card-radius);
+    box-shadow:var(--shadow-sm);
+    padding:16px;
+  }
+  .overview-grid,
+  .grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:var(--space)}
+  .mini-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--card-radius);
+    box-shadow:var(--shadow-sm);
+    padding:18px;
+  }
+  .mini-card h3{color:var(--accent-strong)}
+  .placeholder{
+    border-style:dashed;
+    background:linear-gradient(180deg, color-mix(in srgb, var(--muted-surface), transparent 20%), transparent);
+  }
+  .section-intro{margin:0 0 14px; color:var(--muted)}
+  .list{margin:10px 0 6px 18px; padding:0}
+  .status-pair span{display:block; line-height:1.3}
+  .status-pair span + span{margin-top:2px}
+  .figure{background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:12px; margin:12px 0; box-shadow:var(--shadow-sm)}
+  .figcap{color:var(--muted); font-size:.92em; margin-top:6px}
+  .callout{border-left:4px solid var(--primary); padding:10px 12px; background:var(--muted-surface); border-radius:8px}
+  .qa{padding:12px 0; border-top:1px solid var(--border)}
+  .qa:first-child{border-top:none}
+  .qa .q{color:var(--h3); font-weight:700; margin-bottom:4px}
+  .qa .a{color:var(--ink); opacity:.92}
+  .stack .section{padding:4px 0}
+  .divider{border:0; border-top:1px solid var(--border); margin:12px 0}
+  footer{border-top:1px solid var(--border); margin-top:calc(var(--space) * 2); padding:var(--space) 0; color:var(--muted)}
+  .pretty-table{table-layout:fixed; max-width:100%}
+  .pretty-table thead th, .pretty-table tbody td{white-space:normal; word-break:break-word; hyphens:auto}
+  .pretty-table thead th:first-child, .pretty-table tbody td:first-child{width:4%}
+  .pretty-table thead th:last-child, .pretty-table tbody td:last-child{width:28%}
+  .pretty-table thead th:nth-last-child(2), .pretty-table tbody td:nth-last-child(2){width:18%}
+  .status{font-weight:700}
+  .status.green{color:#16a34a}
+  .status.orange{color:#d97706}
+  .status.red{color:#dc2626}
+  svg text.label{paint-order:stroke; stroke:var(--surface); stroke-width:4px; stroke-linejoin:round}
+  svg text.title{paint-order:stroke; stroke:var(--surface); stroke-width:4px; stroke-linejoin:round; fill:var(--h2); font-weight:700}
+  svg .node{fill:var(--node-fill); stroke:var(--node-stroke); stroke-width:2}
+  svg .node.alt{fill:var(--node-alt-fill); stroke:var(--node-stroke); stroke-width:2}
+  svg .line-blue{stroke:var(--primary)}
+  svg .line-yellow{stroke:var(--warn)}
+  svg .line-green{stroke:var(--ok)}
+  @media (max-width: 1000px){
+    .layout{grid-template-columns:1fr}
+    .toc{position:relative; top:auto}
+    .hero-shell{grid-template-columns:1fr}
+    .hero-media{justify-content:flex-start}
+  }
+  @media (max-width: 720px){
+    .topbar-inner{align-items:flex-start; flex-direction:column}
+    .actions{width:100%; justify-content:flex-start}
+    .translate-control{width:100%; justify-content:space-between}
+    .translate-select-shell{min-width:0; flex:1}
+    .theme-button{min-width:fit-content}
+    .hero-logo-card{width:min(100%, 280px)}
+  }
+  @media print{
+    .topbar, .toc, .actions{display:none !important}
+    .container{max-width:none}
+    body{background:#fff; color:#000}
+    .card, .figure, .mini-card{box-shadow:none; border-color:#ddd}
+  }
+</style>
+</head>
+<body>
+<a class="visually-hidden" href="#content">Skip to content</a>
+<header class="topbar">
+  <div class="topbar-inner container">
+    <div class="actions">
+      <button aria-label="Toggle light or dark theme" class="btn theme-button" id="themeToggle" type="button">
+        <span aria-hidden="true" class="theme-chip"></span>
+        <span class="theme-label">Toggle theme</span>
+      </button>
+      <label class="translate-control" for="languageSelect">
+        <span class="translate-brand" aria-hidden="true">
+          <span class="google-wordmark">
+            <span class="blue">G</span><span class="red">o</span><span class="yellow">o</span><span class="blue">g</span><span class="green">l</span><span class="red">e</span>
+          </span>
+        </span>
+        <span class="translate-select-shell">
+          <select aria-label="Translate page with Google Translate" id="languageSelect">
+            <option value="en">Original (English)</option>
+          </select>
+        </span>
+      </label>
+    </div>
+  </div>
+</header>
+<header class="hero">
+  <div class="container hero-shell">
+    <div class="hero-copy">
+      <h1>eMule AI Documentation Hub</h1>
+      <p>Explore eMule AI's modern networking, performance, interface, and reliability improvements, with dedicated guidance for NAT Traversal and uTP, release highlights, and practical support resources.</p>
+    </div>
+    <div class="hero-media" aria-hidden="true">
+      <div class="hero-logo-card">
+        <div class="hero-logo-frame">
+          <img alt="" decoding="async" height="320" src="./eMuleAI.png" width="320"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<main class="container layout" id="content">
+  <aside aria-label="Documentation navigation" class="toc">
+    <h3>Contents</h3>
+    <div class="toc-group is-open" data-group="overview">
+      <button aria-controls="toc-overview" aria-expanded="true" class="toc-trigger" type="button">Overview</button>
+      <div class="toc-links" id="toc-overview">
+        <a href="#overview-introduction">Introduction</a>
+        <a href="#overview-highlights">Highlights</a>
+        <a href="#overview-downloads">Download &amp; Installation</a>
+      </div>
+    </div>
+    <div class="toc-group" data-group="nat">
+      <button aria-controls="toc-nat" aria-expanded="false" class="toc-trigger" type="button">NAT Traversal (NAT-T) &amp; uTP</button>
+      <div class="toc-links" id="toc-nat">
+        <a href="#how-it-works">How it works</a>
+        <a href="#diagrams">Diagrams</a>
+        <a href="#scenarios">Scenarios</a>
+        <a href="#setup">Setup &amp; tips</a>
+        <a href="#troubleshooting">Troubleshooting</a>
+        <a href="#faq">FAQ</a>
+      </div>
+    </div>
+    <div class="toc-group" data-group="release">
+      <button aria-controls="toc-release" aria-expanded="false" class="toc-trigger" type="button">Release Notes</button>
+      <div class="toc-links" id="toc-release">
+        <a href="#release-features">New features</a>
+        <a href="#release-improvements">Improvements</a>
+        <a href="#release-fixes">Bug fixes</a>
+      </div>
+    </div>
+    <div class="toc-group" data-group="support">
+      <button aria-controls="toc-support" aria-expanded="false" class="toc-trigger" type="button">Support</button>
+      <div class="toc-links" id="toc-support">
+        <a href="#support-docs">Documentation</a>
+        <a href="#support-community">Community</a>
+        <a href="#support-issues">Report an issue</a>
+      </div>
+    </div>
+  </aside>
+  <div class="content">
+    <section data-nav-group="overview" id="overview-introduction">
+      <h2 class="h2">Introduction</h2>
+      <p class="section-intro">eMule AI builds on the classic eMule foundation with stronger connectivity, better performance, improved usability, and clearer diagnostics for everyday use.</p>
+      <article class="card">
+        <p>eMule AI focuses on making the client more capable on modern networks through features such as NAT Traversal, uTP, IPv6 support, better list performance, and a broad set of quality-of-life improvements.</p>
+        <p>This page brings together the key information around the project: an overview of the client, technical guidance for advanced connectivity features, release notes for recent work, and support sections that help users get started and troubleshoot effectively.</p>
+      </article>
+    </section>
+
+    <section data-nav-group="overview" id="overview-highlights">
+      <h2 class="h2">Highlights</h2>
+      <p class="section-intro">Key areas where eMule AI improves the classic client experience.</p>
+      <div class="overview-grid">
+        <article class="mini-card">
+          <h3 class="h3">Modern Connectivity</h3>
+          <p>NAT Traversal, uTP, eServer Buddy relay support, IPv6 handling, and stronger diagnostics improve connectivity in difficult network conditions.</p>
+        </article>
+        <article class="mini-card">
+          <h3 class="h3">High-Scale Performance</h3>
+          <p>Virtual-list improvements, long path support, safer part-file writing, and smoother startup behavior keep large libraries responsive and stable.</p>
+        </article>
+        <article class="mini-card">
+          <h3 class="h3">Modern Connection Tuning</h3>
+          <p>Connection parameters and related defaults were optimized to better match today's hardware and network conditions, improving balance, responsiveness, and overall transfer behavior.</p>
+        </article>
+        <article class="mini-card">
+          <h3 class="h3">Protection Panel</h3>
+          <p>A dedicated control center for anti-leecher and safety rules gives users clearer policy choices, smarter actions, and more predictable enforcement.</p>
+        </article>
+        <article class="mini-card">
+          <h3 class="h3">Protection &amp; Quality</h3>
+          <p>Protection panel controls, spam and blacklist tooling, IP filtering improvements, and many stability fixes help keep long sessions predictable.</p>
+        </article>
+        <article class="mini-card">
+          <h3 class="h3">Dark Mode &amp; UI Polish</h3>
+          <p>Theme-aware windows, menus, tabs, list headers, and refined drawing updates make the client feel cleaner, clearer, and more modern.</p>
+        </article>
+        <article class="mini-card">
+          <h3 class="h3">Shared Files Automation</h3>
+          <p>Threaded shared-file reloads, background file watching, and automatic subdirectory sharing reduce manual maintenance and keep libraries current.</p>
+        </article>
+        <article class="mini-card">
+          <h3 class="h3">Download Safety</h3>
+          <p>Download Checker, richer source handling, and quality-oriented controls help prevent duplicates, reduce noise, and improve everyday file management.</p>
+        </article>
+        <article class="mini-card">
+          <h3 class="h3">Diagnostics &amp; Tools</h3>
+          <p>Connection Checker, stronger logging, toolbar shortcuts, and clearer troubleshooting signals make network and client issues easier to understand.</p>
+        </article>
+        <article class="mini-card">
+          <h3 class="h3">Built-In Language Support</h3>
+          <p>Integrated language resources for 100+ languages reduce setup friction and make the client more accessible across a wide range of users.</p>
+        </article>
+        <article class="mini-card">
+          <h3 class="h3">Workflow Improvements</h3>
+          <p>New toolbar actions, client history, expanded columns, note support, and improved search/list behavior streamline daily use for power users.</p>
+        </article>
+      </div>
+    </section>
+
+    <section data-nav-group="overview" id="overview-downloads">
+      <h2 class="h2">Download &amp; Installation</h2>
+      <p class="section-intro">Get the latest published builds and release packages for eMule AI from the official project release channel.</p>
+      <article class="card">
+        <h3 class="h3">Download the latest release</h3>
+        <p>For current builds, packaged downloads, and versioned release notes, visit the <a href="https://github.com/eMuleAI/eMuleAI/releases" rel="noopener noreferrer" target="_blank">eMule AI Releases page on GitHub</a>.</p>
+      </article>
+    </section>
+
+    <section data-nav-group="nat" id="how-it-works">
+      <h2 class="h2">How it works</h2>
+      <p class="section-intro">Learn the terminology, connection flow, and real-world scenarios behind eMule AI's NAT Traversal and uTP support.</p>
+      <article class="card">
+        <div class="def-title"><strong>ED2K HighID / LowID</strong></div>
+        <div class="def-body">Assigned by ED2K servers while connected to a server. HighID means inbound TCP is reachable. LowID means inbound TCP is blocked by firewall/NAT.</div>
+        <hr class="divider"/>
+        <div class="def-title"><strong>Kad Open / Firewalled</strong></div>
+        <div class="def-body">Kad status is server-independent. Open + Verified means UDP is reachable. Firewalled means UDP callback/hole punching is limited or unavailable.</div>
+        <hr class="divider"/>
+        <div class="def-title"><strong>Kad Buddy</strong></div>
+        <div class="def-body">Classic Kad mechanism. Used for Kad callback/rendezvous signaling only (not file data). In eMule AI Kad LowID&lt;-&gt;LowID transfers, uploader side needs this buddy.</div>
+        <hr class="divider"/>
+        <div class="def-title"><strong>eServer Buddy (New in eMule AI)</strong></div>
+        <div class="def-body">A HighID eMule AI client on the same eServer that relays signaling for LowID&lt;-&gt;LowID. This is a client-side eMule AI feature and does not require server NAT extension support.</div>
+        <hr class="divider"/>
+        <div class="def-title"><strong>uTP</strong></div>
+        <div class="def-body">UDP-based transport used by NAT traversal for hole punching and adaptive congestion control.</div>
+      </article>
+      <div class="card callout">Enabling <strong>uTP</strong> switches peer connections to UDP-based transport with adaptive congestion control, while <strong>NAT Traversal</strong> adds direct callback and UDP hole punching to connect peers behind NATs.</div>
+      <article class="card">
+        <h3 class="h3">How it works - end-to-end</h3>
+        <ul class="list">
+          <li><strong>IDs &amp; reachability:</strong> <em>HighID</em> = inbound TCP reachable; <em>LowID</em> = inbound TCP blocked. <em>Kad Open</em> means UDP callback is verified; <em>Kad Firewalled</em> means direct UDP callback is unavailable.</li>
+          <li><strong>Data vs control:</strong> File data uses <em>TCP</em> or <em>uTP</em>. Kad lookups, publishes, pings and callbacks use <em>UDP</em>.</li>
+          <li><strong>Direct UDP callback (LowID-&gt;HighID):</strong> HighID peer sends a UDP callback; LowID opens <em>outbound TCP</em> back. No buddy is involved.</li>
+          <li><strong>Kad buddy path:</strong> For Kad LowID&lt;-&gt;LowID, uploader side needs Kad buddy and both sides must exchange UDP hole-punch traffic.</li>
+          <li><strong>eServer Buddy path (new in eMule AI):</strong> LowID requester uses a connected HighID buddy on the same eServer. This relay is client-driven and does not rely on server NAT extension opcodes.</li>
+          <li><strong>When target is not connected:</strong> Buddy can ask the server with classic <code>OP_CALLBACKREQUEST</code>, then continue relay after target comes back.</li>
+          <li><strong>Compatibility:</strong> Requester side needs eServer buddy support. Target side can still be contacted through the relay flow.</li>
+          <li><strong>Timers:</strong> Buddy discovery runs every 60 seconds (while server-LowID). Keep-alive ping runs every 20 seconds.</li>
+          <li><strong>Diagnostics:</strong> Check logs for <code>[eServerBuddy]</code>, <code>OP_ESERVER_RELAY_REQUEST</code>, <code>OP_ESERVER_PEER_INFO</code>, <code>OP_HOLEPUNCH</code>, and <code>uTP</code>.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h3 class="h3">Kad Buddy vs eServer Buddy (eMule AI)</h3>
+        <ul class="list">
+          <li><strong>Kad Buddy:</strong> Kad network callback/rendezvous helper. Used in Kad LowID&lt;-&gt;LowID flow.</li>
+          <li><strong>eServer Buddy:</strong> eMule AI specific relay over same eServer. This is the newer path added by eMule AI.</li>
+          <li><strong>Main difference:</strong> Kad buddy depends on Kad path; eServer buddy depends on same-server eD2K path.</li>
+          <li><strong>Common point:</strong> Both relay only control signaling, never the actual file data.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h3 class="h3">Buddy specifics</h3>
+        <ul class="list">
+          <li><strong>Who qualifies (eServer Buddy):</strong> HighID peer, connected TCP socket, same eServer as you, and advertised slot availability.</li>
+          <li><strong>Slot model:</strong> Serving capacity is configurable between <code>3</code> and <code>100</code> peers (default <code>3</code>).</li>
+          <li><strong>Concurrency:</strong> Buddies carry control signaling only; file payload remains end-to-end between peers.</li>
+          <li><strong>Security &amp; abuse control:</strong> Buddy requests are rate-limited (max 3 requests per 10-minute window per peer) and stale relay contexts are expired automatically.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section data-nav-group="nat" id="diagrams">
+      <h2 class="h2">Diagrams</h2>
+      <p class="section-intro">Existing diagrams are carried over without changing the visual language of the original guide.</p>
+      <div class="figure">
+        <svg aria-label="LowID to HighID with Direct Callback" height="320" role="img" viewBox="0 0 1280 360" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <rect fill="none" height="360" rx="12" width="1280" x="0" y="0"></rect>
+          <g transform="translate(120,80)"><rect class="node" height="120" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="30">LowID peer</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="54">TCP blocked</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="76">Kad Open + Verified (UDP)</text></g>
+          <g transform="translate(860,80)"><rect class="node alt" height="120" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="30">HighID peer</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="54">TCP reachable</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="76">Kad Open</text></g>
+          <defs><marker id="arrowBlue" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--primary)"></path></marker><marker id="arrowYellow" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--warn)"></path></marker></defs>
+          <path class="line-blue" d="M440,120 H840" fill="none" marker-end="url(#arrowBlue)" stroke-linecap="round" stroke-width="3"></path>
+          <text class="label" fill="var(--primary)" font-size="14" text-anchor="middle" x="640" y="106">Direct UDP callback</text>
+          <path class="line-yellow" d="M840,160 H440" fill="none" marker-end="url(#arrowYellow)" stroke-linecap="round" stroke-width="3"></path>
+          <text class="label" fill="var(--warn)" font-size="14" text-anchor="middle" x="640" y="180">Outbound TCP established</text>
+        </svg>
+        <div class="figcap">LowID -&gt; HighID with direct UDP callback. No buddy required.</div>
+      </div>
+      <div class="figure">
+        <svg aria-label="LowID to LowID with Rendezvous via Buddies" height="460" role="img" viewBox="0 0 1280 520" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <rect fill="none" height="520" rx="12" width="1280" x="0" y="0"></rect>
+          <g transform="translate(120,80)"><rect class="node alt" height="120" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="30">Buddy A (HighID)</text></g>
+          <g transform="translate(860,80)"><rect class="node alt" height="120" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="30">Buddy B (HighID)</text></g>
+          <g transform="translate(120,340)"><rect class="node" height="120" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="30">LowID A</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="54">Kad Open + Verified</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="76">Buddy: A</text></g>
+          <g transform="translate(860,340)"><rect class="node" height="120" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="30">LowID B</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="54">Kad Open + Verified</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="76">Buddy: B</text></g>
+          <defs><marker id="ma" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--primary)"></path></marker><marker id="mc" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--ok)"></path></marker></defs>
+          <path class="line-blue" d="M270,320 V220" fill="none" marker-end="url(#ma)" stroke-linecap="round" stroke-width="3"></path>
+          <text class="label" fill="var(--primary)" font-size="14" text-anchor="middle" x="270" y="216">ReaskCallbackUDP</text>
+          <path class="line-blue" d="M440,140 H840" fill="none" marker-end="url(#ma)" stroke-linecap="round" stroke-width="3"></path>
+          <text class="label" fill="var(--primary)" font-size="14" text-anchor="middle" x="636" y="126">Rendezvous</text>
+          <path class="line-blue" d="M1010,220 V320" fill="none" marker-end="url(#ma)" stroke-linecap="round" stroke-width="3"></path>
+          <text class="label" fill="var(--primary)" font-size="14" text-anchor="middle" x="1010" y="336">ReaskCallbackTCP</text>
+          <path class="line-green" d="M440,392 H840" fill="none" marker-end="url(#mc)" stroke-linecap="round" stroke-width="3"></path>
+          <path class="line-green" d="M840,408 H440" fill="none" marker-end="url(#mc)" stroke-linecap="round" stroke-width="3"></path>
+          <text class="label" fill="var(--ok)" font-size="14" text-anchor="middle" x="640" y="372">Bidirectional UDP hole punching -&gt; uTP</text>
+        </svg>
+        <div class="figcap">LowID &lt;-&gt; LowID via Kad rendezvous. In eMule AI, uploader-side buddy is mandatory for this path; dual-buddy setups still work.</div>
+      </div>
+      <div class="figure">
+        <svg aria-label="LowID to LowID via eServer Buddy relay" height="420" role="img" viewBox="0 0 1280 420" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <rect fill="none" height="420" rx="12" width="1280" x="0" y="0"></rect>
+          <g transform="translate(470,40)"><rect class="node alt" height="110" rx="12" width="340"></rect><text class="title" font-size="18" x="16" y="34">HighID eServer Buddy</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="58">Same eServer as requester</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="80">Runs relay handshake</text></g>
+          <g transform="translate(150,260)"><rect class="node" height="110" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="32">LowID Requester</text></g>
+          <g transform="translate(830,260)"><rect class="node" height="110" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="32">LowID Target</text></g>
+          <defs><marker id="srvBlue" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--primary)"></path></marker><marker id="srvGreen" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--ok)"></path></marker></defs>
+          <path class="line-blue" d="M360,240 L550,195" fill="none" marker-end="url(#srvBlue)" stroke-linecap="round" stroke-width="3"></path>
+          <path class="line-blue" d="M920,240 L730,195" fill="none" marker-end="url(#srvBlue)" stroke-linecap="round" stroke-width="3"></path>
+          <text class="label" fill="var(--primary)" font-size="14" text-anchor="middle" x="640" y="178">OP_ESERVER_RELAY_REQUEST / OP_ESERVER_PEER_INFO</text>
+          <path class="line-green" d="M480,320 H800" fill="none" marker-end="url(#srvGreen)" stroke-linecap="round" stroke-width="3"></path>
+          <path class="line-green" d="M800,340 H480" fill="none" marker-end="url(#srvGreen)" stroke-linecap="round" stroke-width="3"></path>
+          <text class="label" fill="var(--ok)" font-size="14" text-anchor="middle" x="640" y="300">Both peers hole-punch + active uTP connect</text>
+        </svg>
+        <div class="figcap">LowID &lt;-&gt; LowID via eServer Buddy relay. No Lugdunum NAT extension is required; buddy may optionally use classic OP_CALLBACKREQUEST to bring target online.</div>
+      </div>
+    </section>
+
+    <section data-nav-group="nat" id="scenarios">
+      <h2 class="h2">Scenarios</h2>
+      <p class="section-intro">Scenario tables are preserved from the current guide and grouped under the same navigation branch.</p>
+      <div class="card">
+        <h3 class="h3">Kad Scenarios</h3>
+        <p>Classic Kad-driven connectivity matrix where rendezvous and buddies coordinate hole punching.</p>
+        <div style="overflow:auto">
+          <table class="pretty-table" style="width:100%; border-collapse:collapse; font-size:0.96em">
+            <thead>
+              <tr>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">#</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">Kad</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">TCP</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">UDP</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">Buddy</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">Outcome</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>Open</td><td><div class="status-pair"><span class="status green">Open</span><span class="status green">Inbound OK</span></div></td><td><span class="status green">Open</span></td><td>Not needed</td><td>Use plain TCP/UDP; NAT-T not needed.</td></tr>
+              <tr><td>2</td><td>Open</td><td><div class="status-pair"><span class="status red">Firewalled</span><span class="status red">Inbound blocked</span></div></td><td><span class="status green">Open</span></td><td>Not needed</td><td>Direct UDP callback works (LowID-&gt;HighID). NAT-T not needed for this path.</td></tr>
+              <tr><td>3</td><td>Open</td><td><div class="status-pair"><span class="status red">Firewalled</span><span class="status red">Inbound blocked</span></div></td><td><span class="status green">Open</span></td><td>Started (to enable rendezvous)</td><td>NAT-T/uTP possible via buddy-mediated rendezvous/hole-punch. Useful for LowID&lt;-&gt;LowID.</td></tr>
+              <tr><td>4</td><td>Firewalled</td><td><div class="status-pair"><span class="status green">Open</span><span class="status green">Inbound OK</span></div></td><td><span class="status red">Firewalled</span></td><td>Not needed</td><td>Plain TCP works; NAT-T not needed.</td></tr>
+              <tr><td>5</td><td>Firewalled</td><td><div class="status-pair"><span class="status red">Firewalled</span><span class="status red">Inbound blocked</span></div></td><td><div class="status-pair"><span class="status red">Firewalled</span><span class="status orange">Outbound usually OK</span></div></td><td>Uploader's buddy</td><td>NAT-T/uTP path via rendezvous + hole-punch. Uploader-side buddy is required; downloader buddy is optional.</td></tr>
+              <tr><td>6</td><td>None</td><td><div class="status-pair"><span class="status red">Firewalled</span><span class="status red">Inbound blocked</span></div></td><td><div class="status-pair"><span class="status red">Firewalled</span><span class="status orange">Varies</span></div></td><td>Unavailable</td><td>Kad rendezvous is unavailable. Use eServer Buddy path only if requester has buddy on the same server.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h3 class="h3">eServer Buddy Scenarios</h3>
+        <p>LowID&lt;-&gt;LowID relay driven by eMule AI clients. This path does not depend on server-side NAT relay extensions; it uses OP_ESERVER_* signaling plus classic server callback when needed.</p>
+        <div style="overflow:auto">
+          <table class="pretty-table" style="width:100%; border-collapse:collapse; font-size:0.96em">
+            <thead>
+              <tr>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border); width:4%">#</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border); width:24%">Preconditions</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border); width:22%">Peers</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border); width:50%">Outcome</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td><span class="status green">Same eServer + requester has connected eServer buddy</span></td><td>LowID requester &lt;-&gt; LowID target</td><td>Buddy runs OP_ESERVER relay handshake and both peers form uTP with hole punching.</td></tr>
+              <tr><td>2</td><td><span class="status green">Target already connected to buddy</span></td><td>LowID requester &lt;-&gt; LowID target</td><td>Buddy forwards OP_ESERVER_PEER_INFO immediately; no server callback round-trip is needed.</td></tr>
+              <tr><td>3</td><td><span class="status orange">Target not connected to buddy</span></td><td>LowID requester &lt;-&gt; LowID target</td><td>Buddy first tries classic OP_CALLBACKREQUEST (if server callback is available). Relay completes only after target connects and ACK is received; otherwise it fails.</td></tr>
+              <tr><td>4</td><td><span class="status red">Different eServer or no connected buddy</span></td><td>Any LowID pair</td><td>eServer Buddy path is unavailable; fallback is Kad rendezvous (if prerequisites exist) or classic callback/TCP paths.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section data-nav-group="nat" id="setup">
+      <h2 class="h2">Setup &amp; tips</h2>
+      <div class="card stack">
+        <div class="section">
+          <h3 class="h3">Make UDP reachable</h3>
+          <ul class="list">
+            <li>Open/forward the configured UDP port on your router (or enable UPnP).</li>
+            <li>Allow the app in OS firewall (UDP + TCP outbound).</li>
+            <li>Verify Kad shows <strong>Open</strong> and the UDP firewall test is <strong>verified</strong>.</li>
+          </ul>
+        </div>
+        <hr class="divider"/>
+        <div class="section">
+          <h3 class="h3">Enable NAT-T / uTP</h3>
+          <ul class="list">
+            <li>Ensure NAT Traversal (uTP) is enabled in Preferences.</li>
+            <li>Keep both peers on recent versions (supports rendezvous &amp; uTP).</li>
+          </ul>
+        </div>
+        <hr class="divider"/>
+        <div class="section">
+          <h3 class="h3">Buddy stability</h3>
+          <ul class="list">
+            <li>For Kad LowID&lt;-&gt;LowID, keep uploader-side serving buddy active.</li>
+            <li>For eServer Buddy path, keep your HighID buddy connected and on the same eServer as the target source.</li>
+            <li>eMule AI sends keep-alive pings and renews buddy discovery automatically while LowID.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section data-nav-group="nat" id="troubleshooting">
+      <h2 class="h2">Troubleshooting</h2>
+      <div class="card">
+        <div class="qa"><div class="q">LowID &lt;-&gt; LowID fails</div><div class="a">Kad path: verify uploader has serving buddy and both sides can exchange UDP hole-punch traffic. eServer Buddy path: verify same-server condition and requester-side connected eServer buddy.</div></div>
+        <div class="qa"><div class="q">eServer Buddy relay does not start</div><div class="a">Check that you are server-LowID, NAT-T service is enabled, and logs show an accepted <code>OP_ESERVER_BUDDY_REQUEST</code>. If buddy changed server, reconnect and wait for a new buddy candidate.</div></div>
+        <div class="qa"><div class="q">Kad bootstrap fails</div><div class="a">Use the peer's <strong>UDP</strong> port (not TCP) for bootstrap and confirm firewall/router rules.</div></div>
+      </div>
+    </section>
+
+    <section data-nav-group="nat" id="faq">
+      <h2 class="h2">FAQ</h2>
+      <div class="card">
+        <div class="qa"><div class="q">Is ED2K LowID the same as Kad Firewalled?</div><div class="a">No. ED2K HighID/LowID exists only while connected to a server and reflects TCP reachability. Kad Open/Firewalled is Kad's status about UDP reachability, independent of servers.</div></div>
+        <div class="qa"><div class="q">Does NAT-T help if one peer is Kad Firewalled?</div><div class="a">No. Direct callback and hole punching require UDP reachability (Kad Open + Verified) on both sides.</div></div>
+        <div class="qa"><div class="q">What is the difference between Kad Buddy and eServer Buddy?</div><div class="a">Kad Buddy is the classic Kad callback helper. eServer Buddy is a newer eMule AI feature for same-server LowID&lt;-&gt;LowID relay. They are different paths with different prerequisites.</div></div>
+        <div class="qa"><div class="q">Can LowID &lt;-&gt; LowID work with only one buddy?</div><div class="a">Yes. In Kad rendezvous, uploader-side buddy is required and downloader-side buddy is optional. In eServer Buddy path, requester-side eServer buddy is required while target-side buddy is not.</div></div>
+        <div class="qa"><div class="q">What about CGNAT and symmetric NAT?</div><div class="a">Those NATs often create short-lived or address-dependent mappings which may break hole punching. Results vary and can be unreliable.</div></div>
+      </div>
+    </section>
+
+    <section data-nav-group="release" id="release-features">
+      <h2 class="h2">New features</h2>
+      <p class="section-intro">Current release-note content is preserved as a dedicated documentation branch inside the unified page.</p>
+      <article class="card stack">
+        <div class="section"><h3 class="h3">Protection Panel</h3><p>A dedicated Options page that centralizes safety/anti-leecher controls with clear explanations, timed punishments, and friend exemptions. Choose actions (ban, score reduce, log only) per detection category to keep the swarm clean with minimal false positives.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Dark Mode</h3><p>A full dark modern theme for windows, tabs, menus, list headers, and progress bars. It preserves readability, supports hover/pressed states, and can be toggled without restarting.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Fast and Fluid Lists</h3><p>Provides a smoother experience in heavy lists (Files, Downloads, Search, Clients) with lower memory usage and faster responsiveness, smooth scrolling and quick updates even with hundreds of thousands of rows.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">NAT Traversal &amp; Extended Source Exchange</h3><p>LowID &lt;-&gt; LowID now works through two distinct NAT-T paths. Kad Buddy path (classic): Kad rendezvous flow where uploader side needs a Kad buddy. eServer Buddy path (new in eMule AI): same-server relay between LowID peers using OP_ESERVER_BUDDY/RELAY packets. This eServer Buddy mechanism is a client-side eMule AI feature and does not require server NAT extension support (no dependency on Lugdunum NAT opcodes). If the target is not connected yet, the buddy can try classic OP_CALLBACKREQUEST and finish relay after target reconnect + ACK. External UDP port discovery, hole-punch retries, and uTP retries improve success under difficult NAT conditions. Extended Source Exchange further improves source discovery and transfer stability with richer peer metadata.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">IPv6 Support</h3><p>End-to-end IPv6 handling for peers, friends, and sockets alongside IPv4; addresses display and copy correctly across dialogs and tooltips.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Spam/Blacklist System</h3><p>A Spam Rating column (0-100), a customizable spam threshold, logging of rating results, and a Blacklist Panel with "recheck now" combine to surface quality results and hide junk.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Client History</h3><p>Lightweight history of clients you met (with retention control) to enable once-per-client automation like first-time shared-files queries.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Threaded Shared-Files Reload</h3><p>Refreshing shared files runs in a worker thread and updates the UI progressively, avoiding stalls while scanning disks.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Shared Files Watcher</h3><p>Background watcher keeps the Shared view in sync with filesystem changes without manual reloads.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Automatically Share Subdirectories</h3><p>When enabled, subfolders under your shared roots are included automatically, both existing and newly created ones.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Download Checker</h3><p>Before adding a file, checks duplicates/near-duplicates across downloads/history/shared and can warn, reject, or auto-blacklist by your preference.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Built-In Language Resources (116 Languages)</h3><p>Language support is embedded, so external language DLL files are not required. Supported language codes (116): en, af, am, ar, ast, az, be, bg, bn, bs, ca, ca-VAL, ceb, co, cs, cy, da, de, el, eo, es, es-AR, et, eu, fa, fi, fr, fy, ga, gd, gl, gu, ha, haw, he, hi, hmw, hr, ht, hu, hy, id, ig, is, it, iw, ja, jw, ka, kk, km, kn, ko, ku, ky, la, lb, lo, lt, lv, mg, mi, mk, ml, mn, mr, ms, mt, my, nb, ne, nl, nn, no, ny, or, pa, pl, ps, pt, pt-BR, ro, ru, rw, sd, si, sk, sl, sm, sn, so, sq, sr, st, su, sv, sw, ta, te, tg, th, tk, tl, tr, tt, ug, uk, ur, uz, vi, xh, yi, yo, zh-CN, zh-TW, zu.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Connection Checker</h3><p>One-click background connectivity test with clear start/stop log lines; helps diagnose DNS/routing hiccups without interrupting transfers.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Emulate Clients &amp; Communities</h3><p>Optional compatibility/emulation toggles for certain clients/communities to improve interoperability and prioritization.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">New Toolbar Buttons</h3><p>Quick actions for Save State, Reload Config (no restart), and threaded Backup. Numbered Preview buttons (1-10) launch your chosen preview apps directly; right-click can jump to the next previewable file.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Read PeerGuardian Lists Automatically</h3><p>At startup, all *.p2p files in the config folder are merged into the active IP filter, just drop lists in and they apply.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Kad Search Limit Option</h3><p>You can limit how many answers a Kad keyword search collects before auto-stopping.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Search / Transfer Window Filters</h3><p>Fast, on-view filters to narrow lists to what you care about (for example, active/paused).</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Friend / User Hash / ID Type / Client Version Columns</h3><p>New columns in client lists show Friend status, User Hash, ID Type (High/LowID), and Client Version for quick grouping and sorting.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">IP:Port Column</h3><p>Shows each peer's current endpoint in a sortable column.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">See Own Credits</h3><p>Displays how your credit ratio appears to the remote side for clearer give-and-take diagnostics.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Cancel Download from Context Menus</h3><p>Right-click in Search/Download/Shared lists to cancel downloads; an option lets you cancel without marking as "canceled" in history.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Remote Client's Shared Files - Status Columns</h3><p>New columns indicate query status, last queried time, and number of files received for a client's shared list.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Client Note</h3><p>Attach a short note to any client; optionally show it in the tab title when viewing that client's files.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Copy List Text with CTRL+C / CTRL+X</h3><p>Copy selected list rows as neat plain text for pasting into notes/spreadsheets.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Clean Up Search Results</h3><p>A command to quickly purge obsolete/blacklisted items from active search tabs.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Disable "Find As You Type" Option</h3><p>Turn off type-to-search in heavy lists to avoid accidental scans.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Don't Mark As Canceled (Menu Action)</h3><p>Cancel a download without adding it to the "canceled" history.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Friend Link Recognition</h3><p>Understands ed2k "friend" links from clipboard to add friends quickly.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Source Cache</h3><p>Temporarily caches discovered sources so paused/resumed files can reuse them without re-querying.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">GeoLite2 (Country/City &amp; Flags)</h3><p>Shows country (and city when known) and a flag icon for peers/servers; can be disabled or limited to country only.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Client Version in Tooltips</h3><p>Download-list tooltips include full client software/version lines.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Webservices Enhancements</h3><p>Wide-character support and a "filename_untouched" placeholder in webservices.dat; multi-selection webservice actions.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">SpeedMeter</h3><p>Built-in live up/down graphs in the Connection page and main window for a lightweight visual of throughput.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Auto Query Remote Client's Shared Files (First Connect)</h3><p>Optionally auto-query a client's shared files after first connection, paced by configurable per-period limits.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Save Application State (Button)</h3><p>One-click save of list layouts, column orders, and preferences for easy layout "bookmarks".</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Set Executable Directory as Default (First-Run Behavior)</h3><p>If no choice exists yet, uses the app's folder as the base location for a portable-style setup.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Don't Filter Private IPs Option</h3><p>Allow local/private addresses even when an IP filter is active, useful on home/lab networks.</p></div>
+      </article>
+    </section>
+
+    <section data-nav-group="release" id="release-improvements">
+      <h2 class="h2">Improvements</h2>
+      <article class="card stack">
+        <div class="section"><h3 class="h3">Long Path Support</h3><p>File operations (hash/preview/move/backup) work reliably beyond classic 260-char Windows limits by using long-path-safe APIs and formats.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Virtual-List Performance &amp; List Engine</h3><p>Compact backing stores, batched refresh, selection/scroll restore, and combined/heap sorting make giant lists smooth and responsive.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Search Results Load Faster</h3><p>Only the active tab refreshes immediately; others update counters without full redraws. Virtualized storage accelerates inserts and sorting.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Safer, Faster Part-File Writing</h3><p>File allocation, metadata flushing, and buffer moves occur inside the writer thread under scoped locks, with periodic disk-space checks, reducing contention and stutters.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Faster Pause/Stop/Remove/Complete &amp; Sorting</h3><p>Bulk operations coalesce UI work, and large lists use a single combined sort pass for steady ordering during heavy updates.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Reconnect &amp; Notify After IP Change (Kad/eD2k)</h3><p>On public IP changes, Kad reconnects gracefully; peers are informed and sources re-asked to minimize stalls.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Safe Configuration File Saving</h3><p>Writes sensitive data to a temp file and atomically replaces the original, keeping files intact if something fails mid-write.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Search Parameter Restoration &amp; Tab Titles</h3><p>Complex Boolean expressions are preserved and appear as tab titles; restored searches match your original filters and fields.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">KAD Bootstrap UX</h3><p>Autocomplete/history for IP:port and URL fields, Enter-to-bootstrap, Delete to remove suggestions; remembers your last choice.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">IP Filter Improvements</h3><p>Static IP filter file, separate whitelist, better loader/merger behavior, and corrected save logic (no truncation).</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">GeoLite2 Clarity/Performance</h3><p>Efficient flag handling and optional long vs. short country names; single-click enable/disable.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Auto-Refreshing Network Info</h3><p>Keeps ports/IDs/Kad status current while open, with tidy formatting and consistent refresh.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Owner-Draw Polish (Dark Mode)</h3><p>Menus/tabs get theme-aware drawing, clear submenu indicators, and crisp text rendering.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">UI Tweaks &amp; Multisort</h3><p>Cleaner menus, better icons/spacing, and improved multi-level sorting for predictable results.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Better Passive Source Finding &amp; UDP Reask Handling</h3><p>Gentler retry logic and more realistic counters reduce misleading stats and improve source discovery.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Spread Requests &amp; Timers</h3><p>Request bursts are smoothed and reask timers clarified to keep queues fresh without spamming.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Extended Clean Up (Memory Footprint)</h3><p>Idle clients and stale entries are cleaned more aggressively to keep long sessions lean.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Publish File List Faster</h3><p>More compact server-publish packets and fewer unnecessary sorts make "publish to server" snappier.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Merge Search Results</h3><p>Compatible results are merged while respecting spam heuristics to reduce duplicates and clutter.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Windows 11 Detection</h3><p>Accurate OS detection helps choose safe defaults/paths on modern systems.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Faster Loading Part Files At Startup</h3><p>Defers redraws during initial load to reduce repaint cycles and speed up UI bring-up.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Better WINE Desktop Integration</h3><p>Opens files/links via GNOME/KDE helpers and translates paths properly under WINE.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Webservice Selection for Multiple Items</h3><p>Apply web actions to multiple selections at once for faster lookups.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Don't Save Part Files on Every Server Reconnect</h3><p>Skips redundant disk writes on reconnects, trimming stutter on large libraries.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Touch Default-Apps File Only When Needed</h3><p>Checks the preview-apps map only when opening the menu to avoid periodic disk I/O.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Save/Load Path for Known Files</h3><p>Stores full paths with known files for accurate restoration and display.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">DST Tolerance for known.met</h3><p>Accepts small timestamp shifts due to daylight saving, preventing needless re-hashing.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Advanced Preferences Page</h3><p>Collects power-user toggles (Search/Server/File handling, etc.) with concise on-screen explanations.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Right-Click "Preview Next"</h3><p>Quickly step through previewable items from the toolbar without changing selection.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Move/Resize Search Filter Box</h3><p>Cleaner header layout reduces accidental clicks while preserving functionality.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Use File Type Tag Only If Needed</h3><p>Search entries derive type from filename first, falling back to the tag only when necessary for accuracy.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Thread Names in Release Builds</h3><p>Improves crash-report readability without impacting performance.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Optimization: Debug Trace Hygiene</h3><p>Suppresses noisy traces by default and clarifies "missing icon resource" diagnostics for easier skin/theme troubleshooting.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Repeat Server List</h3><p>Automatically loops the server list on failures to improve connection reliability.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">SafeHash Behavior</h3><p>Waits for full initialization before auto-connect and stops hashing immediately on exit for faster, cleaner shutdowns.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Save Search File Type</h3><p>Remembers your preferred search category (Any/Audio/Video, etc.) between sessions.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Prevent Default Double-Click on Toolbar</h3><p>Avoids accidental command executions from toolbar double-clicks.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Set Category Only If Changed</h3><p>Skips redundant saves/re-sorts when a category remains the same.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Connection Parameters Tuned for Modern Hardware &amp; Networks</h3><p>Connection parameters and related defaults were optimized to better match today's hardware and network conditions, improving balance, responsiveness, and overall transfer behavior.</p></div>
+      </article>
+    </section>
+
+    <section data-nav-group="release" id="release-fixes">
+      <h2 class="h2">Bug fixes</h2>
+      <article class="card stack">
+        <div class="section"><h3 class="h3">"Encountered an improper argument" Crashes While Scrolling</h3><p>Guards progress-bar drawing to avoid invalid GDI calls during fast scrolling in the Download list.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">AICH Hashset Save</h3><p>Waits properly for internal locks and stops hashing on exit to eliminate "Failed to save HashSet" after hashing.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Stored Searches File Corruption</h3><p>Loads stored searches early to prevent creation of empty placeholder files at startup.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Race on Write Completion</h3><p>Skips late completions for just-deleted files to avoid a rare crash during heavy cleanup/shutdown.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Sockets Leak on "Too Many Connections"</h3><p>Releases sockets correctly when entering the "too many connections" state under load.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Null Current-File Guard</h3><p>Prevents crashes by safely refusing source requests when the current file pointer is missing.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">"View Shared Files" Folder Persistence</h3><p>Restores the last used folder for that mode in stored searches.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Preview Backup Eligibility</h3><p>No longer requires previewability checks; relies on free-space threshold to avoid false negatives.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">UPnP/ATLTRACE Format Mismatch</h3><p>Fixes a debug-build crash due to a wrong trace format string.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">IP Filter: Save Truncation</h3><p>Writes complete addresses without truncation when saving filter files.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">IP Filter: 128-bit Range Merge Boundary</h3><p>Keeps boundaries correct when merging ranges by comparing with computed "end+1".</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">"Wrong Connecting" Log</h3><p>Logs "Connecting ..." only when a connection is actually pending.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Delete Completed Downloads Crash</h3><p>Guards against null dereferences when removing multiple finished items.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Part-File Gap Handling</h3><p>Removes empty gaps immediately and clamps boundaries correctly; progress/availability remain accurate.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Hashing Progress Denominator</h3><p>Percentages use the actual hashed size as denominator to avoid misleading jumps and rare divide-by-zero.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">MediaInfo Exception Handling</h3><p>Clears buffers and closes gracefully when media details cannot be read instead of throwing.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Shared Files Sorting</h3><p>Locale-aware, case-insensitive sort by "File Type" behaves predictably with neat sub-sorting.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Menu/GDI Leaks</h3><p>Deletes custom brushes, detaches/destroys header image lists, and tightens ownership to close small GDI leaks.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">RemoveAnchor vs ASSERT</h3><p>Removes invalid anchors safely during layout changes to eliminate resize assertions.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Null CString Pointer</h3><p>Defensive checks prevent crashes when an error string is unexpectedly null.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">OP_MULTIPACKETANSWER_EXT2</h3><p>Fixes extended multi-packet response handling for better peer compatibility.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">ntohl Not Needed</h3><p>Removes unnecessary byte-order conversions that could mislead logging/handling.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Splash Screen vs Clipboard Prompt</h3><p>Ensures the ED2K clipboard prompt isn't hidden behind the splash screen on startup.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Delete Duplicate Search Results</h3><p>Removes duplicates reliably without orphaning children; child items are also deleted correctly.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Skip Freed Items in Menus</h3><p>Ignores just-deleted downloads when building context-menu state to prevent rare crashes.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Auto-Promote to 64-bit Tag</h3><p>Promotes values exceeding 32-bit safely, preventing corrupted metadata and parsing errors.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Kademlia Fast-Refresh Logic</h3><p>More conservative logic reduces stalls and prevents missed updates.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Always Log Assert to File (Stability)</h3><p>ASSERTs are logged to file rather than popping intrusive dialogs in enabled mode, aiding diagnostics without interrupting transfers.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Wrong Percentage Sign in Log</h3><p>Literal "%" characters in log messages print correctly (no accidental format parsing).</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Media Parsing with Long Paths</h3><p>Opens long-path files safely when reading metadata to avoid failures in deep directory trees.</p></div>
+      </article>
+    </section>
+
+    <section data-nav-group="support" id="support-docs">
+      <h2 class="h2">Documentation</h2>
+      <p class="section-intro">Access the official eMule help resources for setup guidance, feature explanations, and practical usage information.</p>
+      <article class="card">
+        <h3 class="h3">Open the eMule help page</h3>
+        <p>For official reference material and user guidance, visit the <a href="https://www.emule-project.com/home/perl/help.cgi?l=1" rel="noopener noreferrer" target="_blank">eMule Help page</a>.</p>
+      </article>
+    </section>
+
+    <section data-nav-group="support" id="support-community">
+      <h2 class="h2">Community</h2>
+      <article class="card">
+        <h3 class="h3">Join the eMule forum</h3>
+        <p>For community discussion, user tips, and broader ecosystem conversation, visit the <a href="https://forum.emule-project.net" rel="noopener noreferrer" target="_blank">eMule Forum</a>.</p>
+      </article>
+    </section>
+
+    <section data-nav-group="support" id="support-issues">
+      <h2 class="h2">Report an issue</h2>
+      <article class="card">
+        <h3 class="h3">Open the GitHub issue tracker</h3>
+        <p>To report a bug, document a reproducible problem, or suggest an improvement, please use the <a href="https://github.com/eMuleAI/eMuleAI/issues" rel="noopener noreferrer" target="_blank">eMule AI GitHub Issues page</a>.</p>
+      </article>
+    </section>
+
+    <footer>
+      <div>&copy; eMule AI</div>
+    </footer>
+  </div>
+</main>
+<script>
+  (function(){
+    const root = document.documentElement;
+    const themeButton = document.getElementById("themeToggle");
+    const savedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    root.dataset.theme = savedTheme || (prefersDark ? "dark" : "light");
+
+    if (themeButton) {
+      themeButton.addEventListener("click", function(){
+        const next = root.dataset.theme === "dark" ? "light" : "dark";
+        root.dataset.theme = next;
+        localStorage.setItem("theme", next);
+      });
+    }
+
+    const groups = Array.from(document.querySelectorAll(".toc-group"));
+    const navLinks = Array.from(document.querySelectorAll(".toc-links a"));
+    const sections = Array.from(document.querySelectorAll("section[data-nav-group]"));
+    function setGroupState(group, isOpen) {
+      group.classList.toggle("is-open", isOpen);
+      const trigger = group.querySelector(".toc-trigger");
+      if (trigger) {
+        trigger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      }
+    }
+
+    function openGroup(groupId) {
+      groups.forEach(function(group){
+        setGroupState(group, group.dataset.group === groupId);
+      });
+    }
+
+    groups.forEach(function(group){
+      const trigger = group.querySelector(".toc-trigger");
+      trigger.addEventListener("click", function(){
+        const shouldOpen = !group.classList.contains("is-open");
+        groups.forEach(function(other){
+          setGroupState(other, shouldOpen && other === group);
+        });
+      });
+    });
+
+    function setActiveLink(id) {
+      navLinks.forEach(function(link){
+        link.classList.toggle("is-active", link.getAttribute("href") === "#" + id);
+      });
+    }
+
+    navLinks.forEach(function(link){
+      link.addEventListener("click", function(){
+        const parent = link.closest(".toc-group");
+        if (parent) {
+          openGroup(parent.dataset.group);
+        }
+      });
+    });
+
+    function syncFromHash() {
+      const id = window.location.hash ? decodeURIComponent(window.location.hash.slice(1)) : "";
+      if (!id) {
+        setActiveLink("overview-introduction");
+        openGroup("overview");
+        return;
+      }
+      const target = document.getElementById(id);
+      if (!target) {
+        return;
+      }
+      setActiveLink(id);
+      if (target.dataset.navGroup) {
+        openGroup(target.dataset.navGroup);
+      }
+    }
+
+    syncFromHash();
+    window.addEventListener("hashchange", syncFromHash);
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(function(entries){
+        const visibleEntry = entries
+          .filter(function(entry){ return entry.isIntersecting; })
+          .sort(function(a, b){ return a.boundingClientRect.top - b.boundingClientRect.top; })[0];
+
+        if (!visibleEntry) {
+          return;
+        }
+
+        const activeSection = visibleEntry.target;
+        setActiveLink(activeSection.id);
+        if (activeSection.dataset.navGroup) {
+          openGroup(activeSection.dataset.navGroup);
+        }
+      }, {
+        rootMargin: "-20% 0px -60% 0px",
+        threshold: [0.1, 0.35, 0.6]
+      });
+
+      sections.forEach(function(section){
+        observer.observe(section);
+      });
+    }
+
+    const languageSelect = document.getElementById("languageSelect");
+    if (languageSelect) {
+      const languageOptions = [
+        ["en", "Original (English)"],
+        ["af", "Afrikaans"],
+        ["sq", "Albanian"],
+        ["am", "Amharic"],
+        ["ar", "Arabic"],
+        ["hy", "Armenian"],
+        ["az", "Azerbaijani"],
+        ["eu", "Basque"],
+        ["be", "Belarusian"],
+        ["bn", "Bengali"],
+        ["bs", "Bosnian"],
+        ["bg", "Bulgarian"],
+        ["ca", "Catalan"],
+        ["ceb", "Cebuano"],
+        ["zh-CN", "Chinese (Simplified)"],
+        ["zh-TW", "Chinese (Traditional)"],
+        ["co", "Corsican"],
+        ["hr", "Croatian"],
+        ["cs", "Czech"],
+        ["da", "Danish"],
+        ["nl", "Dutch"],
+        ["eo", "Esperanto"],
+        ["et", "Estonian"],
+        ["fi", "Finnish"],
+        ["fr", "French"],
+        ["fy", "Frisian"],
+        ["gl", "Galician"],
+        ["ka", "Georgian"],
+        ["de", "German"],
+        ["el", "Greek"],
+        ["gu", "Gujarati"],
+        ["ht", "Haitian Creole"],
+        ["ha", "Hausa"],
+        ["haw", "Hawaiian"],
+        ["he", "Hebrew"],
+        ["hi", "Hindi"],
+        ["hmn", "Hmong"],
+        ["hu", "Hungarian"],
+        ["is", "Icelandic"],
+        ["ig", "Igbo"],
+        ["id", "Indonesian"],
+        ["ga", "Irish"],
+        ["it", "Italian"],
+        ["ja", "Japanese"],
+        ["jw", "Javanese"],
+        ["kn", "Kannada"],
+        ["kk", "Kazakh"],
+        ["km", "Khmer"],
+        ["rw", "Kinyarwanda"],
+        ["ko", "Korean"],
+        ["ku", "Kurdish"],
+        ["ky", "Kyrgyz"],
+        ["lo", "Lao"],
+        ["la", "Latin"],
+        ["lv", "Latvian"],
+        ["lt", "Lithuanian"],
+        ["lb", "Luxembourgish"],
+        ["mk", "Macedonian"],
+        ["mg", "Malagasy"],
+        ["ms", "Malay"],
+        ["ml", "Malayalam"],
+        ["mt", "Maltese"],
+        ["mi", "Maori"],
+        ["mr", "Marathi"],
+        ["mn", "Mongolian"],
+        ["my", "Myanmar (Burmese)"],
+        ["ne", "Nepali"],
+        ["no", "Norwegian"],
+        ["ny", "Nyanja"],
+        ["or", "Odia"],
+        ["ps", "Pashto"],
+        ["fa", "Persian"],
+        ["pl", "Polish"],
+        ["pt", "Portuguese"],
+        ["pa", "Punjabi"],
+        ["ro", "Romanian"],
+        ["ru", "Russian"],
+        ["sm", "Samoan"],
+        ["gd", "Scots Gaelic"],
+        ["sr", "Serbian"],
+        ["st", "Sesotho"],
+        ["sn", "Shona"],
+        ["sd", "Sindhi"],
+        ["si", "Sinhala"],
+        ["sk", "Slovak"],
+        ["sl", "Slovenian"],
+        ["so", "Somali"],
+        ["es", "Spanish"],
+        ["su", "Sundanese"],
+        ["sw", "Swahili"],
+        ["sv", "Swedish"],
+        ["tl", "Tagalog"],
+        ["tg", "Tajik"],
+        ["ta", "Tamil"],
+        ["tt", "Tatar"],
+        ["te", "Telugu"],
+        ["th", "Thai"],
+        ["tr", "Turkish"],
+        ["tk", "Turkmen"],
+        ["uk", "Ukrainian"],
+        ["ur", "Urdu"],
+        ["ug", "Uyghur"],
+        ["uz", "Uzbek"],
+        ["vi", "Vietnamese"],
+        ["cy", "Welsh"],
+        ["xh", "Xhosa"],
+        ["yi", "Yiddish"],
+        ["yo", "Yoruba"],
+        ["zu", "Zulu"]
+      ];
+      const optionsFragment = document.createDocumentFragment();
+      languageSelect.innerHTML = "";
+      languageOptions.forEach(function(optionData){
+        const option = document.createElement("option");
+        option.value = optionData[0];
+        option.textContent = optionData[1];
+        optionsFragment.appendChild(option);
+      });
+      languageSelect.appendChild(optionsFragment);
+      languageSelect.value = "en";
+      languageSelect.addEventListener("change", function(){
+        const targetLanguage = languageSelect.value;
+        const currentHash = window.location.hash || "";
+        const currentUrl = window.location.href.split("#")[0];
+        const canonicalLink = document.querySelector('link[rel="canonical"]');
+        const fallbackUrl = canonicalLink ? canonicalLink.href : currentUrl;
+        const pageUrl = /^https?:/i.test(currentUrl) ? currentUrl : fallbackUrl;
+
+        if (targetLanguage === "en") {
+          window.location.href = pageUrl + currentHash;
+          return;
+        }
+
+        const translatedUrl = new URL("https://translate.google.com/translate");
+        translatedUrl.searchParams.set("sl", "auto");
+        translatedUrl.searchParams.set("tl", targetLanguage);
+        translatedUrl.searchParams.set("u", pageUrl + currentHash);
+        window.location.href = translatedUrl.toString();
+      });
+    }
+  })();
+</script>
+</body>
+</html>
