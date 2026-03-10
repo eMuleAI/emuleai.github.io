@@ -419,6 +419,10 @@
         <a href="#overview-introduction">Introduction</a>
         <a href="#overview-highlights">Highlights</a>
         <a href="#overview-downloads">Download &amp; Installation</a>
+        <a href="#overview-migration">Migration &amp; Configuration</a>
+        <a href="#overview-credits">Credits FAQ</a>
+        <a href="#overview-id">High ID vs Low ID</a>
+        <a href="#overview-files">Files &amp; Descriptions</a>
       </div>
     </div>
     <div class="toc-group" data-group="nat">
@@ -513,6 +517,204 @@
       <article class="card">
         <h3 class="h3">Download the latest release</h3>
         <p>For current builds, packaged downloads, and versioned release notes, visit the <a href="https://github.com/eMuleAI/eMuleAI/releases" rel="noopener noreferrer" target="_blank">eMule AI Releases page on GitHub</a>.</p>
+      </article>
+
+      <article class="card" id="overview-migration">
+        <h3 class="h3">Migration &amp; Configuration Guide</h3>
+        <p>eMule AI is designed to work with your existing eMule configuration files (including <code>.ini</code>, <code>.dat</code>, and <code>.met</code> files). However, there are important compatibility considerations you should be aware of before migrating.</p>
+        
+        <div class="section">
+          <h4 class="h3" style="color:var(--err)">Compatibility Warning</h4>
+          <p>Two specific files—<code>known.met</code> (known files list) and <code>StoredSearches.met</code> (saved searches)—use an updated structure in eMule AI to store additional data fields. Once these files are updated, they will <strong>no longer be backward compatible</strong> with the original eMule client.</p>
+          <div class="callout" style="border-left-color:var(--warn)">
+            <strong>Recommendation:</strong> Perform a full backup of your entire eMule configuration folder before running eMule AI for the first time.
+          </div>
+        </div>
+
+        <hr class="divider"/>
+
+        <div class="section">
+          <h4 class="h3">Clean Installation vs. Migration</h4>
+          <p>While technical migration is supported, we <strong>strongly recommend</strong> starting with a clean configuration. eMule AI includes many optimizations for modern hardware, high-speed fiber connections, and improved networking stacks that may not be fully utilized if you carry over legacy settings.</p>
+        </div>
+
+        <hr class="divider"/>
+
+        <div class="section">
+          <h4 class="h3">Config Folder Location</h4>
+          <p>Unlike the original eMule, eMule AI does not use Windows user profile folders (AppData). Instead, it prioritizes a <code>config</code> folder located in the same directory as <code>emule.exe</code>. If this folder does not exist, it will be created automatically with modern defaults.</p>
+        </div>
+
+        <hr class="divider"/>
+
+        <div class="section">
+          <h4 class="h3">Critical Files for Migration</h4>
+          <p>While a clean installation is recommended for performance, we strongly encourage migrating these specific files to preserve your network identity, earned credits, and connectivity status.</p>
+          
+          <div class="grid">
+            <article class="mini-card" style="border-left:4px solid var(--primary)">
+              <h5 class="h3">Identity &amp; Reputation</h5>
+              <p>Your reputation and queue ranking with other clients are tied to your unique identification. Without these files, you lose your "earned luck" and will start from zero in other users' queues.</p>
+              <ul class="list" style="font-size:0.92em">
+                <li><strong>preferences.dat</strong>: Stores your unique <strong>User Hash</strong>. Do not lose this!</li>
+                <li><strong>cryptkey.dat</strong>: Your 384-bit private RSA key used for secure identification.</li>
+              </ul>
+              <div class="callout" style="background:var(--bg); border:1px solid var(--border); font-size:0.85em; margin-top:10px">
+                <strong>Important:</strong> These two files must be migrated together. If you lose one, you lose your identity across the entire eMule network.
+              </div>
+            </article>
+
+            <article class="mini-card" style="border-left:4px solid var(--ok)">
+              <h5 class="h3">Credits &amp; Sharing Socials</h5>
+              <p>Preserve your social standing and the credits other users have earned with your client.</p>
+              <ul class="list" style="font-size:0.92em">
+                <li><strong>clients.met</strong> / <strong>credits.met</strong>: These files store the credits earned by others on your client. Preserving them ensures fairness for those who have uploaded to you.</li>
+                <li><strong>emfriends.met</strong>: Your stored friends list.</li>
+              </ul>
+            </article>
+
+            <article class="mini-card" style="border-left:4px solid var(--warn)">
+              <h5 class="h3">Connectivity &amp; Initial State</h5>
+              <p>Ensure a fast start without having to re-bootstrap your connections or re-scan your entire library.</p>
+              <ul class="list" style="font-size:0.92em">
+                <li><strong>nodes.dat</strong> / <strong>kad.dat</strong>: Known Kad nodes for instant bootstrap.</li>
+                <li><strong>staticservers.dat</strong>: Your static eD2K server list.</li>
+                <li><strong>server.met</strong>: All known servers.</li>
+                <li><strong>ipfilter.dat</strong>: Your active IP filters.</li>
+                <li><strong>preferences.ini</strong>: Your main settings (though defaults are recommended for AI).</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+
+        <hr class="divider"/>
+
+        <div class="section">
+          <h4 class="h3">First-Run Checklist &amp; Tips</h4>
+          <ul class="list">
+            <li><strong>Long Paths Support:</strong> eMule AI fully supports Windows Long Paths. This is essential for deep directory structures and modern file systems.</li>
+            <li><strong>IP Filter Automation:</strong> eMule AI automatically merges all <code>.p2p</code> or <code>.dat</code> files in the <code>config</code> folder at startup—no manual import needed.</li>
+            <li><strong>Modern Tuning:</strong> Connection parameters are optimized for today's high-speed internet. Prefer the default values for the best balance of speed and stability.</li>
+            <li><strong>Sparse File Writing:</strong> If using NTFS, eMule AI handles sparse part-file writing more efficiently, saving disk space on unfinished downloads.</li>
+          </ul>
+        </div>
+
+        <hr class="divider"/>
+
+        <div class="section" id="overview-credits">
+          <h2 class="h2">Credits</h2>
+          <div class="card">
+            <div class="qa">
+              <div class="q">What are these credits and why should I collect them?</div>
+              <div class="a">Credits reward users who upload. The transferred amount of data determines the amount of credit you are given with a particular client. They are not global, meaning that they can only be used on the client who granted them to you. Credits are a major modifier when calculating how fast a client progresses through eMule's queue. The more credits you have the faster you will advance in other people's queues.</div>
+            </div>
+            <div class="qa">
+              <div class="q">Where can I see my credit score?</div>
+              <div class="a">To prevent manipulating the score, the credits are not stored locally on your hard disk but on the other client's hard disk. It is not possible to see your own credits.</div>
+            </div>
+            <div class="qa">
+              <div class="q">I lost / deleted my <code>clients.met</code> file. Are my credits gone?</div>
+              <div class="a">Losing this file doesn't mean that your credits are gone, but all credits other people have on your client are. eMule creates a backup of the <code>clients.met</code> file (<code>clients.met.BAK</code>) so you can restore the file by renaming the backup to <code>clients.met</code>.</div>
+            </div>
+            <div class="qa">
+              <div class="q">Are credits secure?</div>
+              <div class="a">eMule uses a key handshake method to make sure the credits belong to this special client. Credits stored for a user are only granted if this authentication has been successful.</div>
+            </div>
+            <div class="qa">
+              <div class="q">How to lose the credits anyway?</div>
+              <div class="a">As described above, the credits are coupled with the secure user authentication. The secret key for this authentication is calculated from information which is stored in <code>preferences.dat</code> and <code>cryptkey.dat</code>. Should one of these files be lost or deleted, you will no longer be able to prove that you are the rightful owner of the credits.
+              <br/><strong>Note:</strong> If you lose only <code>cryptkey.dat</code>, it is mandatory to delete the <code>preferences.dat</code> file too.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" id="overview-id">
+          <h2 class="h2">High ID vs Low ID Explained</h2>
+          <article class="card">
+            <p>An ID is a value calculated from the client's IP address. It is assigned by the server when eMule successfully connects. The purpose of the ID is to indicate whether proper bidirectional communication is possible between two clients.</p>
+            
+            <h3 class="h3">How to identify your status?</h3>
+            <p>eMule displays your ID status graphically as colored arrows on the globe icon in the lower-right corner, next to the connected server. After connecting, the ID value itself is also visible in the Server's Log window.</p>
+            
+            <div class="grid">
+              <article class="mini-card" style="border-left:4px solid var(--ok)">
+                <h4 class="h3">High ID</h4>
+                <p>A High ID means the port chosen in your connection settings (default 4662) is open and freely accessible from the internet. Your client is fully reachable by others.</p>
+              </article>
+              <article class="mini-card" style="border-left:4px solid var(--err)">
+                <h4 class="h3">Low ID</h4>
+                <p>A Low ID means your connection port is blocked or cannot be reached. This is typically caused by firewalls, routers, or proxy servers. Any ID value less than <strong>16,777,216</strong> is considered a Low ID.</p>
+              </article>
+            </div>
+
+            <hr class="divider"/>
+
+            <h3 class="h3">Disadvantages of a Low ID</h3>
+            <ul class="list">
+              <li><strong>Server Routing:</strong> Since your IP is not directly reachable, all requests (queue, connection, etc.) must be routed through the server you are connected to. This increases CPU load on the server.</li>
+              <li><strong>Server Limitations:</strong> Many servers limit the number of Low ID users or may ban them entirely to reduce overhead.</li>
+              <li><strong>Reduced Sources:</strong> Two clients with Low IDs cannot connect to each other because messages cannot be routed over two different servers. This leads to fewer available sources for your downloads.</li>
+              <li><strong>Lost Messages:</strong> On busy servers, messages can get lost, causing you to miss important queue progression or download requests, which results in fewer credits and slower downloads.</li>
+            </ul>
+
+            <div class="callout" style="background:var(--bg); border:1px solid var(--border); margin-top:14px">
+              <h4 class="h3" style="font-size:1em">Important Technical Notes:</h4>
+              <ul class="list" style="font-size:0.92em">
+                <li><strong>Data Transfer:</strong> The ID only affects control message exchange. Actual data transfer is still handled client-to-client (Direct or via NAT-T paths in eMule AI).</li>
+                <li><strong>No "Higher" ID:</strong> If your ID is High, it doesn't matter how high it is. There are no extra advantages to an "even higher" ID.</li>
+                <li><strong>ID Calculation:</strong> To convert a High ID to an IP (A.B.C.D): <code>High ID = A + 256*B + 256*256*C + 256*256*256*D</code>.</li>
+                <li><strong>Source Filtering:</strong> eMule drops some Low ID sources to minimize server load. Only sources on the same server or those downloading from you are accepted.</li>
+              </ul>
+            </div>
+            
+            <div class="section" style="margin-top:20px">
+              <h3 class="h3">Troubleshooting Low ID</h3>
+              <p>If you're stuck with a Low ID despite having correct settings, try connecting to a different server or using the <strong>Port Tester</strong> in connection options. Low user servers often have more resources to handle Low ID routing than congested ones.</p>
+            </div>
+          </article>
+        </div>
+
+        <hr class="divider"/>
+
+        <div class="section" id="overview-files">
+          <h2 class="h2">Files &amp; Descriptions</h2>
+          <p class="section-intro">A comprehensive reference of the files used by eMule AI for data, configuration, and connectivity.</p>
+          <div class="card" style="padding:0; overflow:hidden">
+            <table class="pretty-table" style="width:100%; border-collapse:collapse">
+              <thead>
+                <tr style="background:var(--muted-surface)">
+                  <th style="padding:12px; border-bottom:1px solid var(--border); width:25%">File</th>
+                  <th style="padding:12px; border-bottom:1px solid var(--border)">Description</th>
+                </tr>
+              </thead>
+              <tbody style="font-size:0.92em">
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Known.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Saves all files eMule knows of (shared, downloads, or past). Stores size, filename, hash sets, and statistics. Deleting this forces a rehash on next restart.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Known2_64.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stores AICH hashes of all downloaded/shared files. Deleting this forces a rehash.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Known2.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">No longer used by eMule AI. Can be deleted unless downgrading to an older version.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Cancelled.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Tracks cancelled downloads to avoid marking them as new results.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Clients.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stores all users who have earned credits on your eMule. Also see <code>clients.met.BAK</code>.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Server.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Contains all known eD2K servers.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Emfriends.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stores your friends list.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Preferences.ini</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Main configuration file for options, visual details, and advanced developer settings.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Fileinfo.ini</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stores comments and ratings for your own shared files.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Category.ini</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stores category settings (name, comments, color coding).</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Ipfilter.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Contains IP ranges and access levels to be filtered. See Security options.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Onlinesig.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Small file with connection and up/down stats for IRC scripts or widgets.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Preferences.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Saves your User Hash, used to identify your client in the network for credits and friends.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Sharedir.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Holds paths to all shared directories.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Staticservers.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Permanent server list that doesn't change IP.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Addresses.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">URL list for updating <code>server.met</code> at startup.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>AC_SearchStrings.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stored search history for auto-completion. Also <code>AC_ServerMetURLs.dat</code>.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Cryptkey.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Unique 384-bit private RSA key to verify your User Hash. If deleted, reset preferences.dat as well.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Collectioncryptkey.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Enables signing of collections to verify the same author.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>eMule.tmpl</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Template files for the Webinterface layout and display.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>xx.part / xx.part.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Unfinished downloads and their metadata (hashes, status). Always keep together. Includes <code>xx.part.met.BAK</code>.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>eMule.log / eMule_Debug.log</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Saves the output of the Log/Debug windows if enabled in Extended options.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Kad Files</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Includes <code>nodes.dat</code>, <code>src_index.dat</code>, <code>key_index.dat</code>, <code>load_index.dat</code>, and <code>preferencesKad.dat</code> for Kad network state.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </article>
     </section>
 
