@@ -678,7 +678,32 @@
 
         <div class="section" id="overview-files">
           <h2 class="h2">Files &amp; Descriptions</h2>
-          <p class="section-intro">A comprehensive reference of the files used by eMule AI for data, configuration, and connectivity.</p>
+
+          <h3 class="h3" style="color:var(--primary); margin-top:24px">eMule AI Exclusive Files</h3>
+          <p>These files are specific to eMule AI and handle its advanced protection, history, and automation features.</p>
+          <div class="card" style="padding:0; overflow:hidden; margin-bottom:24px">
+            <table class="pretty-table" style="width:100%; border-collapse:collapse">
+              <thead>
+                <tr style="background:var(--muted-surface)">
+                  <th style="padding:12px; border-bottom:1px solid var(--border); width:25%">File</th>
+                  <th style="padding:12px; border-bottom:1px solid var(--border)">Description</th>
+                </tr>
+              </thead>
+              <tbody style="font-size:0.92em">
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>AC_BootstrapIPs.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Saved history of IP addresses used for Kad network bootstrapping.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>AC_BootstrapURLs.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stored URLs used for downloading initial Kad node lists.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>AC_IPFilterUpdateURLs.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">History of URLs used for automated IP filter updates.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>AC_ServerMetURLs.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stored history of <code>server.met</code> update URLs.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>blacklist.conf</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Used for automated blacklisting of malicious or unfair clients. Stores definitions and patterns for effective filtering.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>clienthistory.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Manages long-term records of encountered clients, including data for identification and automatic purging based on last seen dates.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>ipfilter_static.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Contains a fixed set of IP ranges that are always filtered, regardless of dynamic updates.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>ipfilter_white.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">An IP "White List" that overrides filters for specific trusted addresses or ranges.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>shield.conf</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Central configuration for the Shield protection system. Defines anti-leecher rules and automated punishment levels.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 class="h3">Standard eMule Files</h3>
           <div class="card" style="padding:0; overflow:hidden">
             <table class="pretty-table" style="width:100%; border-collapse:collapse">
               <thead>
@@ -688,29 +713,30 @@
                 </tr>
               </thead>
               <tbody style="font-size:0.92em">
-                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Known.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Saves all files eMule knows of (shared, downloads, or past). Stores size, filename, hash sets, and statistics. Deleting this forces a rehash on next restart.</td></tr>
-                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Known2_64.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stores AICH hashes of all downloaded/shared files. Deleting this forces a rehash.</td></tr>
-                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Known2.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">No longer used by eMule AI. Can be deleted unless downgrading to an older version.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>AC_SearchStrings.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stored search history for auto-completion. Also <code>AC_ServerMetURLs.dat</code>.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Addresses.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">URL list for updating <code>server.met</code> at startup.</td></tr>
                 <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Cancelled.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Tracks cancelled downloads to avoid marking them as new results.</td></tr>
-                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Clients.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stores all users who have earned credits on your eMule. Also see <code>clients.met.BAK</code>.</td></tr>
-                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Server.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Contains all known eD2K servers.</td></tr>
-                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Emfriends.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stores your friends list.</td></tr>
-                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Preferences.ini</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Main configuration file for options, visual details, and advanced developer settings.</td></tr>
-                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Fileinfo.ini</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stores comments and ratings for your own shared files.</td></tr>
                 <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Category.ini</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stores category settings (name, comments, color coding).</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Clients.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stores all users who have earned credits on your eMule. Also see <code>clients.met.BAK</code>.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Collectioncryptkey.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Enables signing of collections to verify the same author.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Cryptkey.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Unique 384-bit private RSA key to verify your User Hash. If deleted, reset preferences.dat as well.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Emfriends.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stores your friends list.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>eMule.log / eMule_Debug.log</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Saves the output of the Log/Debug windows if enabled in Extended options.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>eMule.tmpl</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Template files for the Webinterface layout and display.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Fileinfo.ini</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stores comments and ratings for your own shared files.</td></tr>
                 <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Ipfilter.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Contains IP ranges and access levels to be filtered. See Security options.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Kad Files</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Includes <code>nodes.dat</code>, <code>src_index.dat</code>, <code>key_index.dat</code>, <code>load_index.dat</code>, and <code>preferencesKad.dat</code> for Kad network state.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Known.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Saves all files eMule knows of (shared, downloads, or past). Stores size, filename, hash sets, and statistics. Deleting this forces a rehash on next restart.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Known2.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">No longer used by eMule AI. Can be deleted unless downgrading to an older version.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Known2_64.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stores AICH hashes of all downloaded/shared files. Deleting this forces a rehash.</td></tr>
                 <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Onlinesig.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Small file with connection and up/down stats for IRC scripts or widgets.</td></tr>
                 <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Preferences.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Saves your User Hash, used to identify your client in the network for credits and friends.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Preferences.ini</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Main configuration file for options, visual details, and advanced developer settings.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>PreviewApps.dat</strong></td><td style="padding:10px; border-bottom:10px solid var(--border)">Stores configuration for external applications used to preview media files.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Server.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Contains all known eD2K servers.</td></tr>
                 <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Sharedir.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Holds paths to all shared directories.</td></tr>
                 <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Staticservers.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Permanent server list that doesn't change IP.</td></tr>
-                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Addresses.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">URL list for updating <code>server.met</code> at startup.</td></tr>
-                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>AC_SearchStrings.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stored search history for auto-completion. Also <code>AC_ServerMetURLs.dat</code>.</td></tr>
-                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Cryptkey.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Unique 384-bit private RSA key to verify your User Hash. If deleted, reset preferences.dat as well.</td></tr>
-                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Collectioncryptkey.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Enables signing of collections to verify the same author.</td></tr>
-                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>eMule.tmpl</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Template files for the Webinterface layout and display.</td></tr>
                 <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>xx.part / xx.part.met</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Unfinished downloads and their metadata (hashes, status). Always keep together. Includes <code>xx.part.met.BAK</code>.</td></tr>
-                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>eMule.log / eMule_Debug.log</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Saves the output of the Log/Debug windows if enabled in Extended options.</td></tr>
-                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Kad Files</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Includes <code>nodes.dat</code>, <code>src_index.dat</code>, <code>key_index.dat</code>, <code>load_index.dat</code>, and <code>preferencesKad.dat</code> for Kad network state.</td></tr>
               </tbody>
             </table>
           </div>
