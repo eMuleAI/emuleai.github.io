@@ -580,6 +580,7 @@
         <a href="#support-docs">Documentation</a>
         <a href="#support-community">Community</a>
         <a href="#support-issues">Report an issue</a>
+		<a href="#support-acknowledgements">Acknowledgements</a>
       </div>
     </div>
   </aside>
@@ -2132,9 +2133,31 @@
     <section data-nav-group="overview" id="overview-downloads">
       <h2 class="h2">Download &amp; Installation</h2>
       <article class="card">
-        <h3 class="h3">Download the latest release</h3>
+        <h3 class="h3">Download the Latest Release</h3>
         <p>For current builds, packaged downloads, and versioned release notes, visit the <a href="https://github.com/eMuleAI/eMuleAI/releases" rel="noopener noreferrer" target="_blank">eMule AI Releases page on GitHub</a>.</p>
       </article>
+
+		<article class="card">
+			<h3 class="h3">Optional External Resources</h3>
+			<p>Some network features and optional functionality may require user-supplied external resources.</p>
+			<p>For Kad or eD2k server connectivity, this may include files such as <code>server.met</code> and <code>nodes.dat</code>.
+			If you already have these files, place them in the eMule AI <code>config</code> directory and restart the application.
+			Alternatively, <code>server.met</code> can be loaded from <code>Servers &gt; Update server.met from URL</code> by entering a valid
+			<code>server.met</code> URL and clicking <strong>Update</strong>, and <code>nodes.dat</code> can be loaded from
+			<code>Kad &gt; Nodes.dat from URL</code> by entering a valid <code>nodes.dat</code> URL and clicking <strong>Bootstrap</strong>.</p>
+			<p>Optional filter data such as <code>ipfilter.dat</code> can also be used. If you already have this file, place it in the eMule AI
+			<code>config</code> directory and restart the application. Alternatively, it can be loaded from
+			<code>Options &gt; Security &gt; IP Filter &gt; Update from URL</code> by entering a valid <code>ipfilter.dat</code> or
+			<code>ipfilter.zip</code> URL and clicking <strong>Load</strong>.</p>
+			<p>eMule AI can also use the optional <code>GeoLite2-City.mmdb</code> database to display country and city information based on IP
+			addresses. The database must be downloaded separately from
+			<a href="https://www.maxmind.com/en/accounts/current/geoip/downloads" rel="noopener noreferrer" target="_blank">MaxMind</a> and is
+			subject to MaxMind's terms.</p>
+			<p>This product can use GeoLite Data created by MaxMind. If you use this database, copy the <code>GeoLite2-City.mmdb</code> file from
+			the downloaded archive to the eMule AI <code>config</code> directory, make sure the GeoLite2 option is enabled in Settings, and
+			restart the application.</p>
+			<p>These resources are external to eMule AI. Please use only sources you trust and review their origin, terms, license conditions, and legal status before use.</p>
+		</article>
 
       <article class="card" id="overview-migration">
         <h3 class="h3">Migration &amp; Configuration Guide</h3>
@@ -2161,7 +2184,7 @@
           <p>Manual migration is still supported for advanced users. eMule AI stores its active configuration in a local <code>config</code> folder next to <code>emule.exe</code>, not in the Windows user profile location used by older eMule builds.</p>
           <p>If you prefer to copy files yourself, close eMule AI first, copy only the files you actually want to keep, and then start the client again. If your older setup stores <code>downloads.txt</code> in the main eMule folder instead of inside <code>config</code>, remember to bring that file over as well.</p>
           <p>While manual migration is supported, a clean configuration can still be the better choice if you want to start with eMule AI's modern defaults for current hardware, high-speed networks, and newer connection handling.</p>
-          <h5 class="h3">Important files to preserve</h5>
+          <h5 class="h3">Important Files to Preserve</h5>
           <p>If you migrate manually, these files are the most valuable ones to keep because they preserve your identity, credits, and network state.</p>
           
           <div class="grid">
@@ -2196,7 +2219,7 @@
               </ul>
             </article>
           </div>
-          <h5 class="h3">Manual migration checklist &amp; tips</h5>
+          <h5 class="h3">Manual Migration Checklist &amp; Tips</h5>
           <ul class="list">
             <li><strong>Copy while the client is closed:</strong> Always close eMule AI before manually replacing files in the local <code>config</code> folder.</li>
             <li><strong>Review directories and ports after startup:</strong> Confirm that your incoming, temp, and network settings match what you expect before reconnecting.</li>
@@ -2824,6 +2847,20 @@
         <p>To report a bug, document a reproducible problem, or suggest an improvement, please use the <a href="https://github.com/eMuleAI/eMuleAI/issues" rel="noopener noreferrer" target="_blank">eMule AI GitHub Issues page</a>.</p>
       </article>
     </section>
+
+	<section data-nav-group="support" id="support-acknowledgements">
+		<h2 class="h2">Acknowledgements</h2>
+		<article class="card">
+			<p>Many thanks to everyone who contributed to eMule over the years. Without their work, eMule AI would not have been possible.</p>
+			<p><strong>Developers:</strong> Merkur, John aka. Unknown1, Ornis, Bluecow, Tecxx, Pach2, Juanjo, Dirus, Barry, zz, Some Support,
+			fox88</p>
+			<p><strong>Modders:</strong> David Xanatos, Stulle, XMan, netfinity, WiZaRd, leuk_he, enkeyDev, SLUGFILLER, SiRoB, khaos, Enig123, TAHO,
+			Pretender, Mighty Knife, Ottavio84, Dolphin, sFrQlXeRt, evcz, cyrex2001, zz_fly, Slaham, Spike, shadow2004, gomez82, JvA, Pawcio,
+			lovelace, MoNKi, Avi3k, Commander, emulEspaña, Maella, VQB, J.C.Conner</p>
+			<p><strong>Testers:</strong> Sony, Monk, Myxin, Mr Ozon, Daan, Elandal, Frozen_North, kayfam, Khandurian, Masta2002, mrLabr, Nesi-San,
+			SeveredCross, Skynetman</p>
+		</article>
+	</section>
 
     <footer>
       <div>&copy; eMule AI</div>
