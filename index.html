@@ -2138,35 +2138,31 @@
 
       <article class="card" id="overview-migration">
         <h3 class="h3">Migration &amp; Configuration Guide</h3>
-        <p>eMule AI is designed to work with your existing eMule configuration files (including <code>.ini</code>, <code>.dat</code>, and <code>.met</code> files). However, there are important compatibility considerations you should be aware of before migrating.</p>
+        <p>eMule AI includes a built-in Migration Wizard. For most users, this should be the first and preferred way to restore an older eMule setup. Manual migration is still available for advanced users who want to copy and review files themselves.</p>
         
         <div class="section">
-          <h4 class="h3" style="color:var(--err)">Compatibility Warning</h4>
-          <p>Two specific files—<code>known.met</code> (known files list) and <code>StoredSearches.met</code> (saved searches)—use an updated structure in eMule AI to store additional data fields. Once these files are updated, they will <strong>no longer be backward compatible</strong> with the original eMule client.</p>
-          <div class="callout" style="border-left-color:var(--warn)">
-            <strong>Recommendation:</strong> Perform a full backup of your entire eMule configuration folder before running eMule AI for the first time.
+          <h4 class="h3">Migration Wizard</h4>
+          <p><strong>Start here first.</strong> On first launch, eMule AI can automatically offer to restore an older eMule configuration after language selection. The wizard checks the default Windows profile location used by classic eMule and can also let you choose another folder manually.</p>
+          <ul class="list">
+            <li><strong>Automatic first-run flow:</strong> If a legacy configuration is detected, the wizard can guide you through the restore process right away.</li>
+            <li><strong>Manual later use:</strong> You can request it again from <code>Tools &gt; Migration Wizard</code>. When started from the Tools menu, eMule AI schedules the wizard for the next application start, so you should restart the client.</li>
+            <li><strong>What it restores:</strong> The wizard copies supported legacy configuration files into the local eMule AI <code>config</code> folder and shows a clear summary when the operation finishes, including any files that could not be copied.</li>
+            <li><strong>Why it is recommended:</strong> It is the safest way to preserve your identity, credits, Kad state, server lists, shared configuration, and other compatible settings without manually sorting files.</li>
+          </ul>
+          <div class="callout" style="border-left-color:var(--ok)">
+            <strong>Recommended workflow:</strong> Use the Migration Wizard first. Choose manual migration only if you deliberately want to inspect, copy, or exclude files yourself.
           </div>
         </div>
 
         <hr class="divider"/>
 
         <div class="section">
-          <h4 class="h3">Clean Installation vs. Migration</h4>
-          <p>While technical migration is supported, we <strong>strongly recommend</strong> starting with a clean configuration. eMule AI includes many optimizations for modern hardware, high-speed fiber connections, and improved networking stacks that may not be fully utilized if you carry over legacy settings.</p>
-        </div>
-
-        <hr class="divider"/>
-
-        <div class="section">
-          <h4 class="h3">Config Folder Location</h4>
-          <p>Unlike the original eMule, eMule AI does not use Windows user profile folders (AppData). Instead, it prioritizes a <code>config</code> folder located in the same directory as <code>emule.exe</code>. If this folder does not exist, it will be created automatically with modern defaults.</p>
-        </div>
-
-        <hr class="divider"/>
-
-        <div class="section">
-          <h4 class="h3">Critical Files for Migration</h4>
-          <p>While a clean installation is recommended for performance, we strongly encourage migrating these specific files to preserve your network identity, earned credits, and connectivity status.</p>
+          <h4 class="h3">Manual Migration</h4>
+          <p>Manual migration is still supported for advanced users. eMule AI stores its active configuration in a local <code>config</code> folder next to <code>emule.exe</code>, not in the Windows user profile location used by older eMule builds.</p>
+          <p>If you prefer to copy files yourself, close eMule AI first, copy only the files you actually want to keep, and then start the client again. If your older setup stores <code>downloads.txt</code> in the main eMule folder instead of inside <code>config</code>, remember to bring that file over as well.</p>
+          <p>While manual migration is supported, a clean configuration can still be the better choice if you want to start with eMule AI's modern defaults for current hardware, high-speed networks, and newer connection handling.</p>
+          <h5 class="h3">Important files to preserve</h5>
+          <p>If you migrate manually, these files are the most valuable ones to keep because they preserve your identity, credits, and network state.</p>
           
           <div class="grid">
             <article class="mini-card" style="border-left:4px solid var(--primary)">
@@ -2185,7 +2181,7 @@
               <h5 class="h3">Credits &amp; Sharing Socials</h5>
               <p>Preserve your social standing and the credits other users have earned with your client.</p>
               <ul class="list" style="font-size:0.92em">
-                <li><strong>clients.met</strong> / <strong>credits.met</strong>: These files store the credits earned by others on your client. Preserving them ensures fairness for those who have uploaded to you.</li>
+                <li><strong>clients.met</strong>: Stores the credit data earned by other users on your client. Preserving it ensures fairness for those who have uploaded to you.</li>
                 <li><strong>emfriends.met</strong>: Your stored friends list.</li>
               </ul>
             </article>
@@ -2194,23 +2190,31 @@
               <h5 class="h3">Connectivity &amp; Initial State</h5>
               <p>Ensure a fast start without having to re-bootstrap your connections or re-scan your entire library.</p>
               <ul class="list" style="font-size:0.92em">
-                <li><strong>nodes.dat</strong> / <strong>kad.dat</strong>: Known Kad nodes for instant bootstrap.</li>
+                <li><strong>nodes.dat</strong>: Known Kad nodes for instant bootstrap.</li>
                 <li><strong>staticservers.dat</strong>: Your static eD2K server list.</li>
                 <li><strong>server.met</strong>: All known servers.</li>
               </ul>
             </article>
           </div>
+          <h5 class="h3">Manual migration checklist &amp; tips</h5>
+          <ul class="list">
+            <li><strong>Copy while the client is closed:</strong> Always close eMule AI before manually replacing files in the local <code>config</code> folder.</li>
+            <li><strong>Review directories and ports after startup:</strong> Confirm that your incoming, temp, and network settings match what you expect before reconnecting.</li>
+            <li><strong>IP Filter Automation:</strong> eMule AI automatically merges all <code>.p2p</code> or <code>.dat</code> files in the <code>config</code> folder at startup, so no extra import step is needed for those files.</li>
+            <li><strong>Modern Tuning:</strong> Connection parameters are optimized for today's high-speed internet. Prefer the default values for the best balance of speed and stability.</li>
+            <li><strong>Sparse File Writing:</strong> If using NTFS, eMule AI handles sparse part-file writing more efficiently, saving disk space on unfinished downloads.</li>
+          </ul>
         </div>
 
         <hr class="divider"/>
 
         <div class="section">
-          <h4 class="h3">First-Run Checklist &amp; Tips</h4>
-          <ul class="list">
-            <li><strong>IP Filter Automation:</strong> eMule AI automatically merges all <code>.p2p</code> or <code>.dat</code> files in the <code>config</code> folder at startup—no manual import needed.</li>
-            <li><strong>Modern Tuning:</strong> Connection parameters are optimized for today's high-speed internet. Prefer the default values for the best balance of speed and stability.</li>
-            <li><strong>Sparse File Writing:</strong> If using NTFS, eMule AI handles sparse part-file writing more efficiently, saving disk space on unfinished downloads.</li>
-          </ul>
+          <h4 class="h3" style="color:var(--err)">WARNING: Do Not Run eMule AI Inside an Existing eMule Folder!</h4>
+          <p>This is <strong>not</strong> a Migration Wizard problem, and it is also not the normal result of a manual migration into a separate eMule AI folder. The real risk appears when eMule AI is copied directly into an existing classic eMule installation folder and started there against the same live configuration.</p>
+          <p>In that situation, files such as <code>known.met</code> and <code>StoredSearches.met</code> can be updated by eMule AI and may no longer remain compatible with the original eMule client if you later switch back to that same folder.</p>
+          <div class="callout" style="border-left-color:var(--warn)">
+            <strong>Safe practice:</strong> Keep eMule AI in its own folder and let it use its own local <code>config</code> directory. If you want to test, compare, or keep a fallback copy of classic eMule, work on a backup or a separate folder instead of reusing the original live installation.
+          </div>
         </div>
 
         <hr class="divider"/>
@@ -2641,6 +2645,8 @@
         <div class="section"><h3 class="h3">Save Application State (Button)</h3><p>One-click save of list layouts, column orders, and preferences for easy layout "bookmarks".</p></div>
         <hr class="divider"/>
         <div class="section"><h3 class="h3">Set Executable Directory as Default (First-Run Behavior)</h3><p>If no choice exists yet, uses the app's folder as the base location for a portable-style setup.</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">Migration Wizard</h3><p>Adds a built-in Migration Wizard that can run automatically on first launch after language selection or be scheduled later from <code>Tools &gt; Migration Wizard</code>. It helps restore supported legacy eMule configuration files into eMule AI with directory detection, copy results, and clear follow-up guidance.</p></div>
         <hr class="divider"/>
         <div class="section"><h3 class="h3">Don't Filter Private IPs Option</h3><p>Allow local/private addresses even when an IP filter is active, useful on home/lab networks.</p></div>
       </article>
