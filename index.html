@@ -349,6 +349,127 @@
   svg .line-blue{stroke:var(--primary)}
   svg .line-yellow{stroke:var(--warn)}
   svg .line-green{stroke:var(--ok)}
+
+  .settings-flow{display:grid; gap:16px}
+  .settings-main-block,
+  .settings-sub-block{
+    border:1px solid var(--border);
+    border-radius:14px;
+    background:var(--surface);
+    box-shadow:var(--shadow-sm);
+    overflow:hidden;
+  }
+  .settings-main-block summary,
+  .settings-sub-block summary{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    cursor:pointer;
+    list-style:none;
+    font-weight:700;
+  }
+  .settings-main-block summary::-webkit-details-marker,
+  .settings-sub-block summary::-webkit-details-marker{display:none}
+  .settings-main-block summary::after,
+  .settings-sub-block summary::after{
+    content:"+";
+    color:var(--muted);
+    font-size:22px;
+    line-height:1;
+    flex:0 0 auto;
+  }
+  .settings-main-block[open] summary::after,
+  .settings-sub-block[open] summary::after{content:"-"}
+  .settings-main-block summary{
+    padding:18px 22px;
+    font-size:clamp(20px, 2.3vw, 28px);
+    color:var(--h2);
+    background:linear-gradient(180deg, color-mix(in srgb, var(--muted-surface), #fff 5%), color-mix(in srgb, var(--surface), transparent 4%));
+  }
+  .settings-sub-block summary{
+    padding:15px 18px;
+    font-size:clamp(17px, 1.9vw, 22px);
+    color:var(--accent-strong);
+    background:linear-gradient(180deg, color-mix(in srgb, var(--muted-surface), #fff 3%), color-mix(in srgb, var(--surface), transparent 3%));
+  }
+  .settings-main-block[open] summary,
+  .settings-sub-block[open] summary{border-bottom:1px solid var(--border)}
+  .settings-main-body,
+  .settings-block-body{padding:18px}
+  .settings-accordion{display:grid; gap:14px}
+  .settings-group-card{
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:linear-gradient(180deg, color-mix(in srgb, var(--surface), #fff 2%), color-mix(in srgb, var(--muted-surface), transparent 8%));
+    padding:18px;
+  }
+  .settings-group-title,
+  .settings-subtitle,
+  .settings-entry-title{
+    margin:0;
+    line-height:1.3;
+  }
+  .settings-group-title{color:var(--accent-strong); font-size:clamp(18px, 1.8vw, 24px)}
+  .settings-group-copy,
+  .settings-subcopy,
+  .settings-entry-copy,
+  .settings-inline-note{margin:8px 0 0; color:var(--muted)}
+  .settings-group-body,
+  .settings-children{display:grid; gap:14px; margin-top:16px}
+  .settings-subsection,
+  .settings-entry{
+    padding-top:14px;
+    border-top:1px solid color-mix(in srgb, var(--border), transparent 10%);
+  }
+  .settings-group-body > :first-child,
+  .settings-children > :first-child{padding-top:0; border-top:none}
+  .settings-subtitle{color:var(--ink); font-size:1.02rem}
+  .settings-entry-title{color:var(--ink); font-size:1rem}
+  .settings-children{
+    margin-left:14px;
+    padding-left:14px;
+    border-left:2px solid color-mix(in srgb, var(--border), var(--primary) 18%);
+  }
+  .settings-inline-note strong{color:var(--ink)}
+  .settings-definition-guide{display:grid; gap:14px; margin-top:10px}
+  .settings-definition-scenario,
+  .settings-definition-block{
+    padding:14px 16px;
+    border:1px solid color-mix(in srgb, var(--border), transparent 6%);
+    border-radius:10px;
+    background:linear-gradient(180deg, color-mix(in srgb, var(--muted-surface), #fff 2%), color-mix(in srgb, var(--surface), transparent 2%));
+  }
+  .settings-definition-heading{
+    margin:0;
+    color:var(--accent-strong);
+    font-size:1rem;
+    line-height:1.35;
+  }
+  .settings-definition-copy,
+  .settings-definition-example{
+    margin:8px 0 0;
+    color:var(--muted);
+  }
+  .settings-definition-list{
+    display:grid;
+    gap:4px;
+    margin-top:10px;
+    font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    color:var(--ink);
+  }
+  .settings-definition-code{
+    display:block;
+    margin-top:10px;
+    padding:8px 10px;
+    border:1px solid color-mix(in srgb, var(--border), transparent 8%);
+    border-radius:8px;
+    background:color-mix(in srgb, var(--bg), var(--surface) 28%);
+    color:var(--ink);
+    font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    white-space:pre-wrap;
+    word-break:break-word;
+  }
   @media (max-width: 1000px){
     .layout{grid-template-columns:1fr}
     .toc{position:relative; top:auto}
@@ -423,6 +544,15 @@
         <a href="#overview-credits">Credits FAQ</a>
         <a href="#overview-id">High ID vs Low ID</a>
         <a href="#overview-files">Files &amp; Descriptions</a>
+      </div>
+    </div>
+    <div class="toc-group" data-group="settings">
+      <button aria-controls="toc-settings" aria-expanded="false" class="toc-trigger" type="button">Settings Guide</button>
+      <div class="toc-links" id="toc-settings">
+        <a href="#settings-overview">Overview</a>
+        <a href="#settings-emule-ai">eMule AI</a>
+        <a href="#settings-protection-panel">Protection Panel</a>
+        <a href="#settings-blacklist-panel">Blacklist Panel</a>
       </div>
     </div>
     <div class="toc-group" data-group="nat">
@@ -511,6 +641,1493 @@
         </article>
       </div>
     </section>
+    <section data-nav-group="settings" id="settings-overview">
+      <h2 class="h2">Settings Guide</h2>
+      <article class="card">
+        <p>Bu başlık altında eMule AI ayarlarıyla ilgili açıklamalara ulaşabilir, her seçeneğin ne yaptığını inceleyebilir ve size uygun ayarları daha kolay belirleyebilirsiniz.</p>
+      </article>
+    </section>
+
+    <section data-nav-group="settings" id="settings-emule-ai">
+      <details class="settings-main-block" data-exclusive-group="settings-main" open>
+        <summary>eMule AI Settings Reference</summary>
+        <div class="settings-main-body">
+          <div class="settings-accordion" data-exclusive-group-root="settings-emule-ai">
+            <details class="settings-sub-block" data-exclusive-group="settings-emule-ai" open>
+              <summary>User Interface Tweaks</summary>
+              <div class="settings-block-body">
+                <p class="section-intro">Here you can find tweaks related to user interface.</p>
+                <div class="settings-flow">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Dark Mode</h5>
+  <p class="settings-subcopy">You can turn on/off dark mode here.</p>
+  <div class="settings-children">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Automatic</h5>
+  <p class="settings-entry-copy">Sychronizes eMule&#x27;s dark mode with your Windows setting.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Dark Mode</h5>
+  <p class="settings-entry-copy">Enables dark mode.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Light Mode</h5>
+  <p class="settings-entry-copy">Enables light mode.</p>
+</article>
+  </div>
+</section>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Display speed graphics in toolbar</h5>
+  <p class="settings-entry-copy">Display speed graphics in toolbar</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Disable &quot;Find As You Type&quot;</h5>
+  <p class="settings-entry-copy">&quot;Find As You Type&quot; is an official feature that starts filtering files immediately as you type on the lists. When you disable &quot;Find As You Type&quot;, filtering will be started after an enter or return key press, when you complete typing your text filter.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">List update period</h5>
+  <p class="settings-entry-copy">This is the time interval in milliseconds that will be waited before updating items in lists.</p>
+</article>
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Maximum Sort Order History</h5>
+  <p class="settings-subcopy">You can change the maximum number of sort order history for the specified list here. eMule can sort orders of lists by multiple number of colums by remembering user clicks on columns. So if the data of two rows in the last clicked columns (marked with arrow) are equal then eMule uses next columns in the sort order history. Default value is 4. 0 means unlimited number of sort order history. Please note that using 0 or big values can effect user interface performance negatively if you have too much items in your download/upload/shared file/file history lists.</p>
+  <div class="settings-children">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Server list</h5>
+  <p class="settings-entry-copy">You can change the maximum number of sort order history for the specified list here. eMule can sort orders of lists by multiple number of colums by remembering user clicks on columns. So if the data of two rows in the last clicked columns (marked with arrow) are equal then eMule uses next columns in the sort order history. Default value is 4. 0 means unlimited number of sort order history. Please note that using 0 or big values can effect user interface performance negatively if you have too much items in your download/upload/shared file/file history lists.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Search list</h5>
+  <p class="settings-entry-copy">You can change the maximum number of sort order history for the specified list here. eMule can sort orders of lists by multiple number of colums by remembering user clicks on columns. So if the data of two rows in the last clicked columns (marked with arrow) are equal then eMule uses next columns in the sort order history. Default value is 4. 0 means unlimited number of sort order history. Please note that using 0 or big values can effect user interface performance negatively if you have too much items in your download/upload/shared file/file history lists.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Files lists</h5>
+  <p class="settings-entry-copy">You can change the maximum number of sort order history for the specified list here. eMule can sort orders of lists by multiple number of colums by remembering user clicks on columns. So if the data of two rows in the last clicked columns (marked with arrow) are equal then eMule uses next columns in the sort order history. Default value is 4. 0 means unlimited number of sort order history. Please note that using 0 or big values can effect user interface performance negatively if you have too much items in your download/upload/shared file/file history lists.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Downloads list</h5>
+  <p class="settings-entry-copy">You can change the maximum number of sort order history for the specified list here. eMule can sort orders of lists by multiple number of colums by remembering user clicks on columns. So if the data of two rows in the last clicked columns (marked with arrow) are equal then eMule uses next columns in the sort order history. Default value is 4. 0 means unlimited number of sort order history. Please note that using 0 or big values can effect user interface performance negatively if you have too much items in your download/upload/shared file/file history lists.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Downloading clients list</h5>
+  <p class="settings-entry-copy">You can change the maximum number of sort order history for the specified list here. eMule can sort orders of lists by multiple number of colums by remembering user clicks on columns. So if the data of two rows in the last clicked columns (marked with arrow) are equal then eMule uses next columns in the sort order history. Default value is 4. 0 means unlimited number of sort order history. Please note that using 0 or big values can effect user interface performance negatively if you have too much items in your download/upload/shared file/file history lists.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Uploading clients list</h5>
+  <p class="settings-entry-copy">You can change the maximum number of sort order history for the specified list here. eMule can sort orders of lists by multiple number of colums by remembering user clicks on columns. So if the data of two rows in the last clicked columns (marked with arrow) are equal then eMule uses next columns in the sort order history. Default value is 4. 0 means unlimited number of sort order history. Please note that using 0 or big values can effect user interface performance negatively if you have too much items in your download/upload/shared file/file history lists.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">On queue clients list</h5>
+  <p class="settings-entry-copy">You can change the maximum number of sort order history for the specified list here. eMule can sort orders of lists by multiple number of colums by remembering user clicks on columns. So if the data of two rows in the last clicked columns (marked with arrow) are equal then eMule uses next columns in the sort order history. Default value is 4. 0 means unlimited number of sort order history. Please note that using 0 or big values can effect user interface performance negatively if you have too much items in your download/upload/shared file/file history lists.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Known clients list</h5>
+  <p class="settings-entry-copy">You can change the maximum number of sort order history for the specified list here. eMule can sort orders of lists by multiple number of colums by remembering user clicks on columns. So if the data of two rows in the last clicked columns (marked with arrow) are equal then eMule uses next columns in the sort order history. Default value is 4. 0 means unlimited number of sort order history. Please note that using 0 or big values can effect user interface performance negatively if you have too much items in your download/upload/shared file/file history lists.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Kad contacts list</h5>
+  <p class="settings-entry-copy">You can change the maximum number of sort order history for the specified list here. eMule can sort orders of lists by multiple number of colums by remembering user clicks on columns. So if the data of two rows in the last clicked columns (marked with arrow) are equal then eMule uses next columns in the sort order history. Default value is 4. 0 means unlimited number of sort order history. Please note that using 0 or big values can effect user interface performance negatively if you have too much items in your download/upload/shared file/file history lists.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Kad current searches list</h5>
+  <p class="settings-entry-copy">You can change the maximum number of sort order history for the specified list here. eMule can sort orders of lists by multiple number of colums by remembering user clicks on columns. So if the data of two rows in the last clicked columns (marked with arrow) are equal then eMule uses next columns in the sort order history. Default value is 4. 0 means unlimited number of sort order history. Please note that using 0 or big values can effect user interface performance negatively if you have too much items in your download/upload/shared file/file history lists.</p>
+</article>
+  </div>
+</section>
+                </div>
+              </div>
+            </details>
+            <details class="settings-sub-block" data-exclusive-group="settings-emule-ai">
+              <summary>GeoLite2</summary>
+              <div class="settings-block-body">
+                <p class="section-intro">Provides information about the location of a server / client</p>
+                <div class="settings-flow">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Disable</h5>
+  <p class="settings-entry-copy">Disable GeoLite2</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Show country code</h5>
+  <p class="settings-entry-copy">This option shows only country code, doesn&#x27;t show country or city names.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Show country name</h5>
+  <p class="settings-entry-copy">This option shows country name, doesn&#x27;t show city name.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Display full name</h5>
+  <p class="settings-entry-copy">This option shows country and city names</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Show Flags</h5>
+  <p class="settings-entry-copy">Show country flags</p>
+</article>
+                </div>
+              </div>
+            </details>
+            <details class="settings-sub-block" data-exclusive-group="settings-emule-ai">
+              <summary>Connection Tweaks</summary>
+              <div class="settings-block-body">
+                <p class="section-intro">Here you can find tweaks related to connection.</p>
+                <div class="settings-flow">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Check Connection</h5>
+  <p class="settings-subcopy">When activated, eMule constantly checks the internet if it is still connected, disconnects the Server/Kad connection when going offline and reconnects when going online. This prevents losing sources, Kad nodes or server entries when the connecion is offline. This implementation uses a native Windows API to check if the given URL address is reachable or not, instead of using ICMP which can be troublesome with some modem/router configurations. Enabling this option is recommended. Default: False</p>
+  <div class="settings-children">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Activate connection checker</h5>
+  <p class="settings-entry-copy">Toggle the connection checker. When enabled, eMule automatically monitors connectivity and reconnects when the link comes back.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">URL</h5>
+  <p class="settings-entry-copy">Please enter URL address in &quot;https://www.google.com&quot; format, otherwise you can break this functionality.</p>
+</article>
+  </div>
+</section>
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Enable uTP &amp; NAT Traversal (NAT-T)</h5>
+  <p class="settings-subcopy">When enabled, eMule uses the uTP (Micro Transport Protocol) over UDP instead of TCP for peer connections. This helps to reduce latency and improve network friendliness. NAT Traversal (NAT-T) allows establishing direct connections between clients behind routers or firewalls by automatically bypassing NAT restrictions. Together, these options increase the number of successful peer connections and may improve download/upload performance, especially in NATed networks.</p>
+  <div class="settings-children">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">NAT-T Port Window</h5>
+  <p class="settings-entry-copy">Accept incoming uTP by IP-only when the observed remote port is within ±N of the expected port. Helps sequential port-mapping NATs. Larger windows increase wrong-match risk; smaller windows reduce success on remapping NATs. Typical: 64–128. Set 0 to disable IP-only fallback.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">NAT-T Sweep Window</h5>
+  <p class="settings-entry-copy">Maximum +-N port sweep used for NAT-T hole punching around the expected remote port. Smaller values reduce stray probes and wrong matches; larger values improve success on remapping NATs but increase background traffic. Typical: 8-32. Set 0 to disable sweep behavior.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">uTP Jitter Min (ms)</h5>
+  <p class="settings-entry-copy">Lower bound for random jitter between uTP service cycles (used with “uTP Jitter Max”). Smaller values reduce delay but risk synchronized bursts; larger values spread load. Set equal to Max to remove variation. Recommended: 50–100 ms.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">uTP Jitter Max (ms)</h5>
+  <p class="settings-entry-copy">Upper bound for random jitter added between uTP service cycles (together with the Min value). Jitter staggers timers to prevent synchronized bursts. Larger values spread load but may add delay; keep within tens to low hundreds of milliseconds.</p>
+</article>
+  </div>
+</section>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Kad Buddy Slots</h5>
+  <p class="settings-entry-copy">Sets the number of clients you can serve as Kad buddies. Served Kad buddies are firewalled users who depend on you to relay Kad traffic. Raising this limit allows more firewalled clients to participate in file sharing and strengthens the network, but also increases your resource usage: typically only a few kbit/s of extra bandwidth per buddy, and around 0.3%% CPU load per buddy on a modern high-performance CPU. The default minimum is 5, and the maximum is 100.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">eServer Buddy Slots</h5>
+  <p class="settings-entry-copy">Sets the number of clients you can serve as eServer buddies. Served eServer buddies are LowID users who depend on you to establish callback connections via an eDonkey server. Raising this limit allows more firewalled clients to participate in file sharing and strengthens the network, but also increases your resource usage: typically only a few bytes/s of extra bandwidth per buddy, and around 0.1%% CPU load per buddy on a modern high-performance CPU. The default minimum is 5, and the maximum is 100.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Use Intelligent Chunk Selection</h5>
+  <p class="settings-entry-copy">With Intelligent Chunk Selection (ICS) the clients exchange information about which chunk is being downloaded at the moment, then a client can select and download the less downloaded chunk. When&quot;Try to download preview chunks&quot; option is enabled, preview chunks are still prioritized until they are completed.<br/><br/>ICS has three working modes. These modes and upload/download chunk prioritizations are as follows:<br/>RELEASE: complete sources &lt;= 3: rarest&gt;less downloaded&gt;smallest&gt;random<br/>SPREAD: complete sources between 4 and 10: smallest&gt;rarest&gt;less downloaded&gt;random<br/>SHARE: complete sources over 10: smallest&gt;preview (if selected in preferences)&gt;random</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Retry failed TCP connection attempts</h5>
+  <p class="settings-entry-copy">This feature enables the client to retry a connection attempt after it failed, instead of directly dropping the source. This is an enhancement to bring the balance back with the dead source list. This way only clients land on deadsource list that are really no longer reachable.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">ReAsk sources after IP change</h5>
+  <p class="settings-entry-copy">When clients with a dynamic IP addresses disconnects and reconnects, their IP changes. Unless they reask the clients they want to download from, those clients cannot be aware about the IP change. So it&#x27;s possible that a client wants to upload to you, but still thinks you have the old IP and then it fails. This feature helps reasking all the other clients as fast as possible in order not to create the mentioned situation. This feature doesn&#x27;t work for LowID clients.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Inform queued clients after IP change</h5>
+  <p class="settings-entry-copy">Informs all clients in the waiting queue when your IP changed, so they will not lose us and their queue position.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">ReAsk Time for File Sources [29-55 min.]</h5>
+  <p class="settings-entry-copy">Usually eMule reasks every client we want to download from every 29 minutes (58min for the clients with no needed parts). Clients in the upload queue lose their places in that queue after one hour. By increasing the reask time you may decrease overhead of your own client and also the network. But please not that You should not increase your reask time when you have low ID!</p>
+</article>
+                </div>
+              </div>
+            </details>
+            <details class="settings-sub-block" data-exclusive-group="settings-emule-ai">
+              <summary>Download Checker</summary>
+              <div class="settings-block-body">
+                <p class="section-intro">Define automatic checks when a file with the same hash or same/similar name is already downloading/downloaded/canceled/shared.</p>
+                <div class="settings-flow">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Disable</h5>
+  <p class="settings-entry-copy">No download check will be performed.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Ask with a message box</h5>
+  <p class="settings-entry-copy">Show a message box and ask user to approve or reject the download when a known file with same/similar name is found.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Reject same/similar name</h5>
+  <p class="settings-entry-copy">This option will automatically reject any download request having an entry in the file history with the same file name.</p>
+</article>
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Accept same/similar name conditionally</h5>
+  <p class="settings-subcopy">This option will automatically accept any download request having an entry in the file history with the same/similar file name if new file size is larger than the old one by the defined percentage. 0 means accept all; 10 means files %10 or more larger will be accepted.</p>
+  <div class="settings-children">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">File size percentage condition</h5>
+  <p class="settings-entry-copy">When &quot;Accept same/similar name conditionally&quot; is selected, you can define a percentage here: 0 means accept all; 10 means files %10 or more larger will be accepted.</p>
+</article>
+  </div>
+</section>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Reject canceled files</h5>
+  <p class="settings-entry-copy">Enabling this option will Reject files with a corresponding entry in the canceled history having similar hash or name.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Reject files with same hash</h5>
+  <p class="settings-entry-copy">Enabling this option will Reject files with same hash even if file names are different.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Reject blacklisted file names</h5>
+  <p class="settings-entry-copy">Enabling this option will reject files that are manually blacklisted or have blacklisted names. Please note that this option requires the &#x27;Enable manual blacklist&#x27; setting to be enabled in the Blacklist Panel.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Case insensitive file name comparison</h5>
+  <p class="settings-entry-copy">Enabling this option will always perform case insensitive file name comparison.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Ignore file extension</h5>
+  <p class="settings-entry-copy">Enabling this option will ignore file extension during file name comparison.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Ignore tags</h5>
+  <p class="settings-entry-copy">Enabling this option will ignore tags enclosed in () [] {} &lt;&gt; during file name comparison.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Don&#x27;t ignore numeric-only tags</h5>
+  <p class="settings-entry-copy">Enabling this option will include numeric-only tags enclosed in () [] {} &lt;&gt; during file name comparison even though &quot;Ignore tags&quot; is enabled. For example tags like (25) or [25] or {25} or &lt;25&gt; will not be ignored.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Ignore non-alphanumeric characters</h5>
+  <p class="settings-entry-copy">Enabling this option will ignore any non-alphanumeric characters during file name comparison.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Minimum file name comparison length</h5>
+  <p class="settings-entry-copy">Anything shorter than this file name length will discard comparison and accept file. Results of name processing options &quot;Ignore file extension&quot;, &quot;Ignore tags&quot; or &quot;Ignore non-alphanumeric&quot; will be reverted if previous step satisfies this condition. Defined value should be greater than 4.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Skip incomplete file download confirmation</h5>
+  <p class="settings-entry-copy">Skip &quot;Potentially Incomplete File&quot; confirmation messagebox and download incomplete files.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Mark as blacklisted</h5>
+  <p class="settings-entry-copy">If you enable this option, all rejected files will be automatically added to the manual blacklist, unless they are already known files (shared, downloading, downloaded, or canceled). Please note that this option requires the &#x27;Enable manual blacklist&#x27; setting to be enabled in the Blacklist Panel.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Automatically check search results and mark as blacklisted</h5>
+  <p class="settings-entry-copy">If you enable this option, once a search is completed, a background process will start to check all search results. Any rejected files will be automatically added to the manual blacklist if they are not already known (shared, downloading, downloaded, canceled). Please note that this option requires the ‘Enable manual blacklist’ option to be checked in the Blacklist Panel.</p>
+</article>
+                </div>
+              </div>
+            </details>
+            <details class="settings-sub-block" data-exclusive-group="settings-emule-ai">
+              <summary>File Inspector</summary>
+              <div class="settings-block-body">
+                <p class="section-intro">Upon activation, eMule periodically scans all downloading files, identifies empty (filled with binary zeros) fake files, incomplete (partially filled with binary zeros) files, DRM-protected media files and subsequently removes them from the download list. Additionally, it detects invalid file extensions and replaces them with valid ones.</p>
+                <div class="settings-flow">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Disable</h5>
+  <p class="settings-entry-copy">No detection will be performed.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Log only</h5>
+  <p class="settings-entry-copy">Empty (filled with binary zeros) fake files, incomplete (partially filled with binary zeros) files, DRM-protected media files and invalid file extensions will be detected, then logged. But these files won&#x27;t be deleted/renamed.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Delete/Rename</h5>
+  <p class="settings-entry-copy">Empty (filled with binary zeros) fake files, incomplete (partially filled with binary zeros) files, DRM-protected media files and invalid file extensions will be detected, deleted/renamed and then logged.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Detect Empty/incomplete files</h5>
+  <p class="settings-entry-copy">Enables detection of Empty/incomplete files.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Detect DRM protected files</h5>
+  <p class="settings-entry-copy">Enables detection of DRM protected files.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Detect invalid file extensions</h5>
+  <p class="settings-entry-copy">When activated, the download list will be periodically scanned for files with invalid file extensions. Any invalid extensions detected will be automatically replaced with the correct, valid ones.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Check period (in minutes)</h5>
+  <p class="settings-entry-copy">When File Inspector is activated, it periodically checks all downloading files. This parameter sets the interval (in minutes) between each check. Note that the first check will always occur approximately 1 minute after eMule starts or this feature is enabled. After the initial check, the defined period value will be used.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Minimum completed data size (in kb)</h5>
+  <p class="settings-entry-copy">This parameter specifies the threshold value for downloaded data. Files with a downloaded data amount equal to or greater than this value will be inspected.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Empty data percentage threshold</h5>
+  <p class="settings-entry-copy">Fake files are typically completely empty (filled with binary zeros), but they may also contain some garbage data interspersed with large empty sections. Additionally, there might be incomplete files (partially filled with binary zeros) on the network that you might want to cancel downloading. This parameter sets the threshold for the percentage of empty data relative to the total downloaded data. If this threshold is exceeded, the file will be considered fake or incomplete. A threshold value of 100 means that all downloaded data must be empty (binary zeros) for the file to be deemed fake.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Lower compression percentage threshold</h5>
+  <p class="settings-entry-copy">This parameter specifies the lower threshold value for file compression percentage. Files with a compression percentage equal to or greater than this value will be inspected.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Bypass empty data check for high compression</h5>
+  <p class="settings-entry-copy">Bypasses the empty data check for files with a high compression percentage and accepts them as fake files.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Upper compression percentage threshold</h5>
+  <p class="settings-entry-copy">Specifies the upper threshold value for file compression percentage. Files with a compression percentage equal to or greater than this value will be accepted as fake files without checking the empty data percentage.</p>
+</article>
+                </div>
+              </div>
+            </details>
+            <details class="settings-sub-block" data-exclusive-group="settings-emule-ai">
+              <summary>Search Tweaks</summary>
+              <div class="settings-block-body">
+                <p class="section-intro">Here you can find tweaks related to search and search list.</p>
+                <div class="settings-flow">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Group known files at the bottom</h5>
+  <p class="settings-entry-copy">Enabling this option groups all known (shared, downloading, downloaded, canceled) files at the bottom of the search result list. If &quot;Spam&quot; and/or &quot;Blacklisted&quot; features are also enabled then all these files will be grouped as a single group. When you sort search list this will be sorted as a group and will still stay at the bottom.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Spam threshold</h5>
+  <p class="settings-entry-copy">&quot;Mark As Spam&quot; performs complex heuristic analysis and tries to mark possible similar files. During this process, it generates a value which indicates the probability of being a spam file. This value is compared with the default threshold value 60 and if it is more than or equal to the threshold then the file is marked as spam. Here you can increase the threshold value to minimize the possibility of having files marked as spam wrongly. A value equal or greather than 60 should be defined.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Kad Network search results threshold</h5>
+  <p class="settings-entry-copy">A file search started on the Kad Network stops after a specific time limit or when the number of found files reaches a certain limit. Here, you can adjust this limit for the number of found files.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Show close button on search tabs</h5>
+  <p class="settings-entry-copy">You can disable this option to prevent accidental clicks n close buttons that could lead to closing search tabs.</p>
+</article>
+                </div>
+              </div>
+            </details>
+            <details class="settings-sub-block" data-exclusive-group="settings-emule-ai">
+              <summary>Server Tweaks</summary>
+              <div class="settings-block-body">
+                <p class="section-intro">Here you can find tweaks related to E-Server.</p>
+                <div class="settings-flow">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Repeat server list after connection failures</h5>
+  <p class="settings-entry-copy">When connection fails and there is no more server to try in the server list, start again from the first entry. Default: True</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Don&#x27;t remove static servers from serverlist</h5>
+  <p class="settings-entry-copy">If a static server in the server list goes over the max number of retries it is disabled instead of being removed until the restart of eMule</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Don&#x27;t save part files after connecting server</h5>
+  <p class="settings-entry-copy">Every server connection triggers saving all part files. When downloading hundreds of files, this takes &quot;&quot;A LOT&quot;&quot; of time and causes freezes. Enabling this option prevents this from occuring. Default: True</p>
+</article>
+                </div>
+              </div>
+            </details>
+            <details class="settings-sub-block" data-exclusive-group="settings-emule-ai">
+              <summary>File &amp; Share Tweaks</summary>
+              <div class="settings-block-body">
+                <p class="section-intro">Here you can find tweaks related to shared files, file history lists and shares.</p>
+                <div class="settings-flow">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Show downloading files</h5>
+  <p class="settings-entry-copy">Shared files and file history lists can include or exclude downloading files. You can switch this here.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Show shared files in file history list</h5>
+  <p class="settings-entry-copy">File history list can include or exclude shared files. You can switch this here.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Show duplicate files in file history list</h5>
+  <p class="settings-entry-copy">File history list can include or exclude duplicate files. You can switch this here.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Automatically share subdirectories</h5>
+  <p class="settings-entry-copy">This option ensures that all existing and newly created subdirectories are automatically shared when a folder is shared.</p>
+</article>
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Don&#x27;t Share Files With Extensions</h5>
+  <p class="settings-subcopy">Excludes files with the defined extensions when sharing a folder.</p>
+  <div class="settings-children">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">List of extensions:</h5>
+  <p class="settings-entry-copy">Define a comma seperated list for extension that will be excluded when sharing a folder.</p>
+</article>
+  </div>
+</section>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Adjust NTFS daylight file time</h5>
+  <p class="settings-entry-copy">On NTFS file systems, file timestamps may appear to shift by one hour if Daylight Saving Time (DST) is active. Enabling this option adjusts file times accordingly, which may help match files more accurately across DST changes.<br/>WARNING: This adjustment may cause unnecessary rehashing of files when DST switches, potentially leading to performance issues, especially with a large number of shared files. To reduce this impact, consider enabling the &quot;Allow DST time tolerance&quot;.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Allow DST time tolerance</h5>
+  <p class="settings-entry-copy">Enabling this option allows a 1-hour tolerance when comparing file timestamps, which helps prevent unnecessary rehashing of files caused by Daylight Saving Time (DST) differences. This is especially useful when the &quot;Adjust NTFS daylight file time&quot; option is enabled, as it may shift file times by one hour depending on DST status. If this tolerance is not allowed, identical files may appear different and get rehashed each time DST switches, which can negatively impact performance, especially with large numbers of shared files.<br/><br/><br/><br/><br/><br/><br/></p>
+</article>
+                </div>
+              </div>
+            </details>
+            <details class="settings-sub-block" data-exclusive-group="settings-emule-ai">
+              <summary>Emulation Settings</summary>
+              <div class="settings-block-body">
+                <p class="section-intro">Most of the other clients in the eD2k network prefer sharing with clients of their own kind. There are also some communities (which uses addons in the user names) prioritize uploading to their members. In order not to be in a disadvantage, you can activate these features which makes eMule pretend to be a client of the same kind of the connected clients and/or a member of the community that connected clients are belong to.</p>
+                <div class="settings-flow">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Emulate MLDonkey Clients</h5>
+  <p class="settings-entry-copy">eMule will pretend to be a MLDonkey client when enabled.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Emulate eDonkey Clients</h5>
+  <p class="settings-entry-copy">eMule will pretend to be a eDonkey client when enabled.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Emulate eDonkey Hybrid Clients</h5>
+  <p class="settings-entry-copy">eMule will pretend to be a eDonkey Hybrid client when enabled.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Emulate Shareaza v2 Clients</h5>
+  <p class="settings-entry-copy">eMule will pretend to be a Shareaza client when enabled.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Emulate Lphant Clients</h5>
+  <p class="settings-entry-copy">eMule will pretend to be a Lphant client when enabled.</p>
+</article>
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Emulate Communities</h5>
+  <p class="settings-subcopy">eMule will pretend to be a member of the community that connected clients are belong to by copying their community tags. This feature implements a smart learning mechanism: Analyzes all tags used in the user names of the all connected clients and if it encounters a tag (on different clients) nth time, where n is equal or more the defined treshold value during an eMule execution session, this tag will be saved in &quot;preferences.ini&quot; and started to be emulated. Any tags which is not saved will be ignored and dropped when sending user name.</p>
+  <div class="settings-children">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Tag learning treshold</h5>
+  <p class="settings-entry-copy">When eMule encounters a tag (on different clients) nth time, where n is equal or more than the defined treshold value during an eMule execution session, this tag will be saved in &quot;preferences.ini&quot; and started to be emulated. Any tags which is not saved will be ignored and dropped when sending user name. Default value is 3 and minimum allowed value is 2 since 1 can cause other mods ban/punish our client by sending random tags to see if we copy them.</p>
+</article>
+  </div>
+</section>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Log Emulation</h5>
+  <p class="settings-entry-copy">Enabling this option logs all emulation events to the verbose log output. You also need to activate verbose log option under Options--&gt;Extended--&gt;Verbose to see emulation event log.</p>
+</article>
+                </div>
+              </div>
+            </details>
+            <details class="settings-sub-block" data-exclusive-group="settings-emule-ai">
+              <summary>Credit System</summary>
+              <div class="settings-block-body">
+                <p class="section-intro">What credit system to use. A credit system is required in Morph. The priority of the peers in your waiting queue is based on the credit system.</p>
+                <div class="settings-flow">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Official Credit</h5>
+  <p class="settings-entry-copy">Start:1 min:1 max:10<br/>Ratio1=Uploaded Total x 2 / Downloaded Total<br/>Ratio2=SQRT(Uploaded Total+2 )<br/>Both ratios are compared and the lower value is used as modifier. Some boundary conditions also exist:<br/>Uploaded Total less than 1MB =&gt; Modifier=1<br/> Downloaded Total=0 =&gt; Modifier=10</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Lovelace Credit</h5>
+  <p class="settings-entry-copy">Start:1 min:0.1 max:100<br/>Ratio:1:1.5<br/>l-modifier=100*((1-1/(1+exp((3*{MB uploaded to us}^2-{MB downloaded from us}^2)/1000)))^6.6667)<br/>Only clients using the &#x27;SecureHash&#x27; are able to get a multiplier of 100. All others will stay at 10. In contrast to the original credit system, credits are evaluated more on differences and not on quotients. Using the original system you have the best credit values shortly after generating a new userhash. With the new credit system you get good credit values faster if you have already uploadeded many MB before (and did not cheat by killing the userhash).</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Ratio Credit</h5>
+  <p class="settings-entry-copy">In contrast to its name, it is not based on UL/DL ratio, but on DL, UL values and their differencies.There is no simple and the only formula.<br/>Start:1<br/>Progressively punishes near zero (&lt;= 1 MB) uploaders.<br/>Progressively boosts uploaders who got nothing paid back yet (&lt;= 1 MB in total).<br/>For client who uploaded to me &gt; 1 MB and &lt;=9 MB grants minimal credit DL/9.<br/>For client who uploaded to me &gt; 9 MB minimal credit is 0.7 + sqrt (DL+1)/10.<br/>With balanced ratio credit raises proportional to sqrt (DL+1)<br/>Credit is farther increased/decreased, depending on UL - DL difference.<br/>No limiting values</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Pawcio Credit</h5>
+  <p class="settings-entry-copy">Start: 3 min: 1 max: 100.<br/>Ratio = 3 * downloaded / uploaded<br/>For new clients (downloaded and uploaded data less than 1MB)<br/>ratio = 3.0 (instead of 1.0) - If you have received more than 1MB from someone but haven&#x27;t given anything back user gets ratio = 100.0<br/>Small bonus for clients that have given you many MB: If you get 100MB then user receive ratio = 50.0 till you give back 108MB.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">EastShare Credit</h5>
+  <p class="settings-entry-copy">Start:100 min:10 max:5000<br/>Ratio=+6 per MB uploaded and -2 for downloaded<br/>bonux  +100 if upload 1MB+<br/>low value if uploaded at least  1MB+, ratio = 50</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Magic Angel Credit</h5>
+  <p class="settings-entry-copy">Magic Angel credit system based on the official Creditsstem. The differences are:<br/>it gives Credits for Upload more than 1.65MB (official 1.00MB)<br/>the lowest modifier is 0.1 (official 1.0)<br/>the highest modifier is 50.0 (official 10.0)</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Magic Angel+ Credit</h5>
+  <p class="settings-entry-copy">Magic Angel+ credit system based on Magic Angel Creditssytem, but increases the modifier a bit, if the client uploaded to us more than we uploaded to him. If the upload of the client minus his download is<br/>&lt;7MB: modifier+0.3<br/>&lt;15MB: modifier+1.0<br/>&lt;30MB: modifier+2.0<br/>&gt;=30MB: modifier+3.0</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Sivka Credit</h5>
+  <p class="settings-entry-copy">Ident Needed --&gt; Ratio=0.75<br/>Ident failed --&gt; Ratio=0.5<br/>Bad client --&gt; Ratio=0<br/>If upload-download&gt;=1GB --&gt; ratio=32<br/>If 0&lt;upload-download&lt;1GB --&gt; ratio=sqrt(upload-download in MB)<br/>Otherwise ratio=1</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">S.W.A.T. Credit</h5>
+  <p class="settings-entry-copy">There are two different credit modifier calculated:<br/>Ratio1=Uploaded Totalx2.2/Downloaded Total<br/>Ratio2=SQRT(Uploaded Total+2)<br/>Both ratios are compared and the lower value is used as modifier.<br/>Some boundary conditions also exist:<br/>Uploaded Total&lt;1MB (exactly!) =&gt; Modifier=1<br/>Downloaded Total=0 =&gt; Modifier=10<br/>The modifier may not be lower than 1 or higher than 100</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">TK4 Credit</h5>
+  <p class="settings-entry-copy">If you are sharing completed files and someone downloads data from one of these from you, they probably cannot give you data back as you have all of the file. So in the TK4 system their credit rating remains unchanged. If you are downloading a file and someone takes data from you from the parts of the file you have they will be subject to the credit system and depending on how much they have given they may have their credit rating reduced. At any time if anyone gives you data they get a credit rating increase. The credit system works basically like this:<br/>Start:10 Allowance:&#x27;Mb given&#x27;/4 + 1MbIf &#x27;Mb taken&#x27; greater than &#x27;Mb given + allowance + 1Mb (they have taken more than they gave + some)<br/>Then if the file is a file we are downloading<br/>If &#x27;(Mb taken - allowance)&#x27; is between 1 to 81Mb credit multiplier range = 9 to 1 math: 10 - square root(&#x27;(Mb taken - allowance)&#x27; - &#x27;Mb given&#x27;) if &#x27;(Mb taken - allowance)&#x27; is greater than 81Mb credit multiplier range = 1 to 0.14 math: 9 / square root(&#x27;(Mb taken - allowance)&#x27; -&#x27;Mb given&#x27;)<br/>If &#x27;Mb given&#x27; is greater than &#x27;Mb taken&#x27; (they have given more than they have taken)<br/>Credit multiplier range = 10 to 342 math: 10 + log(2.72+(&#x27;Mb given&#x27;-&#x27;Mb taken)*4)+(&#x27;Mb taken/12)<br/>There is no absolute range for multipliers but I have quoted a range of 0.14&lt; to &gt;342 (Assumes around a max. 4Gb difference) with a starting point of 10. Clients with failed SUI will start at 10, but not go up.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Xtreme Credit</h5>
+  <p class="settings-entry-copy">It rewards clients which gives you a high download. This clients gets a bonus factor.<br/>On the other side, clients you upload much data and the don&#x27;t give something back to you will get a penalty for the current emule session.<br/>Formula for positive bonus:<br/>Bonus = (download - upload)/10485760 - 1.0/(download/10485760)<br/>The max score ratio is 10. (like official)<br/>A client can get a negative bonus of 0,1 if you gave him 1 chunk(9,28MB) more this session and also at complete comparision of download/upload without geting something back.<br/>A client can get a negative bonus of 0,2 if you gave him more than 2 chunk (9,28MB) this session and also at complete comparsion of download/upload without geting something back.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">ZZUL Credit</h5>
+  <p class="settings-entry-copy">Start:1 min:1 max:10<br/>Ratio1 = Uploaded Total x 2 / Downloaded Total<br/>Ratio2=SQRT(Uploaded Total+1)<br/>Both ratios are compared and the lower value is used as modifier. Some boundary conditions also exist:<br/> Uploaded Total=0  =&gt; Modifier=1<br/> Downloaded Total=0 =&gt; Modifier=10</p>
+</article>
+                </div>
+              </div>
+            </details>
+            <details class="settings-sub-block" data-exclusive-group="settings-emule-ai">
+              <summary>Client History</summary>
+              <div class="settings-block-body">
+                <p class="section-intro">You can enable and tweak setting related with saving and loading clients here. When this feature is enabled, clients will be reloaded after restarting eMule. Enabling this feature also helps protection panel, since all punishments will be restored whenever you restart eMule.</p>
+                <div class="settings-flow">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Enable</h5>
+  <p class="settings-entry-copy">Enable this feature</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Client history expiration days</h5>
+  <p class="settings-entry-copy">Clients not seen since the defined number of days will be purged from clienthistory.met file.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Log client history events</h5>
+  <p class="settings-entry-copy">Enabling this option logs all client history events to the verbose log output. You also need to activate verbose log option under Options--&gt;Extended--&gt;Verbose to see client history event log.</p>
+</article>
+                </div>
+              </div>
+            </details>
+            <details class="settings-sub-block" data-exclusive-group="settings-emule-ai">
+              <summary>Remote Client&#x27;s Shared Files</summary>
+              <div class="settings-block-body">
+                <p class="section-intro">Here, you can enable and tweak setting realated with remote client&#x27;s shared files.</p>
+                <div class="settings-flow">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Always use the user hash as the tab name</h5>
+  <p class="settings-entry-copy">Default tab name is user name if it isn&#x27;t empty otherwise user hash. But there&#x27;re many clients using same user names, so it can be difficult to distinguish their tab names in the search list. If you activate this option, user hash will always be used as the tab name.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Add the client note to the tab name</h5>
+  <p class="settings-entry-copy">If this option is enabled and a note has been added to the client, it will be appended in square brackets at the end of the tab name.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Auto query period</h5>
+  <p class="settings-entry-copy">This is the time interval in minutes between shared files auto query processes executed.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Maximum clients to be queried in a single period</h5>
+  <p class="settings-entry-copy">This is maximum number of clients that will be auto queried in the defined period.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Auto query period for the same client</h5>
+  <p class="settings-entry-copy">This is the minimum time in minutes between consequent auto queries for the same client. Minimum value that can be defined is 30 minutes.</p>
+</article>
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Set auto query for the clients downloaded from us</h5>
+  <p class="settings-subcopy">When enabled, the auto query will be activated for any clients which hasn&#x27;t queried yet and has downloaded from us more than the specified threshold value.</p>
+  <div class="settings-children">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Download threshold</h5>
+  <p class="settings-entry-copy">Auto query will be activated any clients which hasn&#x27;t queried yet and has downloaded from us more than this amount (in MB) of data.</p>
+</article>
+  </div>
+</section>
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Set auto query for the clients uploaded to us</h5>
+  <p class="settings-subcopy">When enabled, auto query will be activated for any clients which hasn&#x27;t queried yet and has uploaded to us more than the specified threshold value.</p>
+  <div class="settings-children">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Upload threshold</h5>
+  <p class="settings-entry-copy">Auto query will be activated any clients which hasn&#x27;t queried yet and has uploaded to us more than this amount (in MB) of data.</p>
+</article>
+  </div>
+</section>
+                </div>
+              </div>
+            </details>
+            <details class="settings-sub-block" data-exclusive-group="settings-emule-ai">
+              <summary>Save &amp; Load Sources</summary>
+              <div class="settings-block-body">
+                <p class="section-intro">You can enable and tune saving and loading sources here. When this feature is enabled, sources will be reloaded after restarting eMule.</p>
+                <div class="settings-flow">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Enable</h5>
+  <p class="settings-entry-copy">Enable this feature</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Maximum sources to save</h5>
+  <p class="settings-entry-copy">You can limit number of sources here. This can be helpful to reduce saving and loading time and usage of system resources.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Source expiration (in days)</h5>
+  <p class="settings-entry-copy">You can adjust the expiration day count for sources here. Expiration helps minimize saving and loading times and reduces system resource usage.</p>
+</article>
+                </div>
+              </div>
+            </details>
+            <details class="settings-sub-block" data-exclusive-group="settings-emule-ai">
+              <summary>Met File Control</summary>
+              <div class="settings-block-body">
+                <p class="section-intro">You can tune .met files expiration behaviour with these options.</p>
+                <div class="settings-flow">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Don&#x27;t purge entries</h5>
+  <p class="settings-entry-copy">Old entries in the known.met file will never be purged.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Partially purge entries (Official method)</h5>
+  <p class="settings-entry-copy">Parts of old entries in the known.met file will be purged. This is the way the official does it.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Completely purge entries</h5>
+  <p class="settings-entry-copy">Old entries in the known.met file will be purged completly.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Days until purge (0 = Default [31 days])</h5>
+  <p class="settings-entry-copy">Clean up .met files after file has not been seen for the defined days. Saves diskspace. Applies for known*.met. Never set a very low value (less than 30) here.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Remove unused AICH hashes immediately</h5>
+  <p class="settings-entry-copy">Enable if AICH hash of unshared files should be deleted immediately. Default: disabled</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Client credit expiration days</h5>
+  <p class="settings-entry-copy">Clients not seen since the defined number of days will be purged from clients.met file. Minimum value that can be defined here is 150 days.</p>
+</article>
+                </div>
+              </div>
+            </details>
+            <details class="settings-sub-block" data-exclusive-group="settings-emule-ai">
+              <summary>Backup</summary>
+              <div class="settings-block-body">
+                <p class="section-intro">These settings allow you to backup your eMule configuration data. Here, you can enable and adjust the backup settings.</p>
+                <div class="settings-flow">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Backup on exit</h5>
+  <p class="settings-entry-copy">Enable automatic backup when eMule closes.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Automatic backup</h5>
+  <p class="settings-entry-copy">Enable automatic backup at defined periods.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Backup period</h5>
+  <p class="settings-entry-copy">This is the interval, in hours, at which a new backup will be created.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Maximum number of backups</h5>
+  <p class="settings-entry-copy">This is the maximum number of backups. When this limit is reached, the oldest backup folder will be deleted to create a new backup.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Compress backup folder</h5>
+  <p class="settings-entry-copy">This option recursively compresses the backup folder. It is only supported by the NTFS file system.</p>
+</article>
+                </div>
+              </div>
+            </details>
+            <details class="settings-sub-block" data-exclusive-group="settings-emule-ai">
+              <summary>Advanced Preferences</summary>
+              <div class="settings-block-body">
+                <p class="section-intro">Minor Preferences for advanced tweaking. Also supported in official by editing preferences.ini</p>
+                <div class="settings-flow">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">MiniMule</h5>
+  <p class="settings-subcopy">Additional settings for the MiniMule feature.</p>
+  <div class="settings-children">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">MiniMule auto close</h5>
+  <p class="settings-entry-copy">The MiniMule window will usually remain visible until closed. Setting this value to 0 will automatically close the window when the cursor is moved out of the window. Similar to a tooltip. (default=1)</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">MiniMule transparency</h5>
+  <p class="settings-entry-copy">Controls the transparency of the MiniMule window. 0 and 100 are opaque 1 is translucent. (default=0), might require restart.</p>
+</article>
+  </div>
+</section>
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Display</h5>
+  <p class="settings-subcopy">How to display some items  in the download window</p>
+  <div class="settings-children">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Restore last main window</h5>
+  <p class="settings-entry-copy">eMule remembers which of the main windows  (Kademlia, Server, Transfer, was open, when before application exit  and restores it. (default = unchecked)</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Restore last log pane</h5>
+  <p class="settings-entry-copy">Remember which of the log panes (Log, Verbose) has been used the last session.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Straight window styles</h5>
+  <p class="settings-entry-copy">Changes the look of the statistic graph window and some other minor  styles stuff. (might require restart)</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Right to left windows layout</h5>
+  <p class="settings-entry-copy">Adds right-to-left reading support to eMule.  Useful for languages like Hebrew etc.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Show active download in bold</h5>
+  <p class="settings-entry-copy">Enabling this  option sets font of the active download as bold in download list.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Maximum chat history</h5>
+  <p class="settings-entry-copy">Defines the maximum number of lines saved in the history of the irc messages. After this value is reached the oldest message is purged on new entry (FIFO - First In First Out). default =100</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Maximum chat sessions</h5>
+  <p class="settings-entry-copy">Maximum open chat sessions</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Date&amp;Time format</h5>
+  <p class="settings-entry-copy">Date&amp;Time format</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Date&amp;Time format for lists</h5>
+  <p class="settings-entry-copy">Date&amp;Time format for lists</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Show vertical hour markers in the statics</h5>
+  <p class="settings-entry-copy">Show an vertical line in the statics window every hour. Resize statistics window to see effect (default: enabled)</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Disable some toolbar options</h5>
+  <p class="settings-entry-copy">Option to disable toolbar options like i.e.: Added chevron support: If toolbar is too small to display all buttons a chevron (&#x27;&gt;&gt;&#x27; icon) is shown at the very right side which opens a menu  with the remaining button commands. Tooltips for truncated button titles and in &#x27;No Labels&#x27; mode of toolbar. Buttons can be moved and/or removed from the toolbar by holding down  Ctrl+Alt key while draging a button with the mouse. Button sizes more similar to Windows Explorer. (default: checked)</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Flash tray icon on new message</h5>
+  <p class="settings-entry-copy">Flash the system tray icon when a new message is received. (default=on)</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Show &#x27;copy ed2k link&#x27; command</h5>
+  <p class="settings-entry-copy">In the shared files windows,  Show Copy link to clipboard menu option instead of the &#x27;ed2k links....&#x27; context menu. (default = off)</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Don&#x27;t update Queue list in real time</h5>
+  <p class="settings-entry-copy">The information displayed in the queue list will be updated not as often which will save some CPU time.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Don&#x27;t recreate statistic graphs on resize</h5>
+  <p class="settings-entry-copy">eMule may freeze briefly when the window is resized. This is caused by redrawing the graphs with saved data. If this option is checked, the graphs will not be recreated and start anew.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Use overlay to indicate up/down in taskbar</h5>
+  <p class="settings-entry-copy">Windows 7 allows overlays for the taskbar icon. eMule can utilize this to indicate active up- and downloads. Default: disabled</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Display all speed values in KB/s</h5>
+  <p class="settings-entry-copy">eMule displays speed values in different units based on the speed to be displayed. This options forces all speed values to KB/s rather than B/s, KB/s, GB/s and TB/s.</p>
+</article>
+  </div>
+</section>
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Log</h5>
+  <p class="settings-subcopy">Additional settings for customizing the logging.</p>
+  <div class="settings-children">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Maximum log buffer</h5>
+  <p class="settings-entry-copy">Defines the amount of system memory eMule uses to display the logs. For Win XP a default 128 kB reserved. The logs are rotating, i.e. if the buffer is filled up to its limit an old message is purged when a new one arrives (FIFO).</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Log file format</h5>
+  <p class="settings-entry-copy">Changes the data format of the log files from unicode to UTF8 when set to 1.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Date&amp;Time format for log</h5>
+  <p class="settings-entry-copy">Date&amp;Time format for log</p>
+</article>
+  </div>
+</section>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Create crash dump</h5>
+  <p class="settings-entry-copy">When this key is enabled eMule will automatically save a crash dump should eMule unexpectedly crash. This can help the developers to track down the problem. The dump is saved in eMule&#x27;s installation folder, called &#x27;eMule-version-number-Modversion.dmp&#x27;. Default=unchecked (disabled)</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Ignore instances</h5>
+  <p class="settings-entry-copy">Allows the execution of multiple eMule instances. Note: For two eMules running on the same machine they must be installed to different folders, must have different temp folders and also the ports used by each eMule have to be unique. It is not recommended to run two eMules concurrently apart from testing purposes. default:0</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Notifier mail encryption certificate name</h5>
+  <p class="settings-entry-copy">Name of the certificate for the encryption of email notifications with S/MIME. The certificate will be looked up in the local windows address book.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Preview small blocks</h5>
+  <p class="settings-entry-copy">This function should be only activated when using VLC - VideoLAN Client to preview files. It allows to preview multimedia files when at least 16 kB data for .mpeg files or 256 kB data for all other multimedia content (.avi, CD-Images with multimedia content) has been downloaded. Using this option the &#x27;Create backup for preview&#x27; setting has to be deactivated in the &#x27;Video Player&#x27; dialog. Note that vlc version 8.5 and higher seem to have some problems with broken indexes.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Preview copied archives</h5>
+  <p class="settings-entry-copy">When this option is disabled (=0), eMule will use a new preview method which is faster and uses less disk space in the temporary folder.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Preview on double click</h5>
+  <p class="settings-entry-copy">If this setting is enabled, double clicking on a row in the download list will invoke the preview command for the related file. If &#x27;Download list double-click to expand&#x27; is turned on in &#x27;Preferences -&gt; Display&#x27;, clicking on the first column invokes the preview command and clicking on the other columns expands the row.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Internet security zone</h5>
+  <p class="settings-entry-copy">Security Zones as per Internet Explorer Security settings. Defines which features are allowed in HTML code. Relevant for the MiniMule window. Allowed=Untrusted|Internet|Intranet|Trusted|LocalMachine</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Text editor</h5>
+  <p class="settings-entry-copy">The default program for editing the Webservices and IPFilter.dat may be entered here. Provide the complete path to the new executable if not using the default notepad.exe.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Server UDP port</h5>
+  <p class="settings-entry-copy">Normally the local port for asking servers for sources or searching files on them is randomly chosen . If eMule runs on a machine in a more complex network, especially when routers are used, it may be necessary to fix this port to a defined value or to deactivate it at all. Disabling this port means that eMule will no longer be able to update the status of the servers in its server list and will also not be able to receive sources from them nor do a global search. Exempt from this is the server eMule is actually connected to. Usually the default setting should not be changed. Possible values for ServerUDPPort are: 0:Disabled / 1-65534: Fixed local UDP port / 65535:Random port (default)</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Remove files to recycle bin</h5>
+  <p class="settings-entry-copy">This setting affects the Delete From Disk function in the right click menu  of the Files lists. If disabled then files will be permanently deleted from disk without moving them to the recycle bin.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">High resolution timer</h5>
+  <p class="settings-entry-copy">Option to make eMule use highres scheduling (better precision for sleeps and some timers). Currently the upload throttler takes advantage of it if enabled, which may give smoother upload performance and smoother pings while using eMule.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Trust every AICH hashset</h5>
+  <p class="settings-entry-copy">Trusts every AICH hashset during the current session. Not recommended except debugging.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Intelligent Corruption Handing (ICH)</h5>
+  <p class="settings-entry-copy">Intelligent Corruption Handling (ICH) helps recovering corrupted data downloaded from other clients.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Prefer restricted over user</h5>
+  <p class="settings-entry-copy">Do not create a new eMule_secure account, but restrict the rights of the current account.  Might be an alternative for securemode if you are running in a limited account.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">User sorted server list</h5>
+  <p class="settings-entry-copy">When enabled this will use the same server list sorting as shown in GUI when trying to connect to a server.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Webserver file upload size limit (in MB)</h5>
+  <p class="settings-entry-copy">Amount in MB that are allowed to be downloaded over http from the webserver (Default 5,0=all)</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Allowed IP&#x27;s for webserver</h5>
+  <p class="settings-entry-copy">IP addresses that are allowed to connect to the webserver, seperated by &#x27;;&#x27;</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Debug search detail level</h5>
+  <p class="settings-entry-copy">Debug search detail level (Default=0)</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Crypt TCP padding length [1-254]</h5>
+  <p class="settings-entry-copy">Maximum number of random padding bytes added to obfuscated TCP handshakes (default 128). Lower values reduce overhead, higher values increase packet size variation but also add more overhead.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Don&#x27;t compress avi</h5>
+  <p class="settings-entry-copy">Normally all file data is compressed before transfering, except for rar, zip and some other archive formats This options disables compressing avi files like rar files For high speed upload links this increases performance, but for some avi file some possible compression is lost. (default= false). Note that Morph has the option to disable/decrease compression for all files.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Rearrange Kad search keywords</h5>
+  <p class="settings-entry-copy">If enabled eMule will automatically rearrange search keywords to avoid limitations by Kad. Default: enabled</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Beep on errors</h5>
+  <p class="settings-entry-copy">Beep on errors</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Accept messages from valid clients only</h5>
+  <p class="settings-entry-copy">Accept messages from valid clients only</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Keep unavailable directories on fixed drives</h5>
+  <p class="settings-entry-copy">Usually shared folders that are unavailable are being removed. Enabling this option will keep those folders if they are on fixed drives so they can be loaded again when they are available again. Default: disabled</p>
+</article>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section data-nav-group="settings" id="settings-protection-panel">
+      <details class="settings-main-block" data-exclusive-group="settings-main">
+        <summary>Protection Panel Reference</summary>
+        <div class="settings-main-body">
+          <div class="settings-flow">
+            <article class="settings-group-card">
+              <h4 class="settings-group-title">Common Punishment Actions</h4>
+              <p class="settings-group-copy">Use these actions to decide how detected clients should be handled.</p>
+              <div class="settings-group-body">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">IP and user hash ban</h5>
+  <p class="settings-entry-copy">Ban both client&#x27;s IP address and user hash.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">User hash ban</h5>
+  <p class="settings-entry-copy">Ban client&#x27;s user hash.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Upload ban</h5>
+  <p class="settings-entry-copy">Don&#x27;t upload to these clients.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Score *0.1</h5>
+  <p class="settings-entry-copy">Reduce client score by multiplying 0.1.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Score *0.2</h5>
+  <p class="settings-entry-copy">Reduce client score by multiplying 0.2.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Score *0.3</h5>
+  <p class="settings-entry-copy">Reduce client score by multiplying 0.3.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Score *0.4</h5>
+  <p class="settings-entry-copy">Reduce client score by multiplying 0.4.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Score *0.5</h5>
+  <p class="settings-entry-copy">Reduce client score by multiplying 0.5.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Score *0.6</h5>
+  <p class="settings-entry-copy">Reduce client score by multiplying 0.6.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Score *0.7</h5>
+  <p class="settings-entry-copy">Reduce client score by multiplying 0.7.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Score *0.8</h5>
+  <p class="settings-entry-copy">Reduce client score by multiplying 0.8.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Score *0.9</h5>
+  <p class="settings-entry-copy">Reduce client score by multiplying 0.9.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">No punishment</h5>
+  <p class="settings-entry-copy">No punishment action will be taken against the clients of this type.</p>
+</article>
+              </div>
+            </article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">General Options</h4>
+  <p class="settings-group-copy">You can set general protection panel system options here.</p>
+  <div class="settings-group-body">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Timing Options</h5>
+  <p class="settings-subcopy">You can set punishment cancellations timing options here.</p>
+  <div class="settings-children">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Punishment cancellation scan period</h5>
+  <p class="settings-entry-copy">Protection Panel scans all punished clients periodically and cancel bans and punishments if they are expired. You can change this period value here. This value is in minutes and should be between 2-20.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">IP and user hash ban time</h5>
+  <p class="settings-entry-copy">Time a client is banned in hours. Please note that all punishments will be reset whenever you restart eMule unless you&#x27;ve already enabled Client History feature. Valid value range is 1-720.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Upload ban &amp; score reducing time</h5>
+  <p class="settings-entry-copy">Time a client is upload banned or score reduced in hours. Please note that all punishments will be reset whenever you restart eMule unless you&#x27;ve already enabled Client History feature. Valid value range is 1-720.</p>
+</article>
+  </div>
+</section>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Don&#x27;t punish friends</h5>
+  <p class="settings-entry-copy">When enabled, clients in the friend list will not be banned by the Protection Panel System.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Don&#x27;t allow hot swapping files with a lower priority</h5>
+  <p class="settings-entry-copy">If a client gets a slot for a particular file, then it can requests and download another file (which is called as file hot swapping) with a lower priority. This is a security leak that a leecher mod could exploit and also known as &quot;Maella Backdoor&quot;.  When this option enabled, file hot swapping with a lower priority will not be allowed, but file hot swapping with the same or a higher priority will still be allowed.</p>
+</article>
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Inform bad clients via user name</h5>
+  <p class="settings-subcopy">Generates a user name including a warning text tag and send this to the bad clients.</p>
+  <div class="settings-children">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Use custom text to inform bad clients</h5>
+  <p class="settings-entry-copy">You can define your own custom text message used in the user name to inform bad clients here. Default text messages will be used if you leave this empty</p>
+</article>
+  </div>
+</section>
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Enable anti upload protection</h5>
+  <p class="settings-subcopy">Don&#x27;t increase client score before it uploads more than the limit defined below. &quot;Try to transfer full chunks to all uploads&quot; need to be enabled to utilize this option.</p>
+  <div class="settings-children">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Limit before a client gets credits [1000 - 2800 KB]</h5>
+  <p class="settings-entry-copy">Limit before a client gets credits in KB. A value between 1000-2800 should be defined.</p>
+</article>
+  </div>
+</section>
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Enable uploader punishment prevention</h5>
+  <p class="settings-subcopy">Not every client detected by the Protection Panel Systems is really bad. Activating this feature prevents clients from being banned by comparing the defined limit with the upload amount or upload-download difference of a client. Score reduced clients may regain a trustworthy status.</p>
+  <div class="settings-children">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Limit for punishment prevention in KB</h5>
+  <p class="settings-subcopy">You can set the limit (in KB) as the minimum upload amount or upload-download difference of a client that will activate punishment prevention.</p>
+  <div class="settings-children">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">UL &gt;= Limit</h5>
+  <p class="settings-entry-copy">Don&#x27;t ban the clients who uploaded more than the defined limit.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">UL-DL &gt;= Limit</h5>
+  <p class="settings-entry-copy">Don&#x27;t ban the clients who has a &quot;upload-download&quot; difference more than the defined limit, until the difference reaches the limit.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">UL-DL &gt;= Limit till 1:1</h5>
+  <p class="settings-entry-copy">Don&#x27;t ban the clients who has a &quot;upload-download&quot; difference more than the defined limit, until the difference reaches 0 (If session ends before 0 is reached, then the client will have to reach the limit again in the next session).</p>
+</article>
+  </div>
+</section>
+  </div>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">Shield Leecher Detection</h4>
+  <p class="settings-group-copy">Shield is a customizable dynamic leecher protection module that identifies and punishes leecher clients. It represents an enhanced version of eMule XTreme mod&#x27;s DLP. Unlike DLP, which relies on DLL files, Shield examines client fingerprints defined in the shield.conf configuration file, allowing easy modification by the user.</p>
+  <div class="settings-group-body">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Check Mod Names</h5>
+  <p class="settings-entry-copy">Checks mod names defined in shield.conf to detect leecher or fake mods, bad communities or other kinds of bad clients.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Check User Names</h5>
+  <p class="settings-entry-copy">Checks user names defined in shield.conf to detect leecher or fake mods, bad communities or other kinds of bad clients.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Check User Hashes</h5>
+  <p class="settings-entry-copy">Checks user hashes defined in shield.conf to detect leecher or fake mods, bad communities or other kinds of bad clients.</p>
+</article>
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Hard Leecher Punishment</h5>
+  <p class="settings-subcopy">Hard leechers are defined in shield.conf. They leech community with extremely bad upload/download ratios or not uploading at all. Choose an action to be taken against detected clients.</p>
+  <div class="settings-children">
+
+  </div>
+</section>
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Soft Leecher Punishment</h5>
+  <p class="settings-subcopy">Soft leechers are defined in shield.conf. Even though they upload fairly, their client softwares have bad features and not approved by the community. Choose an action to be taken against detected clients.</p>
+  <div class="settings-children">
+
+  </div>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">Ban Bad Kad Nodes [Safe Kad v2]</h4>
+  <p class="settings-group-copy">Detect bad Kad nodes by analyzing their behaviour and ban their IP addresses. Banning these nodes slows down their spreading inside Kad network.</p>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">Ban Wrong Package Senders</h4>
+  <p class="settings-group-copy">Detect wrong packages sent by clients causing processing errors and ban their IP addresses. This could either be due to a malfunctioning/misconfigured client or a malicious attempt resembling a DoS attack.</p>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">Anti-P2P Bot Detection</h4>
+  <p class="settings-group-copy">Detect Anti-P2P bots like MediaDefender and others by checking their user hashes.</p>
+  <div class="settings-group-body">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> IP and user hash ban, User hash ban, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">Wrong Tag Detection</h4>
+  <p class="settings-group-copy">Detect unknown hello and info tags sent by the clients. These are usually unofficial modification to the original code resulting broken functionality and/or buggy messaging. Bad clients like Applejuice and Darkmule may cause this.</p>
+  <div class="settings-group-body">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> IP and user hash ban, User hash ban, Upload ban, Score *0.1, Score *0.2, Score *0.3, Score *0.4, Score *0.5, Score *0.6, Score *0.7, Score *0.8, Score *0.9, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">Unknown Tag Detection</h4>
+  <p class="settings-group-copy">Detect wrong hello and info tags sent by the clients. These are usually unofficial modification to the original code, may or may not be a sign of a leecher client. So be carefull about the punishment.</p>
+  <div class="settings-group-body">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> IP and user hash ban, User hash ban, Upload ban, Score *0.1, Score *0.2, Score *0.3, Score *0.4, Score *0.5, Score *0.6, Score *0.7, Score *0.8, Score *0.9, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">Hash Thief Detection</h4>
+  <p class="settings-group-copy">Detect clients using our client&#x27;s hash information and spending our credit information by imitate our client.</p>
+  <div class="settings-group-body">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> IP and user hash ban, User hash ban, Upload ban, Score *0.1, Score *0.2, Score *0.3, Score *0.4, Score *0.5, Score *0.6, Score *0.7, Score *0.8, Score *0.9, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">Mod Thief Detection</h4>
+  <p class="settings-group-copy">Detect clients faking our client&#x27;s Mod ID.</p>
+  <div class="settings-group-body">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> IP and user hash ban, User hash ban, Upload ban, Score *0.1, Score *0.2, Score *0.3, Score *0.4, Score *0.5, Score *0.6, Score *0.7, Score *0.8, Score *0.9, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">User Name Thief Detection</h4>
+  <p class="settings-group-copy">Detect clients using our client&#x27;s user name.</p>
+  <div class="settings-group-body">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> IP and user hash ban, User hash ban, Upload ban, Score *0.1, Score *0.2, Score *0.3, Score *0.4, Score *0.5, Score *0.6, Score *0.7, Score *0.8, Score *0.9, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">Empty User Name Detection</h4>
+  <p class="settings-group-copy">Detect eMule clients using empty user name</p>
+  <div class="settings-group-body">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> IP and user hash ban, User hash ban, Upload ban, Score *0.1, Score *0.2, Score *0.3, Score *0.4, Score *0.5, Score *0.6, Score *0.7, Score *0.8, Score *0.9, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">Mod Changer Detection</h4>
+  <p class="settings-group-copy">Detect clients changing their Mod ID very often. Using another eMule Mod with same configuration folder can cause this and this is generally OK. But changing Mod ID very often might be a sign of the leecher mods.</p>
+  <div class="settings-group-body">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Mod change intervals</h5>
+  <p class="settings-entry-copy">This is the time interval in minutes that will be inspected to decide if Mod ID change treshold is reached.  A value between 30-1440 should be defined.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Mod change threshold</h5>
+  <p class="settings-entry-copy">If this amount of Mod ID changes is reached inside defined time interval, the client will be punished. A value between 1-24 should be defined.</p>
+</article>
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> IP and user hash ban, User hash ban, Upload ban, Score *0.1, Score *0.2, Score *0.3, Score *0.4, Score *0.5, Score *0.6, Score *0.7, Score *0.8, Score *0.9, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">User Name Changer Detection</h4>
+  <p class="settings-group-copy">Detect clients without a mod name (acts as official client) changing their user names very often. User name changes are generally OK, except a client does this very often. This might be a sing of bad purposes.</p>
+  <div class="settings-group-body">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">User name change intervals</h5>
+  <p class="settings-entry-copy">This is the time interval in minutes between user name change checks which will be used to decide if the user name change threshold is reached. A value between 30 and 1440 can be defined.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">User name change threshold</h5>
+  <p class="settings-entry-copy">If this amount of user name changes is reached inside defined time interval, the client will be punished. A value between 1-24 should be defined.</p>
+</article>
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> IP and user hash ban, User hash ban, Upload ban, Score *0.1, Score *0.2, Score *0.3, Score *0.4, Score *0.5, Score *0.6, Score *0.7, Score *0.8, Score *0.9, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">TCP Error Flooder Detection</h4>
+  <p class="settings-group-copy">Detect clients causing continuous TCP errors. While these errors are not uncommon, the frequency can be alarming with certain clients. This could either be due to a malfunctioning/misconfigured client or a malicious attempt resembling a DoS attack.</p>
+  <div class="settings-group-body">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">TCP error detection intervals</h5>
+  <p class="settings-entry-copy">This is the time interval, in minutes, that will be inspected to determine if the TCP error threshold has been reached for a specific client. A value between 30 and 1440 can be defined.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">TCP error threshold</h5>
+  <p class="settings-entry-copy">If the number of TCP errors reaches the defined threshold within the specified time interval, the client will be punished. The minimum value can be 7.</p>
+</article>
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> IP and user hash ban, User hash ban, Upload ban, Score *0.1, Score *0.2, Score *0.3, Score *0.4, Score *0.5, Score *0.6, Score *0.7, Score *0.8, Score *0.9, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">Community Detection</h4>
+  <p class="settings-group-copy">Detect bad community tags in client user names.</p>
+  <div class="settings-group-body">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> IP and user hash ban, User hash ban, Upload ban, Score *0.1, Score *0.2, Score *0.3, Score *0.4, Score *0.5, Score *0.6, Score *0.7, Score *0.8, Score *0.9, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">Fake Version Detection</h4>
+  <p class="settings-group-copy">Detect clients faking client version.</p>
+  <div class="settings-group-body">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> IP and user hash ban, User hash ban, Upload ban, Score *0.1, Score *0.2, Score *0.3, Score *0.4, Score *0.5, Score *0.6, Score *0.7, Score *0.8, Score *0.9, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">Hex Mod Name Detection</h4>
+  <p class="settings-group-copy">Detect eMule clients with a mod name containing hexadecimal characters.</p>
+  <div class="settings-group-body">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> IP and user hash ban, User hash ban, Upload ban, Score *0.1, Score *0.2, Score *0.3, Score *0.4, Score *0.5, Score *0.6, Score *0.7, Score *0.8, Score *0.9, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">Ghost Mod Detection</h4>
+  <p class="settings-group-copy">Detect eMule mods sending empty mod name.</p>
+  <div class="settings-group-body">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> IP and user hash ban, User hash ban, Upload ban, Score *0.1, Score *0.2, Score *0.3, Score *0.4, Score *0.5, Score *0.6, Score *0.7, Score *0.8, Score *0.9, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">Spam Detection</h4>
+  <p class="settings-group-copy">Detect clients spamming chat messages.</p>
+  <div class="settings-group-body">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> IP and user hash ban, User hash ban, Upload ban, Score *0.1, Score *0.2, Score *0.3, Score *0.4, Score *0.5, Score *0.6, Score *0.7, Score *0.8, Score *0.9, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">eMCrypt Detection</h4>
+  <p class="settings-group-copy">Detect bad eMCrypt mods.</p>
+  <div class="settings-group-body">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> IP and user hash ban, User hash ban, Upload ban, Score *0.1, Score *0.2, Score *0.3, Score *0.4, Score *0.5, Score *0.6, Score *0.7, Score *0.8, Score *0.9, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">XS-Exploiter Detection</h4>
+  <p class="settings-group-copy">Detect clients exploting source exchange.</p>
+  <div class="settings-group-body">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> IP and user hash ban, User hash ban, Upload ban, Score *0.1, Score *0.2, Score *0.3, Score *0.4, Score *0.5, Score *0.6, Score *0.7, Score *0.8, Score *0.9, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">File Faker Detection</h4>
+  <p class="settings-group-copy">Detect clients that say they don&#x27;t have a file but request it anyway.</p>
+  <div class="settings-group-body">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> IP and user hash ban, User hash ban, Upload ban, Score *0.1, Score *0.2, Score *0.3, Score *0.4, Score *0.5, Score *0.6, Score *0.7, Score *0.8, Score *0.9, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">Upload Faker Detection</h4>
+  <p class="settings-group-copy">Ban clients that failed many upload attempts in a row.</p>
+  <div class="settings-group-body">
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> IP and user hash ban, User hash ban, Upload ban, Score *0.1, Score *0.2, Score *0.3, Score *0.4, Score *0.5, Score *0.6, Score *0.7, Score *0.8, Score *0.9, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">Agressive Client Detection</h4>
+  <p class="settings-group-copy">Detect clients that ask too often for a file.</p>
+  <div class="settings-group-body">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Average time between reasks before banned [5-15 min.]</h5>
+  <p class="settings-entry-copy">Define an average time limit in minutes between file reasks before banned. Defined value should be between 5-15.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Reask count limit before banned [3-10]</h5>
+  <p class="settings-entry-copy">Define a counter limit for file reasks before banned. Defined value should be between 3-10.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Log reask times of agressive clients</h5>
+  <p class="settings-entry-copy">If enabled, logs the reask times of aggressive clients to the verbose log. This can be useful for debugging and identifying problematic clients.</p>
+</article>
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> IP and user hash ban, User hash ban, Upload ban, Score *0.1, Score *0.2, Score *0.3, Score *0.4, Score *0.5, Score *0.6, Score *0.7, Score *0.8, Score *0.9, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">Punish non SUI Clients</h4>
+  <p class="settings-group-copy">Punish clients without a Secure User Identification.<br/>Explanation of SUI:Clients in the network are identified by a unique value called user hash which is used to grant earned credits with other users. eMule can use an asymmetric encryption to avoid exploiting or manipulating other users hash values and this is called Secure User Identification. Secure User Identification can be turned on in Preferences -&gt; Security and recommended to use it.</p>
+  <div class="settings-group-body">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Punish non SUI MLDonkey Clients</h5>
+  <p class="settings-entry-copy">Punish MLDonkey clients without a Secure User Identification.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Punish non SUI eDonkey Clients</h5>
+  <p class="settings-entry-copy">Punish eDonkey clients without a Secure User Identification.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Punish non SUI eDonkey Hybrid Clients</h5>
+  <p class="settings-entry-copy">Punish eDonkey Hybrid clients without a Secure User Identification.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Punish non SUI Shareaza Clients</h5>
+  <p class="settings-entry-copy">Punish Shareaza clients without a Secure User Identification.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Punish non SUI Lphant Clients</h5>
+  <p class="settings-entry-copy">Punish Lphant clients without a Secure User Identification.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Punish non SUI aMule Clients</h5>
+  <p class="settings-entry-copy">Punish aMule clients without a Secure User Identification.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Punish non SUI eMule Clients</h5>
+  <p class="settings-entry-copy">Punish eMule clients without a Secure User Identification.</p>
+</article>
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Punishment</h5>
+  <p class="settings-subcopy">Choose an action to be taken against detected clients.</p>
+  <p class="settings-inline-note"><strong>Available actions:</strong> Score *0.8, Score *0.9, No punishment.</p>
+</section>
+  </div>
+</article>
+<article class="settings-group-card">
+  <h4 class="settings-group-title">Tweak Official Features</h4>
+  <div class="settings-group-body">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Ban Corrupted Data Senders</h5>
+  <p class="settings-entry-copy">Ban clients sending corrupted data.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Ban Hash Changers</h5>
+  <p class="settings-entry-copy">Ban clients changing their hash very often. This is usually a sign of the leecher mods.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Ban File Scanners</h5>
+  <p class="settings-entry-copy">Ban clients that asked a few times in a row for files we don&#x27;t have.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Ban Rank Flooders</h5>
+  <p class="settings-entry-copy">Ban clients that send unrequested rank informations.</p>
+</article>
+<section class="settings-subsection">
+  <h5 class="settings-subtitle">Ban Kad Request Flooders</h5>
+  <p class="settings-subcopy">Ban clients flooding Kad by sending excessive amount of packages.</p>
+  <div class="settings-children">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Kad request flood treshold</h5>
+  <p class="settings-entry-copy">This is a multiplier of the maximum number of allowed packages sent in a minute. Defined value should be between 1-4. 1 means a client will be banned if it sends more packages than the allowed number; 2 means a client will be banned if it sends more packages than two times of the allowed number; and so on. Default value is 4.</p>
+</article>
+  </div>
+</section>
+  </div>
+</article>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section data-nav-group="settings" id="settings-blacklist-panel">
+      <details class="settings-main-block" data-exclusive-group="settings-main">
+        <summary>Blacklist Panel Reference</summary>
+        <div class="settings-main-body">
+          <article class="settings-group-card">
+            <h4 class="settings-group-title">Blacklist Panel</h4>
+            <p class="settings-group-copy">Manage automatic matching, manual blacklisting, cleanup behavior, logging, and the blacklist definition list.</p>
+            <div class="settings-group-body">
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Enable automatic blacklist</h5>
+  <p class="settings-entry-copy">Enabling automatic blacklist feature will mark files in search results as blacklisted when they contain the defined words.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Enable manual blacklist</h5>
+  <p class="settings-entry-copy">Enabling this will add &quot;Mark As Blacklisted&quot; menu item to the context menu of the search list. When you mark a file on the search list with &quot;Mark As Blacklisted&quot;, it will be listed at the bottom inside spam group as spam file with a distinctive text in &quot;Known&quot; column. This file actually will not be marked as a spam and there are some differences between these two: &quot;Mark As Blacklisted&quot; only marks a specific file with its hash value, while &quot;Mark As Spam&quot; performs more complex heuristic analysis and tries to mark possible similar files too. The performance cost of &quot;Mark As Blacklisted&quot; is lower than &quot;Mark As Spam&quot; and there is also no risk for having a file marked as spam wrongly with this option. Both options can still be useful in different situations.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Remove auto-blacklisted files from manual blacklist</h5>
+  <p class="settings-entry-copy">Remove auto-blacklisted files from manual blacklist</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Log when automatic blacklist matches a file</h5>
+  <p class="settings-entry-copy">Enabling this option logs all file name matches of automatic blacklist definitions to the verbose log output. You also need to activate verbose log option under Options--&gt;Extended--&gt;Verbose to see automatic blacklist log.</p>
+</article>
+<article class="settings-entry">
+  <h5 class="settings-entry-title">Search Result Blacklist Definitions</h5>
+  <div class="settings-definition-guide">
+    <div class="settings-definition-scenario">
+      <h6 class="settings-definition-heading">Scenario</h6>
+      <p class="settings-definition-copy">These file names are used in the examples below.</p>
+      <div class="settings-definition-list">
+        <div>F1: &quot;aaa bbb ccc&quot;</div>
+        <div>F2: &quot;bbb aaa ccc&quot;</div>
+        <div>F3: &quot;ccc aaa bbb&quot;</div>
+        <div>F4: &quot;aaabbbccc&quot;</div>
+        <div>F5: &quot;aaa.bbb.ccc&quot;</div>
+        <div>F6: &quot;bbbccc&quot;</div>
+      </div>
+    </div>
+    <section class="settings-definition-block">
+      <h6 class="settings-definition-heading">Space</h6>
+      <p class="settings-definition-copy">Space character is used as a seperator of word blocks in a blacklist definition. So if you define multiple word blocks separated by spaces, all of these word blocks need to be included in the file name to blacklist it. So they&#x27;ll be processed with a logical &quot;AND&quot;.</p>
+      <p class="settings-definition-example">Example: If you want to blacklist any file names including aaa and bbb at the same time, below definition will blacklist F1, F2, F3, F4, F5 but not F6 since it does not have aaa.</p>
+      <code class="settings-definition-code">aaa bbb</code>
+    </section>
+    <section class="settings-definition-block">
+      <h6 class="settings-definition-heading">Quotation Mark</h6>
+      <p class="settings-definition-copy">If you want to use space characters inside your word block, you can enclose them by two &quot;. So space characters inside &quot; will be distunguished from the seperator spaces.</p>
+      <p class="settings-definition-example">Example: Below definition will blacklist F1, F2, F3.</p>
+      <code class="settings-definition-code">&quot;aaa &quot;</code>
+    </section>
+    <section class="settings-definition-block">
+      <h6 class="settings-definition-heading">Additional Leading Space</h6>
+      <p class="settings-definition-copy">A space character is added to the begining of the file automatically before the process. This helps defining filters matching to the beginning of the file name while excluding compound word blocks.</p>
+      <p class="settings-definition-example">Example: To match bbb, but not aaabbbccc, below definition blacklist F1 and F2. You can notice that bbb at the beginning can still be matched by the blacklist definition even though there are no two spaces surrounding the bbb in original F2. If you want to match also end of a file name, assuming that the file has an extension seperated with . you can use / operator to replace that . with the space, so &quot; bbb &quot; can also match a file name like aaa ccc bbb.ext .</p>
+      <code class="settings-definition-code">&quot; bbb &quot;</code>
+    </section>
+    <section class="settings-definition-block">
+      <h6 class="settings-definition-heading">/ Operator</h6>
+      <p class="settings-definition-copy">Using a / at the start of a line will replace any non-alphanumeric characters with space characters of both the file names of search results and current blacklist definition line. So both of them will be normalized before the comparison is performed.</p>
+      <p class="settings-definition-example">Example: File names including . or _ characters can be hard to deal while preparing blacklist definitions. In this case you can define a single line in the blacklist definition to match all of these formats at once. If you want to match bbb but not aaabbbccc, below definition will blacklist F1, F2 and F5.</p>
+      <code class="settings-definition-code">/&quot; bbb &quot;</code>
+    </section>
+    <section class="settings-definition-block">
+      <h6 class="settings-definition-heading">| Operator</h6>
+      <p class="settings-definition-copy">Using a | at the start of a line will remove all non-alphanumeric characters from both the file names of search results and current blacklist definition line. So both of them will be normalized before the comparison is performed.</p>
+      <p class="settings-definition-example">Example: To match aaabbb or &quot;aaa.bbb&quot; or &quot;aaa bbb&quot;, below definition will blacklist F1, F3, F4 and F5.</p>
+      <code class="settings-definition-code">|aaabbb</code>
+    </section>
+    <section class="settings-definition-block">
+      <h6 class="settings-definition-heading">- Operator</h6>
+      <p class="settings-definition-copy">Using a - before a word block orders the process not to blacklist the file name if it includes this word block, even though other word blocks match. You can use &quot;&quot; to include spaces in your - definition. You can also use multiple word blocks with - in one line and in this case they will be processed with logical &quot;OR&quot;.</p>
+      <p class="settings-definition-example">Example: To match bbb, but not any file name having &quot; b&quot;, below definition will blacklist only F5. A space character is added to the begining of the file automatically before each comparison, so F2 is also excluded since it becomes &quot; bbb aaa ccc &quot;.</p>
+      <code class="settings-definition-code">bbb -&quot; b&quot; -bc</code>
+    </section>
+    <section class="settings-definition-block">
+      <h6 class="settings-definition-heading">* Operator</h6>
+      <p class="settings-definition-copy">Using a * before a word defines a file extension to blacklist. You can also use - if you want to exclude some files.</p>
+      <p class="settings-definition-example">Example: To blacklist all files with &quot;.ccc&quot; extension, below definition will blacklist only F5.</p>
+      <code class="settings-definition-code">*ccc</code>
+    </section>
+    <section class="settings-definition-block">
+      <h6 class="settings-definition-heading"># Operator</h6>
+      <p class="settings-definition-copy">Using a # at the start of a line will make this line to be ignored during processing. So you can &quot;comment out&quot; your definitions temporarily.</p>
+      <p class="settings-definition-example">Example: Below definition doesn&#x27;t blacklist anything.</p>
+      <code class="settings-definition-code">#&quot; bbb &quot;</code>
+    </section>
+    <section class="settings-definition-block">
+      <h6 class="settings-definition-heading">\ Operator</h6>
+      <p class="settings-definition-copy">Using a \ at the start of a line will let you to define a regex. Try to use above operators instead of regex if possible, as regex will run noticeably slower.</p>
+      <p class="settings-definition-example">Example: Below definition will blacklist only F5.</p>
+      <code class="settings-definition-code">\.*.[a-zA-Z]{3}..*</code>
+    </section>
+  </div>
+</article>
+            </div>
+          </article>
+        </div>
+      </details>
+    </section>
 
     <section data-nav-group="overview" id="overview-downloads">
       <h2 class="h2">Download &amp; Installation</h2>
@@ -580,8 +2197,6 @@
                 <li><strong>nodes.dat</strong> / <strong>kad.dat</strong>: Known Kad nodes for instant bootstrap.</li>
                 <li><strong>staticservers.dat</strong>: Your static eD2K server list.</li>
                 <li><strong>server.met</strong>: All known servers.</li>
-                <li><strong>ipfilter.dat</strong>: Your active IP filters.</li>
-                <li><strong>preferences.ini</strong>: Your main settings (though defaults are recommended for AI).</li>
               </ul>
             </article>
           </div>
@@ -592,7 +2207,6 @@
         <div class="section">
           <h4 class="h3">First-Run Checklist &amp; Tips</h4>
           <ul class="list">
-            <li><strong>Long Paths Support:</strong> eMule AI fully supports Windows Long Paths. This is essential for deep directory structures and modern file systems.</li>
             <li><strong>IP Filter Automation:</strong> eMule AI automatically merges all <code>.p2p</code> or <code>.dat</code> files in the <code>config</code> folder at startup—no manual import needed.</li>
             <li><strong>Modern Tuning:</strong> Connection parameters are optimized for today's high-speed internet. Prefer the default values for the best balance of speed and stability.</li>
             <li><strong>Sparse File Writing:</strong> If using NTFS, eMule AI handles sparse part-file writing more efficiently, saving disk space on unfinished downloads.</li>
@@ -1282,6 +2896,36 @@
       setActiveLink(id);
       if (target.dataset.navGroup) {
         openGroup(target.dataset.navGroup);
+      }
+      openSettingsDetailForTarget(target);
+    }
+
+    function setExclusiveDetails(groupName, target) {
+      if (!target || !groupName) {
+        return;
+      }
+      document.querySelectorAll('details[data-exclusive-group="' + groupName + '"]').forEach(function(detail){
+        detail.open = detail === target;
+      });
+    }
+
+    document.querySelectorAll('details[data-exclusive-group]').forEach(function(detail){
+      detail.addEventListener('toggle', function(){
+        if (detail.open) {
+          setExclusiveDetails(detail.dataset.exclusiveGroup, detail);
+        }
+      });
+    });
+
+    function openSettingsDetailForTarget(target) {
+      if (!target) {
+        return;
+      }
+      const mainDetail = target.matches('details[data-exclusive-group="settings-main"]')
+        ? target
+        : target.querySelector('details[data-exclusive-group="settings-main"]') || target.closest('details[data-exclusive-group="settings-main"]');
+      if (mainDetail) {
+        setExclusiveDetails('settings-main', mainDetail);
       }
     }
 
