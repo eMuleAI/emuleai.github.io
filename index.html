@@ -558,7 +558,8 @@
     <div class="toc-group" data-group="nat">
       <button aria-controls="toc-nat" aria-expanded="false" class="toc-trigger" type="button">NAT Traversal (NAT-T) &amp; uTP</button>
       <div class="toc-links" id="toc-nat">
-        <a href="#how-it-works">How it works</a>
+        <a href="#nat-what-it-is">What it is</a>
+        <a href="#nat-how-it-works">How it works</a>
         <a href="#diagrams">Diagrams</a>
         <a href="#scenarios">Scenarios</a>
         <a href="#setup">Setup &amp; tips</a>
@@ -2380,8 +2381,15 @@
     </section>
 
     <section data-nav-group="nat" id="how-it-works">
-      <h2 class="h2">How it works</h2>
+      <h2 class="h2">NAT Traversal (NAT-T) &amp; uTP</h2>
       <article class="card">
+        <h3 class="h3" id="nat-what-it-is">What it is</h3>
+        <p>This feature combines NAT Traversal (NAT-T) and uTP to create direct, reliable peer connections even when both sides sit behind NAT or firewalls.</p>
+        <p>In eMule AI it unlocks LowID-to-LowID transfers with UDP hole punching and uTP, improving connectivity and stability on difficult networks.</p>
+        <p>Because the NAT-T/uTP signaling and relay flow are eMule AI-specific, both peers must be running eMule AI to benefit; the more eMule AI users online, the more often this path is available.</p>
+      </article>
+      <article class="card">
+        <h3 class="h3" id="nat-how-it-works">How it works</h3>
         <div class="def-title"><strong>ED2K HighID / LowID</strong></div>
         <div class="def-body">Assigned by ED2K servers while connected to a server. HighID means inbound TCP is reachable. LowID means inbound TCP is blocked by firewall/NAT.</div>
         <hr class="divider"/>
