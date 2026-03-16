@@ -579,6 +579,7 @@
         <a href="#support-docs">Documentation</a>
         <a href="#support-community">Community</a>
         <a href="#support-issues">Report an issue</a>
+        <a href="#support-compiling">Compiling the Source Code</a>
 		<a href="#support-acknowledgements">Acknowledgements</a>
       </div>
     </div>
@@ -644,7 +645,7 @@
     <section data-nav-group="settings" id="settings-overview">
       <h2 class="h2">Settings Guide</h2>
       <article class="card">
-        <p>Bu başlık altında eMule AI ayarlarıyla ilgili açıklamalara ulaşabilir, her seçeneğin ne yaptığını inceleyebilir ve size uygun ayarları daha kolay belirleyebilirsiniz.</p>
+        <p>This section provides clear explanations of eMule AI settings, so you can understand what each option does and choose the configuration that best fits your needs.</p>
       </article>
     </section>
 
@@ -2137,6 +2138,11 @@
 		<p>After downloading the release archive from GitHub, unzip it to any directory of your choice, then run eMule AI from that folder.</p>
       </article>
 
+      <article class="card">
+        <h3 class="h3">Supported Operating Systems</h3>
+        <p>Windows 10 and Windows 11.</p>
+      </article>
+
 		<article class="card">
 			<h3 class="h3">Optional External Resources</h3>
 			<p>Some features require user-supplied external files such as <code>server.met</code>, <code>nodes.dat</code>,
@@ -2845,6 +2851,42 @@
       <article class="card">
         <h3 class="h3">Open the GitHub issue tracker</h3>
         <p>To report a bug, document a reproducible problem, or suggest an improvement, please use the <a href="https://github.com/eMuleAI/eMuleAI/issues" rel="noopener noreferrer" target="_blank">eMule AI GitHub Issues page</a>.</p>
+      </article>
+    </section>
+
+    <section data-nav-group="support" id="support-compiling">
+      <h2 class="h2">Compiling the Source Code</h2>
+      <article class="card">
+        <h3 class="h3">Build Environment</h3>
+        <p>Built with Visual Studio 2016 v18.4.0, using the latest MSVC and MSVC Build Tools available at the time.</p>
+      </article>
+      <article class="card">
+        <h3 class="h3">Libraries</h3>
+        <p>Building eMule AI requires downloading and compiling additional third-party libraries that are not bundled with the distribution. The required dependencies are listed in the table below. Please note that some entries use official release versions, while others reference a specific commit and branch.</p>
+        <p>Download and place each library’s source code one directory level above the eMule AI source tree, then compile it. Check the project files for the expected folder names, or adjust the paths to match your layout.</p>
+        <div style="margin-top:14px">
+          <table class="pretty-table" style="width:100%; border-collapse:collapse">
+            <thead>
+              <tr style="background:var(--muted-surface)">
+                <th style="padding:12px; border-bottom:1px solid var(--border); width:28%">Library</th>
+                <th style="padding:12px; border-bottom:1px solid var(--border); width:22%">Version / Commit</th>
+                <th style="padding:12px; border-bottom:1px solid var(--border)">Source</th>
+              </tr>
+            </thead>
+            <tbody style="font-size:0.92em">
+              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>cryptopp</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">8.9.0</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/weidai11/cryptopp" rel="noopener noreferrer" target="_blank">github.com/weidai11/cryptopp</a></td></tr>
+              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>id3lib</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">3.9.0</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/irwir/id3lib" rel="noopener noreferrer" target="_blank">github.com/irwir/id3lib</a></td></tr>
+              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>libmaxminddb</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">1.13.3</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/maxmind/libmaxminddb/" rel="noopener noreferrer" target="_blank">github.com/maxmind/libmaxminddb</a></td></tr>
+              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>libutp</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">#490874c@post-3.4-transmission</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/transmission/libutp/tree/post-3.4-transmission" rel="noopener noreferrer" target="_blank">github.com/transmission/libutp</a></td></tr>
+              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>mbedtls</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">4.0.0</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/Mbed-TLS/mbedtls" rel="noopener noreferrer" target="_blank">github.com/Mbed-TLS/mbedtls</a></td></tr>
+              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>MediaInfoLib</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">26.01</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/MediaArea/MediaInfoLib" rel="noopener noreferrer" target="_blank">github.com/MediaArea/MediaInfoLib</a></td></tr>
+              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>miniupnpc</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">2.3.3</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/miniupnp/miniupnp" rel="noopener noreferrer" target="_blank">github.com/miniupnp/miniupnp</a></td></tr>
+              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>ResizableLib</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">#733ea0d@master</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/ppescher/resizablelib" rel="noopener noreferrer" target="_blank">github.com/ppescher/resizablelib</a></td></tr>
+              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>ZenLib</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">0.4.41</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/MediaArea/ZenLib" rel="noopener noreferrer" target="_blank">github.com/MediaArea/ZenLib</a></td></tr>
+              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>zlib</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">1.3.2</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/madler/zlib" rel="noopener noreferrer" target="_blank">github.com/madler/zlib</a></td></tr>
+            </tbody>
+          </table>
+        </div>
       </article>
     </section>
 
