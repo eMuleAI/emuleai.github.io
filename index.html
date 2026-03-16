@@ -568,6 +568,7 @@
     <div class="toc-group" data-group="release">
       <button aria-controls="toc-release" aria-expanded="false" class="toc-trigger" type="button">Release Notes</button>
       <div class="toc-links" id="toc-release">
+        <a href="#release-history">Version History</a>
         <a href="#release-features">New features</a>
         <a href="#release-improvements">Improvements</a>
         <a href="#release-fixes">Bug fixes</a>
@@ -2596,6 +2597,24 @@
         <div class="qa"><div class="q">Can LowID &lt;-&gt; LowID work with only one buddy?</div><div class="a">Yes. In Kad rendezvous, uploader-side buddy is required and downloader-side buddy is optional. In eServer Buddy path, requester-side eServer buddy is required while target-side buddy is not.</div></div>
         <div class="qa"><div class="q">What about CGNAT and symmetric NAT?</div><div class="a">Those NATs often create short-lived or address-dependent mappings which may break hole punching. Results vary and can be unreliable.</div></div>
       </div>
+    </section>
+
+    <section data-nav-group="release" id="release-history">
+      <h2 class="h2">Version History</h2>
+      <article class="card stack">
+        <div class="section">
+          <h3 class="h3">v1.1</h3>
+          <ul class="list">
+            <li>Added the "Ratio" and "Session Ratio" columns to the Upload, Queue, and Files lists.</li>
+            <li>Fixed the "Enter an integer between 1 and 2147483647." validation error that could appear only in certain languages (e.g., Chinese/Korean) when leaving the eMule AI options page.</li>
+          </ul>
+        </div>
+        <hr class="divider"/>
+        <div class="section">
+          <h3 class="h3">v1.0</h3>
+          <p>Initial public release. See below sections for details.</p>
+        </div>
+      </article>
     </section>
 
     <section data-nav-group="release" id="release-features">
