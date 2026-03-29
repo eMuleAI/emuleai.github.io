@@ -473,6 +473,22 @@
     white-space:pre-wrap;
     word-break:break-word;
   }
+  .support-topic{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin:0 0 14px;
+    padding:15px 18px;
+    border:1px solid var(--border);
+    border-radius:14px;
+    background:linear-gradient(180deg, color-mix(in srgb, var(--muted-surface), #fff 3%), color-mix(in srgb, var(--surface), transparent 3%));
+    box-shadow:var(--shadow-sm);
+    color:var(--accent-strong);
+    font-weight:700;
+    font-size:clamp(17px, 1.9vw, 22px);
+    line-height:1.3;
+  }
   @media (max-width: 1000px){
     .layout{grid-template-columns:1fr}
     .toc{position:relative; top:auto}
@@ -2181,7 +2197,7 @@
 
         <div class="section">
           <h4 class="h3">Manual Migration</h4>
-          <p>Manual migration is still supported for advanced users. eMule AI stores its active configuration in a local <code>config</code> folder next to <code>emule.exe</code>, not in the Windows user profile location used by older eMule builds.</p>
+          <p>Manual migration is still supported for advanced users. eMule AI stores its active configuration in a local <code>config</code> folder next to <code>eMuleAI.exe</code>, not in the Windows user profile location used by older eMule builds.</p>
           <p>If you prefer to copy files yourself, close eMule AI first, copy only the files you actually want to keep, and then start the client again. If your older setup stores <code>downloads.txt</code> in the main eMule folder instead of inside <code>config</code>, remember to bring that file over as well.</p>
           <p>While manual migration is supported, a clean configuration can still be the better choice if you want to start with eMule AI's modern defaults for current hardware, high-speed networks, and newer connection handling.</p>
           <h5 class="h3">Important Files to Preserve</h5>
@@ -2881,9 +2897,149 @@
 
     <section data-nav-group="support" id="support-issues">
       <h2 class="h2">Report an issue</h2>
-      <article class="card">
-        <h3 class="h3">Open the GitHub issue tracker</h3>
-        <p>To report a bug, document a reproducible problem, or suggest an improvement, please use the <a href="https://github.com/eMuleAI/eMuleAI/issues" rel="noopener noreferrer" target="_blank">eMule AI GitHub Issues page</a>.</p>
+      <p class="section-intro">The most helpful reports include a clear reproduction path, the exact build you used, and diagnostic files when available.</p>
+      <article class="card stack">
+        <div class="section">
+          <h3 class="h3">Open the GitHub issue tracker</h3>
+          <p>To report a bug, document a reproducible problem, or suggest an improvement, please use the <a href="https://github.com/eMuleAI/eMuleAI/issues" rel="noopener noreferrer" target="_blank">eMule AI GitHub Issues page</a>.</p>
+        </div>
+        <hr class="divider"/>
+        <div class="section">
+          <h3 class="h3">What to include in a good report</h3>
+          <ul class="list">
+            <li>The exact eMule AI version or release name.</li>
+            <li>Your Windows version and whether you are using x86 or x64 build.</li>
+            <li>Clear step-by-step instructions that reproduce the problem.</li>
+            <li>What you expected to happen and what actually happened instead.</li>
+            <li>Relevant screenshots, log excerpts, or test files if they help explain the issue.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card stack">
+        <div class="section">
+          <p>Some problems can be understood from a normal description and a screenshot, but crashes, unexpected assertions, and difficult network issues usually need stronger diagnostics. The three sections below explain the most useful reporting methods for those cases.</p>
+          <div class="callout" style="margin-top:14px">
+            <strong>General advice:</strong> try to keep the reproduction small and focused. A short test with clean logs and matching files from the same run is usually much more useful than a very large mixed report from a long session.
+          </div>
+        </div>
+      </article>
+
+      <article class="card stack" id="support-verbose-logs">
+        <div class="section">
+          <h3 class="support-topic">Verbose logs for diagnostics</h3>
+          <p>If the issue does not crash the client but still needs deeper analysis, verbose logs are usually the best starting point. They are especially helpful for connection behavior, NAT-T and uTP issues, unexpected state changes, retries, queue logic, and similar problems that are hard to explain with screenshots alone.</p>
+        </div>
+        <hr class="divider"/>
+        <div class="section">
+          <h4 class="h3">How to enable the most detailed logging</h4>
+          <ol class="list">
+            <li>Delete or move any older files from the local <code>logs</code> folder first, so the new logs are easier to identify.</li>
+            <li>Open <code>Options &gt; Extended</code>.</li>
+            <li>Enable <strong>Verbose</strong>.</li>
+            <li>Set <strong>Log Level</strong> to <strong>5</strong>. This is the highest and most detailed log level.</li>
+            <li>Enable <strong>Log NAT traversal events</strong> if the problem is related to connectivity, NAT-T, or uTP.</li>
+            <li>Keep the feature you are testing enabled while reproducing the problem. For example, if you are reporting a NAT-T or uTP issue, make sure <strong>Enable uTP &amp; NAT Traversal (NAT-T)</strong> remains enabled during the test.</li>
+            <li>Reproduce the problem with the simplest possible test case you can find.</li>
+            <li>After the test, compress the newly created files from the <code>logs</code> folder and attach them to the GitHub issue, or upload them to a file host if they are too large for GitHub.</li>
+          </ol>
+          <div class="callout" style="margin-top:14px">
+            <strong>Tip:</strong> if possible, reproduce the issue with one focused test case instead of a long general session. Short, clean verbose logs are much easier to analyze.
+          </div>
+        </div>
+      </article>
+
+      <article class="card stack" id="support-crash-reports">
+        <div class="section">
+          <h3 class="support-topic">Crash reports and dump files</h3>
+          <p>If eMule AI crashes, shows an <code>invalid argument</code> message, or closes unexpectedly, please attach a crash dump whenever possible. A dump usually lets the developers identify the failing function much faster than a screenshot or Event Viewer entry alone.</p>
+          <div class="callout" style="margin-top:14px">
+            <strong>Note:</strong> A normal Release build is enough to create a crash dump. You do not need a special Debug build for reporting crashes.
+          </div>
+        </div>
+        <hr class="divider"/>
+        <div class="section">
+          <h4 class="h3">Built-in crash dump method</h4>
+          <ol class="list">
+            <li>Open <code>Options &gt; eMule AI &gt; Advanced Preferences</code>.</li>
+            <li>Enable <strong>Create crash dump</strong>.</li>
+            <li>Close eMule AI completely and start it again.</li>
+            <li>Reproduce the crash.</li>
+            <li>If a dialog asks whether to create a diagnostic file, click <strong>Yes</strong>.</li>
+            <li>Open the local <code>config</code> folder of your eMule AI installation and attach the newest <code>.dmp</code> file to the GitHub issue.</li>
+          </ol>
+          <div class="callout" style="margin-top:14px">
+            <strong>Important:</strong> The dump is typically written to the local <code>config</code> folder, not necessarily the main program folder.
+          </div>
+        </div>
+        <hr class="divider"/>
+        <div class="section">
+          <h4 class="h3">Fallback method with ProcDump</h4>
+          <p>If no dump is created by the built-in method, you can use <a href="https://learn.microsoft.com/tr-tr/sysinternals/downloads/procdump" rel="noopener noreferrer" target="_blank">ProcDump from Microsoft Sysinternals</a> as a fallback.</p>
+          <code class="settings-definition-code">procdump.exe -accepteula -ma -e -t -w eMuleAI.exe C:\Dumps</code>
+          <p>After running that command, start eMule AI normally, reproduce the crash, and then attach the newest dump file from <code>C:\Dumps</code>.</p>
+        </div>
+        <hr class="divider"/>
+        <div class="section">
+          <h4 class="h3">Before you attach the dump</h4>
+          <ul class="list">
+            <li>Compress the dump with ZIP or 7z if it is large.</li>
+            <li>If GitHub does not accept the file because of its size, upload it to a file host and share the download link in the issue.</li>
+            <li>Include the exact crash message, the last action you performed, and whether the problem is reproducible.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card stack" id="support-network-reports">
+        <div class="section">
+          <h3 class="support-topic">Network, NAT-T, and uTP issue reports</h3>
+          <p>If your problem looks network-related, for example sources stay at <code>Unknown</code>, many sources end up as <code>Too many connections</code>, NAT-T or uTP works only on some networks, or transfers improve after disabling <code>Enable uTP &amp; NAT Traversal (NAT-T)</code>, please include a deeper report than a normal bug description.</p>
+          <div class="callout" style="margin-top:14px">
+            <strong>Why this matters:</strong> for this class of issue, screenshots alone are usually not enough. The most useful reports combine a simple reproduction path, full verbose logs, and a short packet capture taken during the same test session.
+          </div>
+        </div>
+        <hr class="divider"/>
+        <div class="section">
+          <h4 class="h3">What to include in a network-related report</h4>
+          <ul class="list">
+            <li>The exact eMule AI version or release name.</li>
+            <li>Your Windows version and whether you are using the x86 or x64 build.</li>
+            <li>Your TCP port, UDP port, whether UPnP is enabled, and whether you are using manual port forwarding.</li>
+            <li>Your current network setup, for example direct connection, home router, VPN, virtual machine, or mobile hotspot.</li>
+            <li>A short description of what you expected and what happened instead.</li>
+            <li>The smallest reliable reproduction case you can find, ideally one file with many sources.</li>
+            <li>Whether the problem changes when <code>Enable uTP &amp; NAT Traversal (NAT-T)</code> is disabled.</li>
+            <li>Whether the same test behaves differently on another network, for example when you connect through your phone's hotspot instead of your usual router.</li>
+          </ul>
+        </div>
+        <hr class="divider"/>
+        <div class="section">
+          <h4 class="h3">Capture the network side with Wireshark</h4>
+          <p><a href="https://www.wireshark.org/download.html" rel="noopener noreferrer" target="_blank">Wireshark</a> is a free network analysis tool. It helps show whether the expected UDP and uTP packets are actually reaching your PC during the failing test. You can download it here: <a href="https://www.wireshark.org/download.html" rel="noopener noreferrer" target="_blank">https://www.wireshark.org/download.html</a>.</p>
+          <ol class="list">
+            <li>Download and install <a href="https://www.wireshark.org/download.html" rel="noopener noreferrer" target="_blank">Wireshark</a>.</li>
+            <li>Open Wireshark and start capturing on the network adapter your PC is actively using, usually Ethernet or Wi-Fi.</li>
+            <li>In the filter box, enter a filter for the UDP port used by eMule AI. Example: <code>udp.port == 4672</code>. Replace <code>4672</code> with your actual UDP port.</li>
+            <li>Start the capture before reproducing the problem.</li>
+            <li>Reproduce the issue in eMule AI while the verbose logging options from the section above are enabled.</li>
+            <li>Let the capture run for about 30 to 60 seconds while the problem is actively happening.</li>
+            <li>Stop the capture and save it as a <code>.pcapng</code> file.</li>
+            <li>Compress the <code>.pcapng</code> file and attach it to the same GitHub issue together with the matching verbose logs from the same test session.</li>
+          </ol>
+          <div class="callout" style="margin-top:14px">
+            <strong>Important:</strong> the packet capture and the verbose logs should come from the same test run whenever possible. That makes it much easier to compare what happened on the network side with what eMule AI reported internally at the same moment.
+          </div>
+        </div>
+        <hr class="divider"/>
+        <div class="section">
+          <h4 class="h3">Before you submit the report</h4>
+          <ul class="list">
+            <li>Compress large logs and packet captures with ZIP or 7z.</li>
+            <li>If GitHub rejects the files because of their size, upload them to a trusted file host and share the download links in the issue.</li>
+            <li>Please mention if the problem disappears on another network, after changing the UDP port, or after disabling NAT-T manually.</li>
+            <li>Remember that packet captures can contain network metadata such as IP addresses, so review them before sharing if needed.</li>
+          </ul>
+        </div>
       </article>
     </section>
 
@@ -2891,7 +3047,7 @@
       <h2 class="h2">Compiling the Source Code</h2>
       <article class="card">
         <h3 class="h3">Build Environment</h3>
-        <p>Built with Visual Studio 2016 v18.4.0, using the latest MSVC and MSVC Build Tools available at the time.</p>
+        <p>Built with Visual Studio 2016 v18.4.2, using the latest MSVC and MSVC Build Tools available at the time.</p>
       </article>
       <article class="card">
         <h3 class="h3">Libraries</h3>
