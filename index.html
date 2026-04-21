@@ -2352,6 +2352,7 @@
                 <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>ipfilter_static.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Contains a fixed set of IP ranges that are always filtered, regardless of dynamic updates.</td></tr>
                 <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>ipfilter_white.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">An IP "White List" that overrides filters for specific trusted addresses or ranges.</td></tr>
                 <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>shield.conf</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Central configuration for the Shield protection system. Defines anti-leecher rules and automated punishment levels.</td></tr>
+                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>download_inspector.txt</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stores eD2k links of files that were deleted by the Download Inspector's criteria-based auto-delete feature while in Delete mode. The file is preserved during migration and config backup flows.</td></tr>
               </tbody>
             </table>
           </div>
@@ -2614,6 +2615,37 @@
     <section data-nav-group="release" id="release-history">
       <h2 class="h2">Version History</h2>
       <article class="card stack">
+        <div class="section">
+          <h3 class="h3">v1.4</h3>
+          <ul class="list">
+            <li>Added Shared File Management feature set into Options -&gt; eMule AI -&gt; Share Tweaks, including Share Only The Need, Hide Overshares, PowerShare, default share permissions.</li>
+            <li>Added a new criteria-based auto-delete feature to Download Inspector, allowing old low-progress downloads to be logged or safely deleted based on configurable date and amount rules, with optional backup of deleted files&#8217; eD2k links.</li>
+            <li>Added Auto rename to majority name to Download Inspector, with a main toggle in Options and a per-download toggle in the Transfers context menu.</li>
+            <li>Added automatic IP filter updates in Options -&gt; Security, with an Auto update toggle and a configurable update period in days.</li>
+            <li>Improved the Connection options so disabling Upload limit or Download limit now preserves the last configured speed and restores it when the limit is enabled again.</li>
+            <li>Improved Shared Files and Search result context menus by grouping download-only actions in a dedicated section, and added the Download list&#8217;s Preview With submenu there for files already in the download list.</li>
+            <li>Improved the Search tab category buttons in Light mode by fixing a visual style inconsistency.</li>
+            <li>Improved Known Clients list responsiveness in very large client histories by avoiding unnecessary re-sorting during frequent active-client refreshes.</li>
+            <li>Merged gemini_translator.py and TranslationCompiler under ai_translator.py, added Local API support, and expanded the translator with many new working modes and options.</li>
+            <li>Fixed a rare crash that could occur while imported downloads were being hashed and stale sources were being removed from the Download Clients list.</li>
+            <li>Fixed a rare crash that could occur when the Download Clients list was refreshed while stale sources were being removed.</li>
+            <li>Fixed a rare crash that could occur while imported download data was being processed during AICH recovery and buffered disk writes.</li>
+            <li>Fixed a rare crash that could occur while adding many search results to the download list at once, especially under heavier UI and background activity.</li>
+            <li>Fixed a rare startup crash that could occur if eMuleAI was launched before the internet connection was fully available.</li>
+            <li>Fixed an issue where the Downloading Clients list could keep archived clients visible after their active download source was removed.</li>
+            <li>Fixed an issue where rows without a current request file could remain visible in the Downloading Clients list and cause empty file entries or invalid status bar redraws.</li>
+            <li>Fixed Downloading Clients and Obtained Parts progress bar rendering so status bars no longer bleed into neighboring columns or appear incorrectly gray in affected redraw cases.</li>
+            <li>Fixed an issue where the Downloads list could show gray text backgrounds after horizontal scrolling when the progress bar style was set to fully flat.</li>
+            <li>Fixed an issue where changing a client&#8217;s punishment in Known Clients did not immediately refresh the list or counter while the Bad Client filter was active.</li>
+            <li>Fixed the Transfers banned counter so IP and user-hash bans for the same client are no longer counted twice.</li>
+            <li>Fixed the issue where incorrect variables appeared in translations in some languages.</li>
+            <li>Fixed an issue where using Close All Search Results could leave Kad keyword searches running in the background and block starting the same keyword again.</li>
+            <li>Fixed an issue where .part.met.bak could be refreshed from the newly written .part.met, preventing the backup from rescuing downloads when the same save cycle went bad.</li>
+            <li>Fixed an issue where pressing ESC in the shared-files delete confirmation could still delete the selected files instead of cancelling.</li>
+            <li>Fixed the Client Details dialog by renaming the misleading &#8220;Average&#8221; upload/download rate labels to &#8220;Upload rate&#8221; and &#8220;Download rate&#8221; so they correctly reflect the displayed smoothed transfer rate.</li>
+          </ul>
+        </div>
+        <hr class="divider"/>
         <div class="section">
           <h3 class="h3">v1.3</h3>
           <ul class="list">
@@ -3123,7 +3155,6 @@
             </thead>
             <tbody style="font-size:0.92em">
               <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>cryptopp</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">8.9.0</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/weidai11/cryptopp" rel="noopener noreferrer" target="_blank">github.com/weidai11/cryptopp</a></td></tr>
-              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>id3lib</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">3.9.0</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/irwir/id3lib" rel="noopener noreferrer" target="_blank">github.com/irwir/id3lib</a></td></tr>
               <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>libmaxminddb</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">1.13.3</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/maxmind/libmaxminddb/" rel="noopener noreferrer" target="_blank">github.com/maxmind/libmaxminddb</a></td></tr>
               <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>libutp</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">#490874c@post-3.4-transmission</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/transmission/libutp/tree/post-3.4-transmission" rel="noopener noreferrer" target="_blank">github.com/transmission/libutp</a></td></tr>
               <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>mbedtls</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">4.0.0</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/Mbed-TLS/mbedtls" rel="noopener noreferrer" target="_blank">github.com/Mbed-TLS/mbedtls</a></td></tr>
@@ -3142,10 +3173,9 @@
 		<h2 class="h2">Acknowledgements</h2>
 		<article class="card">
 			<p>Many thanks to everyone who contributed to eMule over the years. Without their work, eMule AI would not have been possible.</p>
-			<p><strong>Developers:</strong> Merkur, John aka. Unknown1, Ornis, Bluecow, Tecxx, Pach2, Juanjo, Dirus, Barry, zz, Some Support,
-			fox88</p>
-			<p><strong>Modders:</strong> David Xanatos, Stulle, XMan, netfinity, WiZaRd, leuk_he, enkeyDev, SLUGFILLER, SiRoB, khaos, Enig123, TAHO,
-			Pretender, Mighty Knife, Ottavio84, Dolphin, sFrQlXeRt, evcz, cyrex2001, zz_fly, Slaham, Spike, shadow2004, gomez82, JvA, Pawcio,
+			<p><strong>Developers:</strong> Merkur, John aka. Unknown1, Ornis, Bluecow, Tecxx, Pach2, Juanjo, Dirus, Barry, zz, Some Support</p>
+			<p><strong>Modders:</strong> David Xanatos, Stulle, XMan, netfinity, WiZaRd, leuk_he, enkeyDev, SLUGFILLER, SiRoB, khaos, fox88, Enig123,
+			TAHO, Pretender, Mighty Knife, Ottavio84, Dolphin, sFrQlXeRt, evcz, cyrex2001, zz_fly, Slaham, Spike, shadow2004, gomez82, JvA, Pawcio,
 			lovelace, MoNKi, Avi3k, Commander, emulEspaña, Maella, VQB, J.C.Conner</p>
 			<p><strong>Testers:</strong> Sony, Monk, Myxin, Mr Ozon, Daan, Elandal, Frozen_North, kayfam, Khandurian, Masta2002, mrLabr, Nesi-San,
 			SeveredCross, Skynetman</p>
