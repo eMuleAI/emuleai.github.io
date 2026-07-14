@@ -616,7 +616,7 @@
         </article>
         <article class="mini-card">
           <h3 class="h3">Cross-Platform Access with Docker</h3>
-          <p>Use the official emuleai/emuleai Docker image to run eMule AI with Xpra desktop integration on Linux and macOS or noVNC browser access on headless Linux systems.</p>
+          <p>Use the official <code>emuleai/emuleai</code> Docker image on Windows, Linux, or macOS with the release launcher package. Xpra presents eMule AI as a separate desktop window while noVNC provides browser based VNaccess.</p>
         </article>
         <article class="mini-card">
           <h3 class="h3">Built for Large Libraries</h3>
@@ -2153,138 +2153,461 @@
       <article class="card">
         <h3 class="h3">Download the Latest Release</h3>
         <p>For current builds, packaged downloads, and versioned release notes, visit the <a href="https://github.com/eMuleAI/eMuleAI/releases" rel="noopener noreferrer" target="_blank">eMule AI Releases page on GitHub</a>. After downloading the release archive from GitHub, unzip it to any directory of your choice, then run eMule AI from that folder.</p>
-        <p>For Docker deployments, use the official <a href="https://hub.docker.com/r/emuleai/emuleai" rel="noopener noreferrer" target="_blank"><code>emuleai/emuleai</code> image on Docker Hub</a>. Linux and macOS users can use Xpra desktop integration while headless Linux systems can use noVNC browser access. See the <a href="#overview-docker">Docker Guide</a> below for installation, configuration, networking, update, and troubleshooting instructions.</p>
+        <p>For Docker deployments, download <code>eMuleAI_Docker_Package.zip</code> from the <a href="https://github.com/eMuleAI/eMuleAI/releases" rel="noopener noreferrer" target="_blank">eMule AI Releases page</a>. The package contains launchers for Windows, Linux, and macOS plus a shared configuration file. The launchers obtain the official <a href="https://hub.docker.com/r/emuleai/emuleai" rel="noopener noreferrer" target="_blank"><code>emuleai/emuleai</code> image from Docker Hub and start it with persistent storage and the selected display mode. See the <a href="#overview-docker">Docker Guide</a> below for the complete end-user procedure.</p>
       </article>
 
       <article class="card">
         <h3 class="h3">Supported Operating Systems</h3>
-        <p>Windows 10 and Windows 11 are supported natively. Linux and macOS are supported through Docker. See the <a href="#overview-docker">Docker Guide</a> for the supported display modes and setup instructions.</p>
+        <p>Windows 10 and Windows 11 are supported natively and can also run the Docker image. Linux and macOS are supported through Docker. See the <a href="#overview-docker">Docker Guide</a> for prerequisites, launcher instructions, display modes, persistent storage, and networking.</p>
       </article>
 
 
       <article class="card" id="overview-docker">
-        <h3 class="h3">Docker Guide</h3>
-        <p>The official eMule AI Docker image runs the Windows x64 release under Wine in a Linux <code>amd64</code> container. Xpra is the default display mode and presents the eMule AI window as a separate desktop window on Linux or macOS. noVNC provides browser access to the complete virtual desktop and is suitable for headless Linux systems.</p>
+        <h3 class="h3">Docker End-User Guide</h3>
+        <p>The official eMule AI Docker image runs the Windows x64 application under Wine in a Linux <code>amd64</code> container. The release package provides launchers for Windows, Linux, and macOS. The launchers download or update the image, create the container, mount persistent data, publish the selected ports, wait for the display service, and open the user interface.</p>
         <div class="callout">
-          <strong>Official image:</strong>
-          <a href="https://hub.docker.com/r/emuleai/emuleai" rel="noopener noreferrer" target="_blank"><code>emuleai/emuleai</code> on Docker Hub</a>
-        </div>
-
-        <div class="grid" style="margin-top:16px">
-          <article class="mini-card">
-            <h4 class="h3">Requirements</h4>
-            <ul class="list">
-              <li>Docker Engine with Docker Compose on Linux.</li>
-              <li>Docker Desktop on macOS or Windows.</li>
-              <li>An Xpra client when using the default desktop integration mode.</li>
-              <li>An x86-64 compatible runtime because the image targets <code>linux/amd64</code>.</li>
-            </ul>
-          </article>
-          <article class="mini-card">
-            <h4 class="h3">Xpra Desktop Integration</h4>
-            <p>The application appears as a separate host desktop window that can be moved, minimized, and managed alongside other windows. The interface is still rendered by the Windows application under Wine.</p>
-          </article>
-          <article class="mini-card">
-            <h4 class="h3">noVNC Browser Access</h4>
-            <p>The full virtual desktop is available in a browser without installing an Xpra client. This is the recommended mode for headless Linux devices.</p>
-          </article>
+          <strong>Downloads:</strong>
+          Get <code>eMuleAI_Docker_Package.zip</code> from the <a href="https://github.com/eMuleAI/eMuleAI/releases" rel="noopener noreferrer" target="_blank">eMule AI Releases page</a>. The official image is <a href="https://hub.docker.com/r/emuleai/emuleai" rel="noopener noreferrer" target="_blank"><code>emuleai/emuleai</code> on Docker Hub</a>.
         </div>
 
         <hr class="divider"/>
 
-        <h4 class="h3">Quick Start on Linux and macOS</h4>
-        <pre class="settings-definition-code"><code>cd Docker
-docker compose pull
-docker compose up -d</code></pre>
-        <p>Install an Xpra client on the host and attach with:</p>
-        <pre class="settings-definition-code"><code>./xpra-attach.sh</code></pre>
-        <p>The first startup generates a random 32-character password at <code>&lt;EMULEAI_DATA_DIR&gt;/xpra/password.txt</code>. A direct connection can also be made with:</p>
-        <pre class="settings-definition-code"><code>xpra attach tcp://127.0.0.1:14500 --password-file=/path/to/eMuleAI/xpra/password.txt</code></pre>
-        <p>On macOS, the Xpra graphical client can connect to <code>tcp://127.0.0.1:14500</code> and use the contents of <code>xpra/password.txt</code> when prompted.</p>
+        <h4 class="h3">1. Install the Required Applications</h4>
+        <div class="grid">
+          <article class="card">
+            <h3 class="h3">Docker</h3>
+            <p>Windows and macOS users should install <a href="https://www.docker.com/products/docker-desktop" rel="noopener noreferrer" target="_blank">Docker Desktop</a> and start it before running the launcher. Linux users need a working Docker Engine and Docker CLI. Docker Desktop for Linux can also be used.</p>
+          </article>
+          <article class="mini-card">
+            <h3 class="h3">Xpra</h3>
+            <p>Install an Xpra client from the <a href="https://github.com/Xpra-org/xpra/wiki/Download" rel="noopener noreferrer" target="_blank">official Xpra download page</a> when using <code>DISPLAY_MODE=xpra</code>. Xpra is not required when using <code>DISPLAY_MODE=novnc</code>.</p>
+          </article>
+        </div>
+        <p>Installer selection, platform requirements, permissions, upgrades, and application-specific troubleshooting may change over time. Please refer to the Docker and Xpra websites for the current details of those applications.</p>
+        <div class="callout" style="border-left-color:var(--warn)">
+          <strong>Windows:</strong> Docker Desktop must be running with Linux containers enabled. The Docker CLI must be available from Command Prompt.
+        </div>
 
-        <h4 class="h3" style="margin-top:18px">Quick Start on Windows</h4>
-        <p>Start Docker Desktop in Linux container mode, then run:</p>
-        <pre class="settings-definition-code"><code>Docker\run.bat</code></pre>
-        <p>The script uses Xpra by default and stores persistent data in <code>%LOCALAPPDATA%\eMuleAI</code>. A different data directory and display mode can be supplied:</p>
-        <pre class="settings-definition-code"><code>Docker\run.bat "D:\eMuleAI-Docker-Data" novnc</code></pre>
+        <h4 class="h3" style="margin-top:20px">2. Download and Extract the Launcher Package</h4>
+        <ol class="list">
+          <li>Open the <a href="https://github.com/eMuleAI/eMuleAI/releases" rel="noopener noreferrer" target="_blank">eMule AI Releases page</a>.</li>
+          <li>Download <code>eMuleAI_Docker_Package.zip</code> from the selected release.</li>
+          <li>Extract the ZIP to a normal writable directory. Do not run the scripts from inside the ZIP viewer.</li>
+          <li>Keep these four files together in the extracted directory:</li>
+        </ol>
+        <pre class="settings-definition-code"><code>eMuleAI.conf
+Windows.bat
+Linux.sh
+macOS.command</code></pre>
 
-        <h4 class="h3" style="margin-top:18px">Use noVNC Instead</h4>
-        <p>Create <code>Docker/.env</code> with <code>DISPLAY_MODE=novnc</code>, recreate the container, then open the local browser URL:</p>
-        <pre class="settings-definition-code"><code>docker compose up -d --force-recreate
+        <h4 class="h3" style="margin-top:20px">3. Edit <code>eMuleAI.conf</code></h4>
+        <p>Open <code>eMuleAI.conf</code> in a plain-text editor. It uses <code>KEY=value</code> syntax with no spaces around the equals sign. Lines beginning with <code>#</code> are comments. All launchers read the same file.</p>
+        <p>The default configuration is suitable for a normal local Xpra installation. Review at least the following settings before the first run:</p>
+        <pre class="settings-definition-code"><code>IMAGE_SOURCE=registry
+REGISTRY_IMAGE=emuleai/emuleai
+REGISTRY_TAG=latest
+DISPLAY_MODE=xpra
+XPRA_PASSWORD=emuleai
+RESTART_POLICY=no
 
-http://localhost:6080/vnc.html?autoconnect=1&amp;resize=scale</code></pre>
+DATA_DIR_WINDOWS={LOCALAPPDATA}\eMuleAI
+DATA_DIR_LINUX=$HOME/.local/share/eMuleAI
+DATA_DIR_MACOS=$HOME/Library/Application Support/eMuleAI
 
-        <details class="settings-sub-block" style="margin-top:18px">
-          <summary>Configuration and Persistent Data</summary>
-          <div class="settings-block-body">
-            <p>Create <code>Docker/.env</code> to override defaults:</p>
-            <pre class="settings-definition-code"><code>DISPLAY_MODE=xpra
-XPRA_PORT=14500
-NOVNC_PORT=6080
 EMULE_TCP_PORT=4662
 EMULE_UDP_PORT=4672
-DISPLAY_WIDTH=1280
-DISPLAY_HEIGHT=800
-DISPLAY_DEPTH=24
-EMULEAI_DATA_DIR=/home/alice/eMuleAI</code></pre>
-            <p>A macOS data path can use <code>EMULEAI_DATA_DIR=/Users/alice/eMuleAI</code>. A fixed Xpra password can be supplied with <code>XPRA_PASSWORD</code>, although the generated persistent password is recommended. Do not commit passwords to the repository.</p>
-            <p>The container stores <code>config</code>, <code>Incoming</code>, <code>Temp</code>, <code>logs</code>, <code>wineprefix</code>, and <code>xpra</code> under <code>/data</code>.</p>
+XPRA_CANVAS_WIDTH=7680
+XPRA_CANVAS_HEIGHT=4320</code></pre>
+        <ul class="list">
+          <li>Keep <code>IMAGE_SOURCE=registry</code> for normal release use.</li>
+          <li>Use <code>DISPLAY_MODE=xpra</code> for a separate desktop window or <code>DISPLAY_MODE=novnc</code> for browser access.</li>
+          <li>Choose an operating-system-specific <code>DATA_DIR_*</code> path with enough free space. This directory preserves configuration, downloads, temporary files, logs, the Wine prefix, and Xpra data.</li>
+          <li>Keep <code>XPRA_CANVAS_WIDTH</code> and <code>XPRA_CANVAS_HEIGHT</code> at least as large as the complete host desktop. The defaults cover common multi-monitor and ultrawide layouts.</li>
+          <li>Change <code>XPRA_PASSWORD</code> when display access will not be limited to the local computer.</li>
+        </ul>
+
+        <h4 class="h3" style="margin-top:20px">4. Run the Correct Script</h4>
+        <div class="grid">
+          <article class="mini-card">
+            <h3 class="h3">Windows</h3>
+            <p>Start Docker Desktop. Then double-click <code>Windows.bat</code> or run it from Command Prompt:</p>
+            <pre class="settings-definition-code"><code>Windows.bat</code></pre>
+          </article>
+          <article class="mini-card">
+            <h3 class="h3">Linux</h3>
+            <p>Open a terminal in the extracted directory. Restore execute permission if necessary, then run:</p>
+            <pre class="settings-definition-code"><code>chmod +x Linux.sh
+./Linux.sh</code></pre>
+          </article>
+          <article class="mini-card">
+            <h3 class="h3">macOS</h3>
+            <p>Start Docker Desktop. Open Terminal in the extracted directory. Restore execute permission if necessary, then run:</p>
+            <pre class="settings-definition-code"><code>chmod +x macOS.command
+./macOS.command</code></pre>
+          </article>
+        </div>
+
+        <h4 class="h3" style="margin-top:20px">5. What the Launcher Does</h4>
+        <ol class="list">
+          <li>Checks that Docker is installed and the Docker engine is running.</li>
+          <li>Reads and validates every setting in <code>eMuleAI.conf</code>.</li>
+          <li>Creates the selected persistent data directory.</li>
+          <li>When <code>IMAGE_SOURCE=registry</code>, checks <code>REGISTRY_IMAGE:REGISTRY_TAG</code> on Docker Hub. If the local image is current, Docker reuses the existing layers. If a newer image exists, Docker downloads the changed layers and updates the local tag.</li>
+          <li>Removes the existing container with the configured <code>CONTAINER_NAME</code>, then creates a replacement using the selected image. Persistent data is retained because it is stored outside the container.</li>
+          <li>Waits until the container and selected display service are ready.</li>
+          <li>When Xpra is selected and <code>AUTO_ATTACH_XPRA=yes</code>, starts the installed Xpra client automatically.</li>
+          <li>When <code>CLEAN_OLD_IMAGES=yes</code>, removes older image tags and unused image IDs only after the replacement container starts successfully.</li>
+        </ol>
+        <div class="callout" style="border-left-color:var(--ok)">
+          <strong>Updating eMule AI:</strong> Run the same operating-system script again. No separate <code>docker pull</code> command is needed in registry mode.
+        </div>
+
+        <h4 class="h3" style="margin-top:20px">6. Open the Interface</h4>
+        <div class="grid">
+          <article class="mini-card">
+            <h3 class="h3">Xpra Mode</h3>
+            <p>With <code>DISPLAY_MODE=xpra</code>, the launcher connects to <code>tcp://127.0.0.1:14500</code> by default and opens eMule AI as a separate desktop window. The port, username, password, client path, Windows backend, and scaling behavior are configurable.</p>
+          </article>
+          <article class="mini-card">
+            <h3 class="h3">noVNC Mode</h3>
+            <p>With <code>DISPLAY_MODE=novnc</code>, open the URL printed by the launcher. With default settings it is:</p>
+            <pre class="settings-definition-code"><code>http://127.0.0.1:6080/vnc.html?autoconnect=1&amp;resize=scale</code></pre>
+          </article>
+        </div>
+
+        <h4 class="h3" style="margin-top:20px">7. Stop and Start Later</h4>
+        <ul class="list">
+          <li>Close eMule AI normally from its application window. With the default <code>RESTART_POLICY=no</code>, the container remains stopped.</li>
+          <li>Run the operating-system launcher again to start a fresh container using the same persistent data.</li>
+          <li>To stop it from a terminal, use <code>docker stop eMuleAI</code> when the default container name is unchanged.</li>
+          <li>Do not use the same data directory simultaneously with a native eMule AI instance or another container.</li>
+        </ul>
+
+        <details class="settings-sub-block" style="margin-top:18px" open>
+          <summary>Ports, High ID, and Remote Access</summary>
+          <div class="settings-block-body">
+            <p>The default eMule ports are <code>4662/TCP</code> and <code>4672/UDP</code>. For High ID, the values configured in <code>eMuleAI.conf</code>, the ports configured inside eMule AI, and the ports forwarded by the router should match:</p>
+            <pre class="settings-definition-code"><code>EMULE_TCP_PORT=4662   -&gt; router 4662/TCP
+EMULE_UDP_PORT=4672   -&gt; router 4672/UDP</code></pre>
+            <p>The launcher maps each host port to the same container port. Avoid translating a different host port to the eMule port because eMule announces its configured listening port to peers.</p>
+            <p><code>DISPLAY_BIND_ADDRESS=127.0.0.1</code> keeps Xpra or noVNC local to the computer. Publishing a display service on <code>0.0.0.0</code> exposes it to other network interfaces and should only be done with appropriate network restrictions, authentication, and transport protection.</p>
+          </div>
+        </details>
+
+        <details class="settings-sub-block" style="margin-top:14px">
+          <summary>Persistent Data Layout</summary>
+          <div class="settings-block-body">
+            <p>The selected operating-system data directory is mounted as <code>/data</code> in the container. It contains:</p>
             <ul class="list">
-              <li><strong>Windows through run.bat:</strong> <code>%LOCALAPPDATA%\eMuleAI</code></li>
-              <li><strong>Linux and macOS through Compose:</strong> <code>Docker/data/eMuleAI</code></li>
+              <li><code>config</code>: eMule AI configuration and state files.</li>
+              <li><code>Incoming</code>: completed downloads.</li>
+              <li><code>Temp</code>: incomplete downloads and part files.</li>
+              <li><code>logs</code>: eMule AI logs.</li>
+              <li><code>wineprefix</code>: persistent Wine environment.</li>
+              <li><code>xpra</code>: Xpra authentication and related data.</li>
             </ul>
-            <p>Do not run a native eMule AI instance and the container against the same data directory at the same time.</p>
-            <div class="callout">
-              <strong>Docker Desktop Run dialog:</strong> The image Run dialog does not read <code>compose.yaml</code>. Bind a host directory to <code>/data</code> manually. On Windows, map <code>C:\Users\&lt;user&gt;\AppData\Local\eMuleAI</code> to <code>/data</code>. Compose or <code>run.bat</code> is recommended.
+            <p>Replacing or updating the container does not remove this directory. Back it up according to your normal data-protection policy.</p>
+          </div>
+        </details>
+
+        <details class="settings-sub-block" style="margin-top:14px">
+          <summary>Troubleshooting</summary>
+          <div class="settings-block-body">
+            <p>First confirm that Docker is running and that the selected display port is not already used by another application. Useful commands with the default container name are:</p>
+            <pre class="settings-definition-code"><code>docker ps -a --filter name=eMuleAI
+docker logs eMuleAI
+docker port eMuleAI
+docker inspect eMuleAI</code></pre>
+            <p>For Xpra problems, confirm that the host Xpra client is installed and that <code>XPRA_CLIENT_EXE_WINDOWS</code>, <code>XPRA_CLIENT_EXE_LINUX</code>, or <code>XPRA_CLIENT_EXE_MACOS</code> points to the correct executable when automatic detection does not find it.</p>
+            <p>For pointer alignment or moved-window click problems on Windows, keep <code>XPRA_CLIENT_BACKEND_WINDOWS=gtk</code>, <code>XPRA_DESKTOP_SCALING=off</code>, and ensure the Xpra canvas is at least as large as the complete Windows desktop.</p>
+            <p>For noVNC problems, verify the printed browser URL and the configured <code>NOVNC_PORT</code>.</p>
+          </div>
+        </details>
+
+        <hr class="divider"/>
+        <h4 class="h3">Complete <code>eMuleAI.conf</code> Reference</h4>
+        <p>The descriptions below match the shared configuration file included in <code>eMuleAI_Docker_Package.zip</code>.</p>
+
+        <details class="settings-sub-block" style="margin-top:14px" open>
+          <summary>Image and Container Settings</summary>
+          <div class="settings-block-body">
+            <div class="card" style="padding:0; overflow:hidden">
+              <table class="pretty-table" style="width:100%; border-collapse:collapse">
+                <colgroup><col style="width:28%"/><col style="width:20%"/><col style="width:52%"/></colgroup>
+                <thead>
+                  <tr style="background:var(--muted-surface)">
+                    <th style="padding:10px; border-bottom:1px solid var(--border); width:28%">Key</th>
+                    <th style="padding:10px; border-bottom:1px solid var(--border); width:20%">Default / Values</th>
+                    <th style="padding:10px; border-bottom:1px solid var(--border); width:52%">Purpose</th>
+                  </tr>
+                </thead>
+                <tbody style="font-size:0.92em">
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>IMAGE_SOURCE</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">registry</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>registry</code> or <code>local</code>. <code>registry</code> checks Docker Hub on every launcher run. <code>local</code> uses an image that already exists on the computer and does not contact Docker Hub.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>REGISTRY_IMAGE</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">emuleai/emuleai</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Docker Hub repository used when <code>IMAGE_SOURCE=registry</code>. Normal users should keep the official repository.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>REGISTRY_TAG</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">latest</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Docker Hub tag to use. <code>latest</code> is recommended for the current stable release. A published version tag can be used to stay on a specific release.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>LOCAL_IMAGE</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">emuleai/emuleai</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Repository name used when <code>IMAGE_SOURCE=local</code>. The image must already exist locally.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>LOCAL_TAG</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">local</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Tag used when <code>IMAGE_SOURCE=local</code>. The image must already exist locally with this tag.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>CLEAN_OLD_IMAGES</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">yes</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>yes</code> removes older tags and unused image IDs from the selected repository after the new container starts successfully. <code>no</code> keeps them.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>CONTAINER_NAME</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">eMuleAI</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Name assigned to the container. Change it only when intentionally running a separately configured container.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>PLATFORM</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">linux/amd64</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Docker target platform. Keep <code>linux/amd64</code> for the published eMule AI image.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>SHM_SIZE</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">256m</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Shared-memory size assigned to the container. Docker size suffixes such as <code>m</code> and <code>g</code> are accepted, for example <code>256m</code> or <code>1g</code>.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>RESTART_POLICY</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">no</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Docker restart policy. <code>no</code> keeps eMule AI closed after the application exits. Other Docker values include <code>unless-stopped</code>, <code>always</code>, and <code>on-failure</code>.</td>
+                </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </details>
 
         <details class="settings-sub-block" style="margin-top:14px">
-          <summary>Ports, High ID, and Display Settings</summary>
+          <summary>Persistent Data and Container User Settings</summary>
           <div class="settings-block-body">
-            <p>The default eMule AI ports are <code>4662/TCP</code> and <code>4672/UDP</code>. Custom values can be set with <code>EMULE_TCP_PORT</code> and <code>EMULE_UDP_PORT</code>.</p>
-            <p>For High ID, the host port, container port, router forwarding, and port configured inside eMule AI must use the same value:</p>
-            <pre class="settings-definition-code"><code>33501/tcp -&gt; 33501/tcp
-33501/udp -&gt; 33501/udp</code></pre>
-            <p>Mappings such as <code>33501:4662</code> normally result in Low ID because peers receive the port announced by eMule AI rather than Docker's external translation.</p>
-            <p>The default virtual display is <code>1280x800x24</code>. Width and height accept values from <code>320</code> through <code>8192</code>. Depth accepts <code>16</code> or <code>24</code>. Invalid values independently fall back to <code>1280</code>, <code>800</code>, or <code>24</code>.</p>
-            <pre class="settings-definition-code"><code>DISPLAY_WIDTH=1024
-DISPLAY_HEIGHT=768
-DISPLAY_DEPTH=16</code></pre>
-            <p>Xpra and noVNC ports are configurable with <code>XPRA_PORT</code> and <code>NOVNC_PORT</code>. Compose binds them to <code>127.0.0.1</code>. Do not expose display ports publicly without appropriate transport security and access controls.</p>
+            <div class="card" style="padding:0; overflow:hidden">
+              <table class="pretty-table" style="width:100%; border-collapse:collapse">
+                <colgroup><col style="width:28%"/><col style="width:20%"/><col style="width:52%"/></colgroup>
+                <thead>
+                  <tr style="background:var(--muted-surface)">
+                    <th style="padding:10px; border-bottom:1px solid var(--border); width:28%">Key</th>
+                    <th style="padding:10px; border-bottom:1px solid var(--border); width:20%">Default / Values</th>
+                    <th style="padding:10px; border-bottom:1px solid var(--border); width:52%">Purpose</th>
+                  </tr>
+                </thead>
+                <tbody style="font-size:0.92em">
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>DATA_DIR_WINDOWS</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">{LOCALAPPDATA}\eMuleAI</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Persistent data directory used by <code>Windows.bat</code>. Supported leading placeholders are <code>{LOCALAPPDATA}</code>, <code>{USERPROFILE}</code>, <code>{PROGRAMFILES}</code>, and <code>{PROGRAMFILESX86}</code>.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>DATA_DIR_LINUX</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">$HOME/.local/share/eMuleAI</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Persistent data directory used by <code>Linux.sh</code>. <code>$HOME</code> and <code>${HOME}</code> are expanded.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>DATA_DIR_MACOS</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">$HOME/Library/Application Support/eMuleAI</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Persistent data directory used by <code>macOS.command</code>. <code>$HOME</code> and <code>${HOME}</code> are expanded. Spaces in the path are supported.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>PUID_WINDOWS</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">1000</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Container user ID on Windows. Use a non-negative integer. <code>auto</code> resolves to <code>1000</code>.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>PGID_WINDOWS</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">1000</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Container group ID on Windows. Use a non-negative integer. <code>auto</code> resolves to <code>1000</code>.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>PUID_LINUX</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">auto</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>auto</code> matches the current Linux host user ID. A non-negative integer can be specified manually.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>PGID_LINUX</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">auto</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>auto</code> matches the current Linux host group ID. A non-negative integer can be specified manually.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>PUID_MACOS</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">auto</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>auto</code> matches the current macOS host user ID. A non-negative integer can be specified manually.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>PGID_MACOS</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">auto</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>auto</code> matches the current macOS host group ID. A non-negative integer can be specified manually.</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </details>
 
         <details class="settings-sub-block" style="margin-top:14px">
-          <summary>Stop, Update, Build, and Publish</summary>
+          <summary>Display and Network Settings</summary>
           <div class="settings-block-body">
-            <p>Stop without deleting persistent data:</p>
-            <pre class="settings-definition-code"><code>docker compose down</code></pre>
-            <p>Pull and recreate the latest published image:</p>
-            <pre class="settings-definition-code"><code>docker compose pull
-docker compose up -d --force-recreate</code></pre>
-            <h5 class="settings-entry-title" style="margin-top:16px">Maintainer image build</h5>
-            <p>On the Windows release machine, run <code>Docker\dockerize.bat</code>. The script reads <code>ProductVersion</code> from the selected x64 executable and defaults to <code>..\_Build\eMuleAI\Release\x64\eMuleAI.exe</code>.</p>
-            <pre class="settings-definition-code"><code>Docker\dockerize.bat "D:\path\to\eMuleAI.exe" local
-Docker\dockerize.bat "D:\path\to\eMuleAI.exe" publish</code></pre>
-            <p>Local mode creates the exact version tag and <code>emuleai/emuleai:local</code>. Stable publication creates the exact version, matching major/minor, and <code>latest</code> tags. Prerelease publication creates only the exact prerelease tag.</p>
+            <div class="card" style="padding:0; overflow:hidden">
+              <table class="pretty-table" style="width:100%; border-collapse:collapse">
+                <colgroup><col style="width:28%"/><col style="width:20%"/><col style="width:52%"/></colgroup>
+                <thead>
+                  <tr style="background:var(--muted-surface)">
+                    <th style="padding:10px; border-bottom:1px solid var(--border); width:28%">Key</th>
+                    <th style="padding:10px; border-bottom:1px solid var(--border); width:20%">Default / Values</th>
+                    <th style="padding:10px; border-bottom:1px solid var(--border); width:52%">Purpose</th>
+                  </tr>
+                </thead>
+                <tbody style="font-size:0.92em">
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>DISPLAY_MODE</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">xpra</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>xpra</code> opens eMule AI as a separate desktop window. <code>novnc</code> exposes the complete virtual desktop in a web browser.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>DISPLAY_BIND_ADDRESS</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">127.0.0.1</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Host address used to publish Xpra or noVNC. <code>127.0.0.1</code> limits display access to the local computer. Use <code>0.0.0.0</code> only when remote access is intentionally required and properly protected.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>DISPLAY_CONNECT_ADDRESS</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">127.0.0.1</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Address used by the launcher and local Xpra client to connect to the display service. Normally <code>127.0.0.1</code>.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>EMULE_BIND_ADDRESS</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">0.0.0.0</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Host address used to publish the eMule TCP and UDP ports. <code>0.0.0.0</code> accepts connections on all host network interfaces.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>XPRA_PORT</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">14500</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Xpra TCP port. Valid range: <code>1-65535</code>.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>NOVNC_PORT</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">6080</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">noVNC HTTP port. Valid range: <code>1-65535</code>.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>EMULE_TCP_PORT</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">4662</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">eMule TCP listening port. Valid range: <code>1-65535</code>. The router-forwarded port and the port configured inside eMule AI should match this value.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>EMULE_UDP_PORT</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">4672</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">eMule UDP listening port. Valid range: <code>0-65535</code>. Use <code>0</code> to disable the UDP mapping.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>DISPLAY_WIDTH</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">1280</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">noVNC virtual desktop width. Valid range: <code>320-8192</code>.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>DISPLAY_HEIGHT</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">800</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">noVNC virtual desktop height. Valid range: <code>320-8192</code>.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>XPRA_CANVAS_WIDTH</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">7680</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Xpra seamless coordinate-space width. Keep it at least as wide as the complete host desktop. Valid range: <code>320-8192</code>.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>XPRA_CANVAS_HEIGHT</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">4320</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Xpra seamless coordinate-space height. Keep it at least as tall as the complete host desktop. Valid range: <code>320-8192</code>.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>DISPLAY_DEPTH</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">24</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Virtual display color depth. Supported values: <code>16</code> or <code>24</code>.</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </details>
 
         <details class="settings-sub-block" style="margin-top:14px">
-          <summary>Diagnostics and Package Information</summary>
+          <summary>Xpra Client Settings</summary>
           <div class="settings-block-body">
-            <pre class="settings-definition-code"><code>docker logs emuleai
-docker compose config
-docker stats emuleai</code></pre>
-            <p>Display service logs are available at <code>/tmp/xvfb.log</code>, <code>/tmp/x11vnc.log</code>, <code>/tmp/websockify.log</code>, <code>/tmp/xpra.log</code>, and <code>/tmp/wineboot.log</code> inside the container.</p>
-            <p>Wine, Xpra, noVNC, and other runtime components are installed as distribution packages. Their package metadata and license or copyright files remain available under <code>/usr/share/doc</code> in the image.</p>
-            <pre class="settings-definition-code"><code>docker scout sbom --format list emuleai/emuleai:latest</code></pre>
+            <div class="card" style="padding:0; overflow:hidden">
+              <table class="pretty-table" style="width:100%; border-collapse:collapse">
+                <colgroup><col style="width:28%"/><col style="width:20%"/><col style="width:52%"/></colgroup>
+                <thead>
+                  <tr style="background:var(--muted-surface)">
+                    <th style="padding:10px; border-bottom:1px solid var(--border); width:28%">Key</th>
+                    <th style="padding:10px; border-bottom:1px solid var(--border); width:20%">Default / Values</th>
+                    <th style="padding:10px; border-bottom:1px solid var(--border); width:52%">Purpose</th>
+                  </tr>
+                </thead>
+                <tbody style="font-size:0.92em">
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>XPRA_PASSWORD</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">emuleai</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Password used for Xpra authentication. Change it before allowing Xpra access beyond localhost. Line breaks are not allowed.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>XPRA_USERNAME</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">emuleai</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Username included in the Xpra connection URL.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>AUTO_ATTACH_XPRA</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">yes</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>yes</code> starts the installed Xpra client automatically after the container is ready. <code>no</code> starts only the container.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>XPRA_CLIENT_EXE_WINDOWS</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">empty</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Optional full path to <code>Xpra.exe</code> on Windows. Leave empty for automatic detection. Windows path placeholders supported by <code>DATA_DIR_WINDOWS</code> can also be used.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>XPRA_CLIENT_EXE_LINUX</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">empty</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Optional full path to the Xpra client on Linux. Leave empty to search <code>PATH</code>. <code>$HOME</code> and <code>${HOME}</code> are supported.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>XPRA_CLIENT_EXE_MACOS</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">empty</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Optional full path to the Xpra executable on macOS. Leave empty for automatic application and <code>PATH</code> detection. <code>$HOME</code> and <code>${HOME}</code> are supported.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>XPRA_CLIENT_BACKEND_WINDOWS</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">gtk</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Windows Xpra client backend. Values: <code>gtk</code>, <code>win32</code>, or <code>auto</code>. <code>gtk</code> avoids known pointer-coordinate problems in the experimental native backend.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)"><code>XPRA_DESKTOP_SCALING</code></td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">off</td>
+                  <td style="padding:10px; border-bottom:1px solid var(--border)">Xpra client desktop scaling. Values: <code>off</code>, <code>on</code>, or <code>auto</code>. <code>off</code> keeps window and pointer coordinates at a 1:1 ratio.</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </details>
       </article>
-
 		<article class="card">
 			<h3 class="h3">Optional External Resources</h3>
 			<p>Some features require user-supplied external files such as <code>server.met</code>, <code>nodes.dat</code>,
@@ -2747,7 +3070,7 @@ docker stats emuleai</code></pre>
         <div class="section">
           <h3 class="h3">v1.5.1</h3>
           <ul class="list">
-            <li>Added Docker support with the official emuleai/emuleai image on Docker Hub so Linux and macOS users can run eMule AI with Xpra desktop integration or access it through a browser with noVNC on headless Linux systems.</li>
+            <li>Added Docker support with the official emuleai/emuleai image and a shared launcher package for Windows, Linux, and macOS, with Xpra desktop integration or noVNC browser access.</li>
             <li>Fixed an issue where the Saving Downloads overlay could remain stuck after adding eD2K links from the clipboard and prevent eMule AI from closing.</li>
             <li>Fixed an issue that could incorrectly punish eMule Qt clients as using a fake eMule AI version.</li>
           </ul>
@@ -2956,7 +3279,7 @@ docker stats emuleai</code></pre>
       <article class="card stack">
         <div class="section"><h3 class="h3">QUIC NAT-T Transport</h3><p>QUIC is now the primary NAT Traversal data protocol for compatible peers. Direct capability negotiation selects QUIC when available and automatically falls back to uTP for compatibility.</p></div>
         <hr class="divider"/>
-        <div class="section"><h3 class="h3">Docker Support for Linux and macOS</h3><p>Use the official emuleai/emuleai image on Docker Hub to run eMule AI with Xpra desktop integration on Linux and macOS or noVNC browser access on headless Linux systems.</p></div>
+        <div class="section"><h3 class="h3">Docker Support for Windows, Linux, and macOS</h3><p>Use the official emuleai/emuleai image with the release launcher package and shared configuration file. Xpra provides a separate desktop window while noVNC provides browser access.</p></div>
         <hr class="divider"/>
         <div class="section"><h3 class="h3">Upload Settings</h3><p>A dedicated settings group controls high-bandwidth slot targets, elastic overflow, slow and inactive slot recycling, low-ratio queue assistance, session transfer and time limits, and adaptive download write buffering.</p></div>
         <hr class="divider"/>
