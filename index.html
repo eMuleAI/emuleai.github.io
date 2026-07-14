@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>eMule AI</title>
-<meta content="Unified eMule AI documentation, QUIC-first NAT Traversal guide, release notes, settings reference, and support hub." name="description"/>
+<meta content="Unified eMule AI documentation, NAT Traversal & uTP guide, release notes, and support hub." name="description"/>
 <meta content="eMule AI" property="og:title"/>
 <meta content="https://emuleai.github.io/eMuleAI/eMuleAI_banner.png" property="og:image"/>
 <meta content="#111827" name="theme-color"/>
@@ -550,6 +550,7 @@
         <a href="#overview-introduction">Introduction</a>
         <a href="#overview-highlights">Highlights</a>
         <a href="#overview-downloads">Download &amp; Installation</a>
+        <a href="#overview-docker">Docker Guide</a>
         <a href="#overview-migration">Migration &amp; Configuration</a>
         <a href="#overview-credits">Credits FAQ</a>
         <a href="#overview-id">High ID vs Low ID</a>
@@ -561,13 +562,12 @@
       <div class="toc-links" id="toc-settings">
         <a href="#settings-overview">Overview</a>
         <a href="#settings-emule-ai">eMule AI</a>
-        <a href="#settings-connection">Connection &amp; Notifications</a>
         <a href="#settings-protection-panel">Protection Panel</a>
         <a href="#settings-blacklist-panel">Blacklist Panel</a>
       </div>
     </div>
     <div class="toc-group" data-group="nat">
-      <button aria-controls="toc-nat" aria-expanded="false" class="toc-trigger" type="button">NAT Traversal (NAT-T)</button>
+      <button aria-controls="toc-nat" aria-expanded="false" class="toc-trigger" type="button">NAT Traversal (NAT-T) &amp; uTP</button>
       <div class="toc-links" id="toc-nat">
         <a href="#nat-what-it-is">What it is</a>
         <a href="#nat-how-it-works">How it works</a>
@@ -602,7 +602,7 @@
     <section data-nav-group="overview" id="overview-introduction">
       <h2 class="h2">Introduction</h2>
       <article class="card">
-        <p>eMule AI focuses on making the client more capable on modern networks through QUIC-first NAT Traversal with uTP fallback, IPv6 support, safer network binding, high-scale background processing, and a broad set of quality-of-life improvements.</p>
+        <p>eMule AI focuses on making the client more capable on modern networks through features such as NAT Traversal, uTP, IPv6 support, better list performance, and a broad set of quality-of-life improvements.</p>
         <p>This page brings together the key information around the project: an overview of the client, technical guidance for advanced connectivity features, release notes for recent work, and support sections that help users get started and troubleshoot effectively.</p>
       </article>
     </section>
@@ -612,7 +612,12 @@
       <div class="overview-grid">
         <article class="mini-card">
           <h3 class="h3">Modern Connectivity</h3>
-          <p>QUIC is the preferred NAT Traversal transfer protocol, with uTP retained as a compatibility fallback. Kad Buddy and eServer Buddy signaling, IPv6 handling, bind controls, IP Guard, and stronger diagnostics improve connectivity on difficult networks.</p>
+          <p>NAT Traversal, uTP, eServer Buddy relay support, IPv6 handling, and stronger diagnostics improve connectivity in difficult network conditions.</p>
+        </article>
+        <article class="mini-card">
+          <h3 class="h3">Cross-Platform Access with Docker</h3>
+          <p>Use the official emuleai/emuleai Docker image to run eMule AI with Xpra desktop integration on Linux and macOS or noVNC browser access on headless Linux systems.</p>
+          <p><a href="#overview-docker">Open the Docker Guide</a></p>
         </article>
         <article class="mini-card">
           <h3 class="h3">High-Scale Performance</h3>
@@ -636,27 +641,11 @@
         </article>
         <article class="mini-card">
           <h3 class="h3">Shared Files Automation</h3>
-          <p>Threaded shared-file reloads, background file watching, startup caches, safer intake filtering, and automatic subdirectory sharing reduce manual maintenance and keep large libraries current.</p>
+          <p>Threaded shared-file reloads, background file watching, and automatic subdirectory sharing reduce manual maintenance and keep libraries current.</p>
         </article>
         <article class="mini-card">
           <h3 class="h3">Download Safety</h3>
-          <p>Download Validator, richer source handling, and quality-oriented controls help prevent duplicates, reduce noise, and improve everyday file management.</p>
-        </article>
-        <article class="mini-card">
-          <h3 class="h3">QUIC-First Transfers</h3>
-          <p>Compatible firewalled peers use QUIC over UDP for the main NAT-T data path. Capability negotiation automatically falls back to uTP when QUIC is unavailable or uTP-only mode is selected.</p>
-        </article>
-        <article class="mini-card">
-          <h3 class="h3">Responsive Startup &amp; Shutdown</h3>
-          <p>Parallel loading, startup and exit progress overlays, list operation status boxes, and safer asynchronous saving keep long operations visible without freezing the interface.</p>
-        </article>
-        <article class="mini-card">
-          <h3 class="h3">High-Bandwidth Upload Control</h3>
-          <p>Dedicated upload settings add adaptive slot targets, slow or inactive slot recycling, controlled session rotation, low-ratio queue assistance, and adaptive download write buffering.</p>
-        </article>
-        <article class="mini-card">
-          <h3 class="h3">Network Binding &amp; IP Guard</h3>
-          <p>Bind eMule AI to an adapter or local address, optionally verify allowed public IP ranges, randomize listen ports at startup, and maintain Windows Firewall rules for the active ports.</p>
+          <p>Download Checker, richer source handling, and quality-oriented controls help prevent duplicates, reduce noise, and improve everyday file management.</p>
         </article>
         <article class="mini-card">
           <h3 class="h3">Diagnostics &amp; Tools</h3>
@@ -664,7 +653,7 @@
         </article>
         <article class="mini-card">
           <h3 class="h3">Built-In Language Support</h3>
-          <p>Integrated language resources for 116 languages reduce setup friction and make the client more accessible across a wide range of users.</p>
+          <p>Integrated language resources for 100+ languages reduce setup friction and make the client more accessible across a wide range of users.</p>
         </article>
         <article class="mini-card">
           <h3 class="h3">Workflow Improvements</h3>
@@ -769,13 +758,13 @@
               </div>
             </details>
             <details class="settings-sub-block" data-exclusive-group="settings-emule-ai">
-              <summary>IP Geolocation</summary>
+              <summary>GeoLite2</summary>
               <div class="settings-block-body">
                 <p class="section-intro">Provides information about the location of a server / client</p>
                 <div class="settings-flow">
 <article class="settings-entry">
   <h5 class="settings-entry-title">Disable</h5>
-  <p class="settings-entry-copy">Disable IP Geolocation</p>
+  <p class="settings-entry-copy">Disable GeoLite2</p>
 </article>
 <article class="settings-entry">
   <h5 class="settings-entry-title">Show country code</h5>
@@ -793,24 +782,6 @@
   <h5 class="settings-entry-title">Show Flags</h5>
   <p class="settings-entry-copy">Show country flags</p>
 </article>
-<section class="settings-subsection">
-  <h5 class="settings-subtitle">Auto update</h5>
-  <p class="settings-subcopy">Automatically downloads and reloads the DB-IP City Lite database.</p>
-  <div class="settings-children">
-<article class="settings-entry">
-  <h5 class="settings-entry-title">Update URL</h5>
-  <p class="settings-entry-copy">URL template used to download the DB-IP City Lite MMDB archive. <code>%Y</code> and <code>%m</code> are replaced with the current UTC year and month.</p>
-</article>
-<article class="settings-entry">
-  <h5 class="settings-entry-title">Update period (days)</h5>
-  <p class="settings-entry-copy">Number of days between automatic IP geolocation update checks.</p>
-</article>
-<article class="settings-entry">
-  <h5 class="settings-entry-title">Update now</h5>
-  <p class="settings-entry-copy">Downloads and installs the configured geolocation database immediately.</p>
-</article>
-  </div>
-</section>
                 </div>
               </div>
             </details>
@@ -834,38 +805,24 @@
   </div>
 </section>
 <section class="settings-subsection">
-  <h5 class="settings-subtitle">Enable NAT Traversal (NAT-T)</h5>
-  <p class="settings-subcopy">Allows eMule AI to establish direct UDP-backed transports for supported peers behind NAT or firewalls. QUIC is the default transport for compatible peers. uTP remains available as an automatic fallback and as an explicit compatibility-only mode.</p>
+  <h5 class="settings-subtitle">Enable uTP &amp; NAT Traversal (NAT-T)</h5>
+  <p class="settings-subcopy">When enabled, eMule uses the uTP (Micro Transport Protocol) over UDP instead of TCP for peer connections. This helps to reduce latency and improve network friendliness. NAT Traversal (NAT-T) allows establishing direct connections between clients behind routers or firewalls by automatically bypassing NAT restrictions. Together, these options increase the number of successful peer connections and may improve download/upload performance, especially in NATed networks.</p>
   <div class="settings-children">
-<section class="settings-subsection">
-  <h5 class="settings-subtitle">Transport protocol</h5>
-  <p class="settings-subcopy">Controls how the NAT-T data transport is selected.</p>
-  <div class="settings-children">
-<article class="settings-entry">
-  <h5 class="settings-entry-title">Prefer QUIC</h5>
-  <p class="settings-entry-copy">Default mode. Uses QUIC whenever both clients advertise support and the QUIC runtime is available. Falls back to uTP for uTP-only peers or when QUIC is temporarily unavailable for the endpoint.</p>
-</article>
-<article class="settings-entry">
-  <h5 class="settings-entry-title">uTP only</h5>
-  <p class="settings-entry-copy">Disables QUIC completely and forces NAT traversal to use the legacy uTP transport.</p>
-</article>
-  </div>
-</section>
 <article class="settings-entry">
   <h5 class="settings-entry-title">NAT-T Port Window</h5>
-  <p class="settings-entry-copy">Accepts incoming uTP by IP-only when the observed remote port is within ±N of the expected port. This is a uTP fallback control for sequential port-mapping NATs. Typical: 64-128. Set 0 to disable IP-only fallback.</p>
+  <p class="settings-entry-copy">Accept incoming uTP by IP-only when the observed remote port is within ±N of the expected port. Helps sequential port-mapping NATs. Larger windows increase wrong-match risk; smaller windows reduce success on remapping NATs. Typical: 64–128. Set 0 to disable IP-only fallback.</p>
 </article>
 <article class="settings-entry">
   <h5 class="settings-entry-title">NAT-T Sweep Window</h5>
-  <p class="settings-entry-copy">Maximum ±N port sweep used for NAT-T hole punching around the expected remote port. Smaller values reduce stray probes. Larger values can improve success on remapping NATs but increase background traffic. Typical: 8-32. Set 0 to disable sweep behavior.</p>
+  <p class="settings-entry-copy">Maximum +-N port sweep used for NAT-T hole punching around the expected remote port. Smaller values reduce stray probes and wrong matches; larger values improve success on remapping NATs but increase background traffic. Typical: 8-32. Set 0 to disable sweep behavior.</p>
 </article>
 <article class="settings-entry">
   <h5 class="settings-entry-title">uTP Jitter Min (ms)</h5>
-  <p class="settings-entry-copy">Minimum random delay between uTP hole-punch service bursts. Used only while the uTP fallback transport is active.</p>
+  <p class="settings-entry-copy">Lower bound for random jitter between uTP service cycles (used with “uTP Jitter Max”). Smaller values reduce delay but risk synchronized bursts; larger values spread load. Set equal to Max to remove variation. Recommended: 50–100 ms.</p>
 </article>
 <article class="settings-entry">
   <h5 class="settings-entry-title">uTP Jitter Max (ms)</h5>
-  <p class="settings-entry-copy">Maximum random delay between uTP hole-punch service bursts. Used only while the uTP fallback transport is active.</p>
+  <p class="settings-entry-copy">Upper bound for random jitter added between uTP service cycles (together with the Min value). Jitter staggers timers to prevent synchronized bursts. Larger values spread load but may add delay; keep within tens to low hundreds of milliseconds.</p>
 </article>
   </div>
 </section>
@@ -901,56 +858,13 @@
               </div>
             </details>
             <details class="settings-sub-block" data-exclusive-group="settings-emule-ai">
-              <summary>Upload Settings</summary>
-              <div class="settings-block-body">
-                <p class="section-intro">Fine-tune upload slot behavior and buffering for faster upstream connections. Leave these options disabled to keep classic behavior.</p>
-                <div class="settings-flow">
-<section class="settings-subsection">
-  <h5 class="settings-subtitle">Optimize upload slots for high bandwidth</h5>
-  <p class="settings-subcopy">Opens or recycles upload slots when configured upload capacity is not being used efficiently.</p>
-  <div class="settings-children">
-<article class="settings-entry"><h5 class="settings-entry-title">Target upload clients</h5><p class="settings-entry-copy">Normal target number of active upload clients. Allowed range: 4-100.</p></article>
-<article class="settings-entry"><h5 class="settings-entry-title">Elastic upload slots [%]</h5><p class="settings-entry-copy">Allows temporary slots above the target when upload capacity remains underused. Set 0% to make the target the effective admission limit.</p></article>
-<article class="settings-entry"><h5 class="settings-entry-title">Slow slot threshold factor</h5><p class="settings-entry-copy">Defines when a persistently slow upload becomes eligible for reassignment relative to the target slot speed.</p></article>
-<article class="settings-entry"><h5 class="settings-entry-title">Slow slot grace period</h5><p class="settings-entry-copy">How long a slot must remain below the slow threshold before it can be recycled.</p></article>
-<article class="settings-entry"><h5 class="settings-entry-title">Slot warm-up period</h5><p class="settings-entry-copy">Gives a newly opened slot time to reach normal speed before slow-slot checks begin.</p></article>
-<article class="settings-entry"><h5 class="settings-entry-title">Inactive slot grace period</h5><p class="settings-entry-copy">How long a slot may send no payload before it is eligible for reassignment.</p></article>
-<article class="settings-entry"><h5 class="settings-entry-title">Reassignment cooldown</h5><p class="settings-entry-copy">Prevents the same client from being recycled again too quickly.</p></article>
-  </div>
-</section>
-<section class="settings-subsection">
-  <h5 class="settings-subtitle">Low ratio queue score boost</h5>
-  <p class="settings-subcopy">Gives under-served shared files a controlled queue-score bonus without changing the eD2K protocol.</p>
-  <div class="settings-children">
-<article class="settings-entry"><h5 class="settings-entry-title">Low ratio threshold</h5><p class="settings-entry-copy">Files below this all-time uploaded-to-size ratio can receive the boost.</p></article>
-<article class="settings-entry"><h5 class="settings-entry-title">Effective score bonus</h5><p class="settings-entry-copy">Additional queue score applied while the low-ratio condition is met.</p></article>
-  </div>
-</section>
-<section class="settings-subsection">
-  <h5 class="settings-subtitle">Session transfer limit</h5>
-  <p class="settings-subcopy">Rotates an upload slot only when another queued client can use it, so bandwidth is not intentionally left idle.</p>
-  <div class="settings-children">
-<article class="settings-entry"><h5 class="settings-entry-title">Disabled</h5><p class="settings-entry-copy">Uses classic chunk and time rules without an extra per-session payload limit.</p></article>
-<article class="settings-entry"><h5 class="settings-entry-title">Percent of file size</h5><p class="settings-entry-copy">Scales the session limit with the requested file size.</p></article>
-<article class="settings-entry"><h5 class="settings-entry-title">Absolute MiB</h5><p class="settings-entry-copy">Uses a fixed payload amount per upload session.</p></article>
-<article class="settings-entry"><h5 class="settings-entry-title">Session time limit [sec.]</h5><p class="settings-entry-copy">Maximum session duration before a client can be rotated out. A value of 0 disables the extra time limit.</p></article>
-  </div>
-</section>
-<article class="settings-entry">
-  <h5 class="settings-entry-title">Adapt download write buffer for high bandwidth</h5>
-  <p class="settings-entry-copy">Temporarily allows larger per-file download buffers when several files receive data concurrently, reducing disk flush pressure while keeping a global memory budget.</p>
-</article>
-                </div>
-              </div>
-            </details>
-            <details class="settings-sub-block" data-exclusive-group="settings-emule-ai">
-              <summary>Download Validator</summary>
+              <summary>Download Checker</summary>
               <div class="settings-block-body">
                 <p class="section-intro">Define automatic checks when a file with the same hash or same/similar name is already downloading/downloaded/canceled/shared.</p>
                 <div class="settings-flow">
 <article class="settings-entry">
   <h5 class="settings-entry-title">Disable</h5>
-  <p class="settings-entry-copy">No download validation will be performed.</p>
+  <p class="settings-entry-copy">No download check will be performed.</p>
 </article>
 <article class="settings-entry">
   <h5 class="settings-entry-title">Ask with a message box</h5>
@@ -1050,15 +964,6 @@
   <h5 class="settings-entry-title">Detect invalid file extensions</h5>
   <p class="settings-entry-copy">When activated, the download list will be periodically scanned for files with invalid file extensions. Any invalid extensions detected will be automatically replaced with the correct, valid ones.</p>
 </article>
-<section class="settings-subsection">
-  <h5 class="settings-subtitle">Auto rename to majority name</h5>
-  <p class="settings-subcopy">Tracks source filenames and proposes or applies the name with sufficient agreement. The per-download state is preserved across restarts.</p>
-  <div class="settings-children">
-<article class="settings-entry"><h5 class="settings-entry-title">Only for new downloads</h5><p class="settings-entry-copy">Automatically enables majority-name tracking only for downloads added after the option is turned on. Existing downloads keep their current setting.</p></article>
-<article class="settings-entry"><h5 class="settings-entry-title">Required agreement percentage</h5><p class="settings-entry-copy">Percentage of collected source names that must agree before a majority name is accepted.</p></article>
-<article class="settings-entry"><h5 class="settings-entry-title">Minimum votes</h5><p class="settings-entry-copy">Minimum number of matching source filenames required before a rename can occur. Set 0 to disable this extra minimum.</p></article>
-  </div>
-</section>
 <article class="settings-entry">
   <h5 class="settings-entry-title">Check period (in minutes)</h5>
   <p class="settings-entry-copy">When Download Inspector is activated, it periodically checks all downloading files. This parameter sets the interval (in minutes) between each check. Note that the first check will always occur approximately 1 minute after eMule starts or this feature is enabled. After the initial check, the defined period value will be used.</p>
@@ -1100,28 +1005,8 @@
   <p class="settings-entry-copy">&quot;Mark As Spam&quot; performs complex heuristic analysis and tries to mark possible similar files. During this process, it generates a value which indicates the probability of being a spam file. This value is compared with the default threshold value 60 and if it is more than or equal to the threshold then the file is marked as spam. Here you can increase the threshold value to minimize the possibility of having files marked as spam wrongly. A value equal or greather than 60 should be defined.</p>
 </article>
 <article class="settings-entry">
-  <h5 class="settings-entry-title">eD2K max results</h5>
-  <p class="settings-entry-copy">Maximum results collected by one eD2K search before it stops. Use 0 for unlimited results.</p>
-</article>
-<article class="settings-entry">
-  <h5 class="settings-entry-title">eD2K max More requests</h5>
-  <p class="settings-entry-copy">Maximum additional More requests sent for one eD2K search. Use 0 for unlimited requests.</p>
-</article>
-<article class="settings-entry">
-  <h5 class="settings-entry-title">Kad file search total results</h5>
-  <p class="settings-entry-copy">Maximum file-source answers collected by a Kad file lookup before it stops early.</p>
-</article>
-<article class="settings-entry">
   <h5 class="settings-entry-title">Kad Network search results threshold</h5>
-  <p class="settings-entry-copy">Maximum result count for a Kad keyword search.</p>
-</article>
-<article class="settings-entry">
-  <h5 class="settings-entry-title">Kad file search lifetime [sec.]</h5>
-  <p class="settings-entry-copy">Maximum lifetime of a Kad file lookup. Longer values can find more sources on slow searches.</p>
-</article>
-<article class="settings-entry">
-  <h5 class="settings-entry-title">Kad keyword search lifetime [sec.]</h5>
-  <p class="settings-entry-copy">Maximum lifetime of a Kad keyword search. Longer values can collect more results but increase Kad work.</p>
+  <p class="settings-entry-copy">A file search started on the Kad Network stops after a specific time limit or when the number of found files reaches a certain limit. Here, you can adjust this limit for the number of found files.</p>
 </article>
 <article class="settings-entry">
   <h5 class="settings-entry-title">Show close button on search tabs</h5>
@@ -1648,50 +1533,6 @@
                 </div>
               </div>
             </details>
-          </div>
-        </div>
-      </details>
-    </section>
-
-    <section data-nav-group="settings" id="settings-connection">
-      <details class="settings-main-block" data-exclusive-group="settings-main">
-        <summary>Connection &amp; Notifications Reference</summary>
-        <div class="settings-main-body">
-          <div class="settings-flow">
-            <article class="settings-group-card">
-              <h4 class="settings-group-title">Network Binding</h4>
-              <p class="settings-group-copy">Select the adapter and optional local IP address used by P2P sockets. Leaving the address empty keeps normal IPv4/IPv6 dual-stack behavior while monitoring the selected interface.</p>
-              <div class="settings-group-body">
-<article class="settings-entry"><h5 class="settings-entry-title">Interface</h5><p class="settings-entry-copy">Choose a network adapter, or Any interface to let Windows route normally.</p></article>
-<article class="settings-entry"><h5 class="settings-entry-title">IP address</h5><p class="settings-entry-copy">Optional exact local IPv4 or IPv6 address. Leave empty to use the current address of the selected adapter.</p></article>
-<article class="settings-entry"><h5 class="settings-entry-title">Active interface status</h5><p class="settings-entry-copy">Shows the adapter and local address currently used for P2P binding.</p></article>
-              </div>
-            </article>
-            <article class="settings-group-card">
-              <h4 class="settings-group-title">IP Guard</h4>
-              <p class="settings-group-copy">Blocks network activity until the selected adapter or address and optional public IP ranges are verified. If the bind target disappears or the detected public IP is outside the allowed ranges, the application remains open so the settings can be corrected safely.</p>
-              <div class="settings-group-body">
-<article class="settings-entry"><h5 class="settings-entry-title">Enable IP Guard</h5><p class="settings-entry-copy">Activates startup and runtime verification for the selected network binding.</p></article>
-<article class="settings-entry"><h5 class="settings-entry-title">Allowed public IP ranges</h5><p class="settings-entry-copy">Optional comma-separated public IPv4 or IPv6 addresses and CIDR ranges, for example <code>1.2.3.4/24</code> or <code>2001:4860::/32</code>.</p></article>
-              </div>
-            </article>
-            <article class="settings-group-card">
-              <h4 class="settings-group-title">Listen Port Management</h4>
-              <div class="settings-group-body">
-<article class="settings-entry"><h5 class="settings-entry-title">Randomize listen ports at startup</h5><p class="settings-entry-copy">Selects new TCP and UDP listen ports from the configured range when eMule AI starts.</p></article>
-<article class="settings-entry"><h5 class="settings-entry-title">Random port range</h5><p class="settings-entry-copy">Defines the inclusive start and end ports, from 1 to 65535.</p></article>
-<article class="settings-entry"><h5 class="settings-entry-title">Open ports in Windows Firewall</h5><p class="settings-entry-copy">Keeps rules for the current listen ports enabled and repairs missing or disabled rules when needed. Updating rules requires UAC elevation.</p></article>
-              </div>
-            </article>
-            <article class="settings-group-card">
-              <h4 class="settings-group-title">Notification Display Mode</h4>
-              <p class="settings-group-copy">Choose how desktop notifications are presented.</p>
-              <div class="settings-group-body">
-<article class="settings-entry"><h5 class="settings-entry-title">Tray balloon</h5><p class="settings-entry-copy">Uses the classic notification area balloon.</p></article>
-<article class="settings-entry"><h5 class="settings-entry-title">Windows toast notification</h5><p class="settings-entry-copy">Uses the native Windows notification system.</p></article>
-<article class="settings-entry"><h5 class="settings-entry-title">Custom popup</h5><p class="settings-entry-copy">Uses eMule AI's built-in popup window.</p></article>
-              </div>
-            </article>
           </div>
         </div>
       </details>
@@ -2312,23 +2153,151 @@
       <h2 class="h2">Download &amp; Installation</h2>
       <article class="card">
         <h3 class="h3">Download the Latest Release</h3>
-        <p>For current builds, packaged downloads, and versioned release notes, visit the <a href="https://github.com/eMuleAI/eMuleAI/releases" rel="noopener noreferrer" target="_blank">eMule AI Releases page on GitHub</a>.</p>
-		<p>After downloading the release archive from GitHub, unzip it to any directory of your choice, then run eMule AI from that folder.</p>
+        <p>For current builds, packaged downloads, and versioned release notes, visit the <a href="https://github.com/eMuleAI/eMuleAI/releases" rel="noopener noreferrer" target="_blank">eMule AI Releases page on GitHub</a>. After downloading the release archive from GitHub, unzip it to any directory of your choice, then run eMule AI from that folder.</p>
+        <p>For Docker deployments, use the official <a href="https://hub.docker.com/r/emuleai/emuleai" rel="noopener noreferrer" target="_blank"><code>emuleai/emuleai</code> image on Docker Hub</a>. Linux and macOS users can use Xpra desktop integration while headless Linux systems can use noVNC browser access. See the <a href="#overview-docker">Docker Guide</a> below for installation, configuration, networking, update, and troubleshooting instructions.</p>
       </article>
 
       <article class="card">
         <h3 class="h3">Supported Operating Systems</h3>
-        <p>Windows 10 and Windows 11.</p>
+        <p>Windows 10 and Windows 11 are supported natively. Linux and macOS are supported through Docker. See the <a href="#overview-docker">Docker Guide</a> for the supported display modes and setup instructions.</p>
+      </article>
+
+
+      <article class="card" id="overview-docker">
+        <h3 class="h3">Docker Guide</h3>
+        <p>The official eMule AI Docker image runs the Windows x64 release under Wine in a Linux <code>amd64</code> container. Xpra is the default display mode and presents the eMule AI window as a separate desktop window on Linux or macOS. noVNC provides browser access to the complete virtual desktop and is suitable for headless Linux systems.</p>
+        <div class="callout">
+          <strong>Official image:</strong>
+          <a href="https://hub.docker.com/r/emuleai/emuleai" rel="noopener noreferrer" target="_blank"><code>emuleai/emuleai</code> on Docker Hub</a>
+        </div>
+
+        <div class="grid" style="margin-top:16px">
+          <article class="mini-card">
+            <h4 class="h3">Requirements</h4>
+            <ul class="list">
+              <li>Docker Engine with Docker Compose on Linux.</li>
+              <li>Docker Desktop on macOS or Windows.</li>
+              <li>An Xpra client when using the default desktop integration mode.</li>
+              <li>An x86-64 compatible runtime because the image targets <code>linux/amd64</code>.</li>
+            </ul>
+          </article>
+          <article class="mini-card">
+            <h4 class="h3">Xpra Desktop Integration</h4>
+            <p>The application appears as a separate host desktop window that can be moved, minimized, and managed alongside other windows. The interface is still rendered by the Windows application under Wine.</p>
+          </article>
+          <article class="mini-card">
+            <h4 class="h3">noVNC Browser Access</h4>
+            <p>The full virtual desktop is available in a browser without installing an Xpra client. This is the recommended mode for headless Linux devices.</p>
+          </article>
+        </div>
+
+        <hr class="divider"/>
+
+        <h4 class="h3">Quick Start on Linux and macOS</h4>
+        <pre class="settings-definition-code"><code>cd Docker
+docker compose pull
+docker compose up -d</code></pre>
+        <p>Install an Xpra client on the host and attach with:</p>
+        <pre class="settings-definition-code"><code>./xpra-attach.sh</code></pre>
+        <p>The first startup generates a random 32-character password at <code>&lt;EMULEAI_DATA_DIR&gt;/xpra/password.txt</code>. A direct connection can also be made with:</p>
+        <pre class="settings-definition-code"><code>xpra attach tcp://127.0.0.1:14500 --password-file=/path/to/eMuleAI/xpra/password.txt</code></pre>
+        <p>On macOS, the Xpra graphical client can connect to <code>tcp://127.0.0.1:14500</code> and use the contents of <code>xpra/password.txt</code> when prompted.</p>
+
+        <h4 class="h3" style="margin-top:18px">Quick Start on Windows</h4>
+        <p>Start Docker Desktop in Linux container mode, then run:</p>
+        <pre class="settings-definition-code"><code>Docker\run.bat</code></pre>
+        <p>The script uses Xpra by default and stores persistent data in <code>%LOCALAPPDATA%\eMuleAI</code>. A different data directory and display mode can be supplied:</p>
+        <pre class="settings-definition-code"><code>Docker\run.bat "D:\eMuleAI-Docker-Data" novnc</code></pre>
+
+        <h4 class="h3" style="margin-top:18px">Use noVNC Instead</h4>
+        <p>Create <code>Docker/.env</code> with <code>DISPLAY_MODE=novnc</code>, recreate the container, then open the local browser URL:</p>
+        <pre class="settings-definition-code"><code>docker compose up -d --force-recreate
+
+http://localhost:6080/vnc.html?autoconnect=1&amp;resize=scale</code></pre>
+
+        <details class="settings-sub-block" style="margin-top:18px">
+          <summary>Configuration and Persistent Data</summary>
+          <div class="settings-block-body">
+            <p>Create <code>Docker/.env</code> to override defaults:</p>
+            <pre class="settings-definition-code"><code>DISPLAY_MODE=xpra
+XPRA_PORT=14500
+NOVNC_PORT=6080
+EMULE_TCP_PORT=4662
+EMULE_UDP_PORT=4672
+DISPLAY_WIDTH=1280
+DISPLAY_HEIGHT=800
+DISPLAY_DEPTH=24
+EMULEAI_DATA_DIR=/home/alice/eMuleAI</code></pre>
+            <p>A macOS data path can use <code>EMULEAI_DATA_DIR=/Users/alice/eMuleAI</code>. A fixed Xpra password can be supplied with <code>XPRA_PASSWORD</code>, although the generated persistent password is recommended. Do not commit passwords to the repository.</p>
+            <p>The container stores <code>config</code>, <code>Incoming</code>, <code>Temp</code>, <code>logs</code>, <code>wineprefix</code>, and <code>xpra</code> under <code>/data</code>.</p>
+            <ul class="list">
+              <li><strong>Windows through run.bat:</strong> <code>%LOCALAPPDATA%\eMuleAI</code></li>
+              <li><strong>Linux and macOS through Compose:</strong> <code>Docker/data/eMuleAI</code></li>
+            </ul>
+            <p>Do not run a native eMule AI instance and the container against the same data directory at the same time.</p>
+            <div class="callout">
+              <strong>Docker Desktop Run dialog:</strong> The image Run dialog does not read <code>compose.yaml</code>. Bind a host directory to <code>/data</code> manually. On Windows, map <code>C:\Users\&lt;user&gt;\AppData\Local\eMuleAI</code> to <code>/data</code>. Compose or <code>run.bat</code> is recommended.
+            </div>
+          </div>
+        </details>
+
+        <details class="settings-sub-block" style="margin-top:14px">
+          <summary>Ports, High ID, and Display Settings</summary>
+          <div class="settings-block-body">
+            <p>The default eMule AI ports are <code>4662/TCP</code> and <code>4672/UDP</code>. Custom values can be set with <code>EMULE_TCP_PORT</code> and <code>EMULE_UDP_PORT</code>.</p>
+            <p>For High ID, the host port, container port, router forwarding, and port configured inside eMule AI must use the same value:</p>
+            <pre class="settings-definition-code"><code>33501/tcp -&gt; 33501/tcp
+33501/udp -&gt; 33501/udp</code></pre>
+            <p>Mappings such as <code>33501:4662</code> normally result in Low ID because peers receive the port announced by eMule AI rather than Docker's external translation.</p>
+            <p>The default virtual display is <code>1280x800x24</code>. Width and height accept values from <code>320</code> through <code>8192</code>. Depth accepts <code>16</code> or <code>24</code>. Invalid values independently fall back to <code>1280</code>, <code>800</code>, or <code>24</code>.</p>
+            <pre class="settings-definition-code"><code>DISPLAY_WIDTH=1024
+DISPLAY_HEIGHT=768
+DISPLAY_DEPTH=16</code></pre>
+            <p>Xpra and noVNC ports are configurable with <code>XPRA_PORT</code> and <code>NOVNC_PORT</code>. Compose binds them to <code>127.0.0.1</code>. Do not expose display ports publicly without appropriate transport security and access controls.</p>
+          </div>
+        </details>
+
+        <details class="settings-sub-block" style="margin-top:14px">
+          <summary>Stop, Update, Build, and Publish</summary>
+          <div class="settings-block-body">
+            <p>Stop without deleting persistent data:</p>
+            <pre class="settings-definition-code"><code>docker compose down</code></pre>
+            <p>Pull and recreate the latest published image:</p>
+            <pre class="settings-definition-code"><code>docker compose pull
+docker compose up -d --force-recreate</code></pre>
+            <h5 class="settings-entry-title" style="margin-top:16px">Maintainer image build</h5>
+            <p>On the Windows release machine, run <code>Docker\dockerize.bat</code>. The script reads <code>ProductVersion</code> from the selected x64 executable and defaults to <code>..\_Build\eMuleAI\Release\x64\eMuleAI.exe</code>.</p>
+            <pre class="settings-definition-code"><code>Docker\dockerize.bat "D:\path\to\eMuleAI.exe" local
+Docker\dockerize.bat "D:\path\to\eMuleAI.exe" publish</code></pre>
+            <p>Local mode creates the exact version tag and <code>emuleai/emuleai:local</code>. Stable publication creates the exact version, matching major/minor, and <code>latest</code> tags. Prerelease publication creates only the exact prerelease tag.</p>
+          </div>
+        </details>
+
+        <details class="settings-sub-block" style="margin-top:14px">
+          <summary>Diagnostics and Package Information</summary>
+          <div class="settings-block-body">
+            <pre class="settings-definition-code"><code>docker logs emuleai
+docker compose config
+docker stats emuleai</code></pre>
+            <p>Display service logs are available at <code>/tmp/xvfb.log</code>, <code>/tmp/x11vnc.log</code>, <code>/tmp/websockify.log</code>, <code>/tmp/xpra.log</code>, and <code>/tmp/wineboot.log</code> inside the container.</p>
+            <p>Wine, Xpra, noVNC, and other runtime components are installed as distribution packages. Their package metadata and license or copyright files remain available under <code>/usr/share/doc</code> in the image.</p>
+            <pre class="settings-definition-code"><code>docker scout sbom --format list emuleai/emuleai:latest</code></pre>
+          </div>
+        </details>
       </article>
 
 		<article class="card">
 			<h3 class="h3">Optional External Resources</h3>
 			<p>Some features require user-supplied external files such as <code>server.met</code>, <code>nodes.dat</code>,
-			<code>ipfilter.dat</code>.</p>
+			<code>ipfilter.dat</code>, or <code>GeoLite2-City.mmdb</code>.</p>
 			<p>If you already have these files, copy them to the eMule AI <code>config</code> directory and restart the application.</p>
 			<p>You can also load <code>server.met</code> from <code>Servers &gt; Update server.met from URL</code>, <code>nodes.dat</code> from
 			<code>Kad &gt; Nodes.dat from URL</code>, and <code>ipfilter.dat</code> or <code>ipfilter.zip</code> from
 			<code>Options &gt; Security &gt; IP Filter &gt; Update from URL</code>.</p>
+			<p><code>GeoLite2-City.mmdb</code> must be downloaded separately from
+			<a href="https://www.maxmind.com/en/accounts/current/geoip/downloads" rel="noopener noreferrer" target="_blank">MaxMind</a> and is
+			subject to MaxMind's terms. After copying it to the eMule AI <code>config</code> directory,
+			enable GeoLite2 in Settings and restart the application.</p>
 			<p>Please use only sources you trust and review their origin, terms, license conditions, and legal status before use.</p>
 		</article>
 
@@ -2514,8 +2483,6 @@
                 <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>ipfilter_white.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">An IP "White List" that overrides filters for specific trusted addresses or ranges.</td></tr>
                 <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>shield.conf</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Central configuration for the Shield protection system. Defines anti-leecher rules and automated punishment levels.</td></tr>
                 <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>download_inspector.txt</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Stores eD2k links of files that were deleted by the Download Inspector's criteria-based auto-delete feature while in Delete mode. The file is preserved during migration and config backup flows.</td></tr>
-                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>sharedcache.dat</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">Shared file startup lookup and duplicate shared path cache. It maps previously verified shared file paths to their size, timestamp, and file hash so large shared folders can be matched faster on the next startup, and it also remembers duplicate shared file paths that were already identified to reduce repeated duplicate checks and duplicate warnings during later shared-folder scans. It is disposable and can be rebuilt automatically.</td></tr>
-                <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>dbip-city-lite.mmdb</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">DB-IP city database used by IP Geolocation to show location information for servers and clients. It may be included with the release package or updated by the application when geolocation database updates are enabled.</td></tr>
               </tbody>
             </table>
           </div>
@@ -2562,53 +2529,61 @@
     </section>
 
     <section data-nav-group="nat" id="how-it-works">
-      <h2 class="h2">NAT Traversal (NAT-T), QUIC &amp; uTP Fallback</h2>
+      <h2 class="h2">NAT Traversal (NAT-T) &amp; uTP</h2>
       <article class="card">
         <h3 class="h3" id="nat-what-it-is">What it is</h3>
-        <p>eMule AI uses NAT Traversal to establish direct client-to-client transfers when normal inbound TCP connectivity is unavailable. In v1.5, QUIC is the preferred NAT-T data transport. uTP remains the automatic compatibility fallback.</p>
-        <p>QUIC runs over the shared UDP endpoint and is implemented with ngtcp2 and GnuTLS. It is selected only when both peers advertise support and the runtime is available. Otherwise, compatible peers continue with uTP.</p>
-        <p>The Kad Buddy and eServer Buddy paths relay connection signaling only. File payload remains end-to-end between the two peers.</p>
+        <p>This feature combines NAT Traversal (NAT-T) and uTP to create direct, reliable peer connections even when both sides sit behind NAT or firewalls.</p>
+        <p>In eMule AI it unlocks LowID-to-LowID transfers with UDP hole punching and uTP, improving connectivity and stability on difficult networks.</p>
+        <p>Because the NAT-T/uTP signaling and relay flow are eMule AI-specific, both peers must be running eMule AI to benefit; the more eMule AI users online, the more often this path is available.</p>
       </article>
       <article class="card">
         <h3 class="h3" id="nat-how-it-works">How it works</h3>
-        <div class="def-title"><strong>eD2K HighID / LowID</strong></div>
-        <div class="def-body">Assigned by eD2K servers while connected. HighID means inbound TCP is reachable. LowID means inbound TCP is blocked by a firewall or NAT.</div>
+        <div class="def-title"><strong>ED2K HighID / LowID</strong></div>
+        <div class="def-body">Assigned by ED2K servers while connected to a server. HighID means inbound TCP is reachable. LowID means inbound TCP is blocked by firewall/NAT.</div>
         <hr class="divider"/>
         <div class="def-title"><strong>Kad Open / Firewalled</strong></div>
-        <div class="def-body">Kad status is server-independent. Open and verified means UDP is reachable. Firewalled means callback and hole-punch options are restricted.</div>
-        <hr class="divider"/>
-        <div class="def-title"><strong>QUIC</strong></div>
-        <div class="def-body">The preferred v1.5 NAT-T transfer protocol. It provides a reliable stream over UDP, performs its own secure handshake, and uses the eMule AI NAT-T ALPN <code>ed2k-ai-natt-quic-v1</code>.</div>
-        <hr class="divider"/>
-        <div class="def-title"><strong>uTP fallback</strong></div>
-        <div class="def-body">The legacy UDP-based NAT-T transport. It is used when the peer is uTP-only, QUIC is disabled by the selected mode, or QUIC is temporarily unavailable for the endpoint.</div>
+        <div class="def-body">Kad status is server-independent. Open + Verified means UDP is reachable. Firewalled means UDP callback/hole punching is limited or unavailable.</div>
         <hr class="divider"/>
         <div class="def-title"><strong>Kad Buddy</strong></div>
-        <div class="def-body">Classic Kad callback and rendezvous helper. In the Kad LowID-to-LowID path, the uploader side requires a serving buddy.</div>
+        <div class="def-body">Classic Kad mechanism. Used for Kad callback/rendezvous signaling only (not file data). In eMule AI Kad LowID&lt;-&gt;LowID transfers, uploader side needs this buddy.</div>
         <hr class="divider"/>
-        <div class="def-title"><strong>eServer Buddy</strong></div>
-        <div class="def-body">A HighID eMule AI client that relays same-server LowID-to-LowID signaling. It does not require server-side NAT extension support.</div>
+        <div class="def-title"><strong>eServer Buddy (New in eMule AI)</strong></div>
+        <div class="def-body">A HighID eMule AI client on the same eServer that relays signaling for LowID&lt;-&gt;LowID. This is a client-side eMule AI feature and does not require server NAT extension support.</div>
+        <hr class="divider"/>
+        <div class="def-title"><strong>uTP</strong></div>
+        <div class="def-body">UDP-based transport used by NAT traversal for hole punching and adaptive congestion control.</div>
       </article>
-      <div class="card callout"><strong>Default behavior:</strong> Prefer QUIC. If both peers support QUIC, the NAT-T stream uses QUIC. If not, eMule AI falls back to uTP where supported. Selecting uTP only prevents QUIC attempts.</div>
+      <div class="card callout">Enabling <strong>uTP</strong> switches peer connections to UDP-based transport with adaptive congestion control, while <strong>NAT Traversal</strong> adds direct callback and UDP hole punching to connect peers behind NATs.</div>
       <article class="card">
-        <h3 class="h3">End-to-end flow</h3>
+        <h3 class="h3">How it works - end-to-end</h3>
         <ul class="list">
-          <li><strong>Classic reachable path:</strong> Normal TCP remains available for directly reachable peers. NAT-T is used only when the connection context requires it.</li>
-          <li><strong>Capability selection:</strong> Peers exchange NAT-T capabilities. A current QUIC capability selects QUIC. A legacy or uTP-only capability selects uTP.</li>
-          <li><strong>Hole punching:</strong> Kad or eServer Buddy signaling coordinates UDP traffic so both NAT mappings are opened before the direct transport starts.</li>
-          <li><strong>Kad rendezvous:</strong> The uploader-side Kad buddy forwards callback signaling. The downloader-side buddy is optional.</li>
-          <li><strong>eServer Buddy relay:</strong> A connected HighID buddy on the same eServer exchanges peer information. If the target is not connected yet, the buddy can request a classic server callback first.</li>
-          <li><strong>Fallback behavior:</strong> A failed or stale QUIC attempt can temporarily disable QUIC for that endpoint, allowing a later uTP attempt without disabling NAT-T globally.</li>
-          <li><strong>Diagnostics:</strong> Relevant log markers include <code>[NatTraversal]</code>, <code>[QUIC]</code>, <code>[eServerBuddy]</code>, <code>OP_ESERVER_RELAY_REQUEST</code>, <code>OP_ESERVER_PEER_INFO</code>, <code>OP_HOLEPUNCH</code>, and <code>uTP</code>.</li>
+          <li><strong>IDs &amp; reachability:</strong> <em>HighID</em> = inbound TCP reachable; <em>LowID</em> = inbound TCP blocked. <em>Kad Open</em> means UDP callback is verified; <em>Kad Firewalled</em> means direct UDP callback is unavailable.</li>
+          <li><strong>Data vs control:</strong> File data uses <em>TCP</em> or <em>uTP</em>. Kad lookups, publishes, pings and callbacks use <em>UDP</em>.</li>
+          <li><strong>Direct UDP callback (LowID-&gt;HighID):</strong> HighID peer sends a UDP callback; LowID opens <em>outbound TCP</em> back. No buddy is involved.</li>
+          <li><strong>Kad buddy path:</strong> For Kad LowID&lt;-&gt;LowID, uploader side needs Kad buddy and both sides must exchange UDP hole-punch traffic.</li>
+          <li><strong>eServer Buddy path (new in eMule AI):</strong> LowID requester uses a connected HighID buddy on the same eServer. This relay is client-driven and does not rely on server NAT extension opcodes.</li>
+          <li><strong>When target is not connected:</strong> Buddy can ask the server with classic <code>OP_CALLBACKREQUEST</code>, then continue relay after target comes back.</li>
+          <li><strong>Compatibility:</strong> Requester side needs eServer buddy support. Target side can still be contacted through the relay flow.</li>
+          <li><strong>Timers:</strong> Buddy discovery runs every 60 seconds (while server-LowID). Keep-alive ping runs every 20 seconds.</li>
+          <li><strong>Diagnostics:</strong> Check logs for <code>[eServerBuddy]</code>, <code>OP_ESERVER_RELAY_REQUEST</code>, <code>OP_ESERVER_PEER_INFO</code>, <code>OP_HOLEPUNCH</code>, and <code>uTP</code>.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h3 class="h3">Kad Buddy vs eServer Buddy (eMule AI)</h3>
+        <ul class="list">
+          <li><strong>Kad Buddy:</strong> Kad network callback/rendezvous helper. Used in Kad LowID&lt;-&gt;LowID flow.</li>
+          <li><strong>eServer Buddy:</strong> eMule AI specific relay over same eServer. This is the newer path added by eMule AI.</li>
+          <li><strong>Main difference:</strong> Kad buddy depends on Kad path; eServer buddy depends on same-server eD2K path.</li>
+          <li><strong>Common point:</strong> Both relay only control signaling, never the actual file data.</li>
         </ul>
       </article>
       <article class="card">
         <h3 class="h3">Buddy specifics</h3>
         <ul class="list">
-          <li><strong>Serving slots:</strong> Kad Buddy and eServer Buddy capacities are configurable from 5 to 100 clients. The default is 5.</li>
-          <li><strong>Payload isolation:</strong> Buddies forward signaling only. They do not proxy file data.</li>
-          <li><strong>Reuse:</strong> Compatible existing Kad and eServer buddy relationships can be reused as candidates, reducing LowID setup delays.</li>
-          <li><strong>Compatibility:</strong> QUIC requires current eMule AI support on both transfer peers. uTP remains available for compatible older eMule AI peers.</li>
+          <li><strong>Who qualifies (eServer Buddy):</strong> HighID peer, connected TCP socket, same eServer as you, and advertised slot availability.</li>
+          <li><strong>Slot model:</strong> Serving capacity is configurable between <code>3</code> and <code>100</code> peers (default <code>3</code>).</li>
+          <li><strong>Concurrency:</strong> Buddies carry control signaling only; file payload remains end-to-end between peers.</li>
+          <li><strong>Security &amp; abuse control:</strong> Buddy requests are rate-limited (max 3 requests per 10-minute window per peer) and stale relay contexts are expired automatically.</li>
         </ul>
       </article>
     </section>
@@ -2616,51 +2591,35 @@
     <section data-nav-group="nat" id="diagrams">
       <h2 class="h2">Diagrams</h2>
       <div class="figure">
-        <svg aria-label="NAT-T transport selection" height="330" role="img" viewBox="0 0 1280 330" width="100%" xmlns="http://www.w3.org/2000/svg">
-          <rect fill="none" height="330" rx="12" width="1280" x="0" y="0"></rect>
-          <defs>
-            <marker id="transportArrowBlue" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--primary)"></path></marker>
-            <marker id="transportArrowGreen" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--ok)"></path></marker>
-          </defs>
-          <g transform="translate(60,95)"><rect class="node" height="110" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="32">NAT-T connection</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="58">UDP endpoint ready</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="80">Peer capabilities known</text></g>
-          <g transform="translate(490,35)"><rect class="node alt" height="110" rx="12" width="330"></rect><text class="title" font-size="18" x="16" y="32">QUIC preferred</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="58">Both peers support QUIC</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="80">ngtcp2 + GnuTLS</text></g>
-          <g transform="translate(490,155)"><rect class="node" height="110" rx="12" width="330"></rect><text class="title" font-size="18" x="16" y="32">uTP fallback</text><text class="label" fill="var(--warn)" font-size="14" x="16" y="58">Peer is uTP-only or QUIC unavailable</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="80">Legacy NAT-T transport</text></g>
-          <g transform="translate(940,95)"><rect class="node alt" height="110" rx="12" width="280"></rect><text class="title" font-size="18" x="16" y="32">Direct file stream</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="58">End-to-end peer data</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="80">Buddy carries signaling only</text></g>
-          <path class="line-blue" d="M380,150 L470,90" fill="none" marker-end="url(#transportArrowBlue)" stroke-linecap="round" stroke-width="3"></path>
-          <path class="line-blue" d="M380,150 L470,210" fill="none" marker-end="url(#transportArrowBlue)" stroke-linecap="round" stroke-width="3"></path>
-          <path class="line-green" d="M840,90 L920,135" fill="none" marker-end="url(#transportArrowGreen)" stroke-linecap="round" stroke-width="3"></path>
-          <path class="line-green" d="M840,210 L920,165" fill="none" marker-end="url(#transportArrowGreen)" stroke-linecap="round" stroke-width="3"></path>
-        </svg>
-        <div class="figcap">Transport selection in v1.5. Prefer QUIC is the default. uTP is the compatibility fallback, or the forced transport in uTP-only mode.</div>
-      </div>
-      <div class="figure">
         <svg aria-label="LowID to HighID with Direct Callback" height="320" role="img" viewBox="0 0 1280 360" width="100%" xmlns="http://www.w3.org/2000/svg">
           <rect fill="none" height="360" rx="12" width="1280" x="0" y="0"></rect>
-          <g transform="translate(120,80)"><rect class="node" height="120" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="30">LowID peer</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="54">Inbound TCP blocked</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="76">UDP reachable</text></g>
-          <g transform="translate(860,80)"><rect class="node alt" height="120" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="30">HighID peer</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="54">Inbound TCP reachable</text></g>
-          <defs><marker id="directBlue" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--primary)"></path></marker><marker id="directYellow" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--warn)"></path></marker></defs>
-          <path class="line-blue" d="M440,120 H840" fill="none" marker-end="url(#directBlue)" stroke-linecap="round" stroke-width="3"></path>
+          <g transform="translate(120,80)"><rect class="node" height="120" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="30">LowID peer</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="54">TCP blocked</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="76">Kad Open + Verified (UDP)</text></g>
+          <g transform="translate(860,80)"><rect class="node alt" height="120" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="30">HighID peer</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="54">TCP reachable</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="76">Kad Open</text></g>
+          <defs><marker id="arrowBlue" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--primary)"></path></marker><marker id="arrowYellow" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--warn)"></path></marker></defs>
+          <path class="line-blue" d="M440,120 H840" fill="none" marker-end="url(#arrowBlue)" stroke-linecap="round" stroke-width="3"></path>
           <text class="label" fill="var(--primary)" font-size="14" text-anchor="middle" x="640" y="106">Direct UDP callback</text>
-          <path class="line-yellow" d="M840,160 H440" fill="none" marker-end="url(#directYellow)" stroke-linecap="round" stroke-width="3"></path>
+          <path class="line-yellow" d="M840,160 H440" fill="none" marker-end="url(#arrowYellow)" stroke-linecap="round" stroke-width="3"></path>
           <text class="label" fill="var(--warn)" font-size="14" text-anchor="middle" x="640" y="180">Outbound TCP established</text>
         </svg>
-        <div class="figcap">LowID to HighID with direct UDP callback. This classic path establishes outbound TCP and does not require a buddy.</div>
+        <div class="figcap">LowID -&gt; HighID with direct UDP callback. No buddy required.</div>
       </div>
       <div class="figure">
-        <svg aria-label="LowID to LowID with Kad rendezvous" height="460" role="img" viewBox="0 0 1280 520" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <svg aria-label="LowID to LowID with Rendezvous via Single Buddy" height="460" role="img" viewBox="0 0 1280 520" width="100%" xmlns="http://www.w3.org/2000/svg">
           <rect fill="none" height="520" rx="12" width="1280" x="0" y="0"></rect>
-          <g transform="translate(470,40)"><rect class="node alt" height="110" rx="12" width="340"></rect><text class="title" font-size="18" x="16" y="34">Uploader-side Kad Buddy</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="58">Required for rendezvous</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="80">Signals callback only</text></g>
-          <g transform="translate(150,260)"><rect class="node" height="110" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="32">LowID Downloader</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="56">UDP reachable</text></g>
-          <g transform="translate(830,260)"><rect class="node" height="110" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="32">LowID Uploader</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="56">UDP reachable</text></g>
-          <defs><marker id="kadBlue" markerHeight="12" markerUnits="strokeWidth" markerWidth="12" orient="auto" refX="10" refY="6" viewBox="0 0 12 12"><path d="M0,0 L12,6 L0,12 z" fill="var(--primary)"></path></marker><marker id="kadGreen" markerHeight="12" markerUnits="strokeWidth" markerWidth="12" orient="auto" refX="10" refY="6" viewBox="0 0 12 12"><path d="M0,0 L12,6 L0,12 z" fill="var(--ok)"></path></marker></defs>
-          <path class="line-blue" d="M300,245 C390,225 470,195 560,170" fill="none" marker-end="url(#kadBlue)" stroke-linecap="round" stroke-width="3"></path>
-          <path class="line-blue" d="M980,245 C890,225 810,195 720,170" fill="none" marker-end="url(#kadBlue)" stroke-linecap="round" stroke-width="3"></path>
-          <text class="label" fill="var(--primary)" font-size="14" text-anchor="middle" x="640" y="228">Kad callback and peer information</text>
-          <path class="line-green" d="M480,320 H800" fill="none" marker-end="url(#kadGreen)" stroke-linecap="round" stroke-width="3"></path>
-          <path class="line-green" d="M800,340 H480" fill="none" marker-end="url(#kadGreen)" stroke-linecap="round" stroke-width="3"></path>
-          <text class="label" fill="var(--ok)" font-size="14" text-anchor="middle" x="640" y="300">UDP hole punch, then QUIC preferred or uTP fallback</text>
+          <g transform="translate(470,40)"><rect class="node alt" height="110" rx="12" width="340"></rect><text class="title" font-size="18" x="16" y="34">Uploader-side Buddy (HighID)</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="58">Required for Kad rendezvous</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="80">Signals callback only</text></g>
+          <g transform="translate(150,260)"><rect class="node" height="110" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="32">LowID Downloader</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="56">Kad Open + Verified</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="78">Own buddy: optional</text></g>
+          <g transform="translate(830,260)"><rect class="node" height="110" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="32">LowID Uploader</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="56">Kad Open + Verified</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="78">Buddy: required</text></g>
+          <defs><marker id="srvBlue" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--primary)"></path></marker><marker id="srvGreen" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--ok)"></path></marker></defs>
+          <path class="line-blue" d="M360,240 L550,195" fill="none" marker-end="url(#srvBlue)" stroke-linecap="round" stroke-width="3"></path>
+          <text class="label" dy="0.35em" fill="var(--primary)" font-size="14" text-anchor="end" x="445" y="198">ReaskCallbackUDP</text>
+          <text class="label" fill="var(--primary)" font-size="14" text-anchor="middle" x="640" y="203">Kad rendezvous</text>
+          <path class="line-blue" d="M730,195 L920,240" fill="none" marker-end="url(#srvBlue)" stroke-linecap="round" stroke-width="3"></path>
+          <text class="label" dy="0.35em" fill="var(--primary)" font-size="14" text-anchor="start" x="835" y="198">ReaskCallbackTCP</text>
+          <path class="line-green" d="M480,320 H800" fill="none" marker-end="url(#srvGreen)" stroke-linecap="round" stroke-width="3"></path>
+          <path class="line-green" d="M800,340 H480" fill="none" marker-end="url(#srvGreen)" stroke-linecap="round" stroke-width="3"></path>
+          <text class="label" fill="var(--ok)" font-size="14" text-anchor="middle" x="640" y="300">Bidirectional UDP hole punching -&gt; uTP</text>
         </svg>
-        <div class="figcap">LowID to LowID via Kad rendezvous. The uploader-side buddy is required. The downloader-side buddy is optional.</div>
+        <div class="figcap">LowID &lt;-&gt; LowID via Kad rendezvous. In eMule AI, only the uploader-side buddy is required for this path; downloader-side buddy is optional.</div>
       </div>
       <div class="figure">
         <svg aria-label="LowID to LowID via eServer Buddy relay" height="420" role="img" viewBox="0 0 1280 420" width="100%" xmlns="http://www.w3.org/2000/svg">
@@ -2668,15 +2627,15 @@
           <g transform="translate(470,40)"><rect class="node alt" height="110" rx="12" width="340"></rect><text class="title" font-size="18" x="16" y="34">HighID eServer Buddy</text><text class="label" fill="#9aa4bd" font-size="14" x="16" y="58">Same eServer as requester</text><text class="label" fill="var(--ok)" font-size="14" x="16" y="80">Runs relay handshake</text></g>
           <g transform="translate(150,260)"><rect class="node" height="110" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="32">LowID Requester</text></g>
           <g transform="translate(830,260)"><rect class="node" height="110" rx="12" width="300"></rect><text class="title" font-size="18" x="16" y="32">LowID Target</text></g>
-          <defs><marker id="esBlue" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--primary)"></path></marker><marker id="esGreen" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--ok)"></path></marker></defs>
-          <path class="line-blue" d="M360,240 L550,195" fill="none" marker-end="url(#esBlue)" stroke-linecap="round" stroke-width="3"></path>
-          <path class="line-blue" d="M920,240 L730,195" fill="none" marker-end="url(#esBlue)" stroke-linecap="round" stroke-width="3"></path>
+          <defs><marker id="srvBlue" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--primary)"></path></marker><marker id="srvGreen" markerHeight="10" markerWidth="10" orient="auto" refX="8" refY="3"><path d="M0,0 L10,3 L0,6 z" fill="var(--ok)"></path></marker></defs>
+          <path class="line-blue" d="M360,240 L550,195" fill="none" marker-end="url(#srvBlue)" stroke-linecap="round" stroke-width="3"></path>
+          <path class="line-blue" d="M920,240 L730,195" fill="none" marker-end="url(#srvBlue)" stroke-linecap="round" stroke-width="3"></path>
           <text class="label" fill="var(--primary)" font-size="14" text-anchor="middle" x="640" y="178">OP_ESERVER_RELAY_REQUEST / OP_ESERVER_PEER_INFO</text>
-          <path class="line-green" d="M480,320 H800" fill="none" marker-end="url(#esGreen)" stroke-linecap="round" stroke-width="3"></path>
-          <path class="line-green" d="M800,340 H480" fill="none" marker-end="url(#esGreen)" stroke-linecap="round" stroke-width="3"></path>
-          <text class="label" fill="var(--ok)" font-size="14" text-anchor="middle" x="640" y="300">UDP hole punch, then QUIC preferred or uTP fallback</text>
+          <path class="line-green" d="M480,320 H800" fill="none" marker-end="url(#srvGreen)" stroke-linecap="round" stroke-width="3"></path>
+          <path class="line-green" d="M800,340 H480" fill="none" marker-end="url(#srvGreen)" stroke-linecap="round" stroke-width="3"></path>
+          <text class="label" fill="var(--ok)" font-size="14" text-anchor="middle" x="640" y="300">Both peers hole-punch + active uTP connect</text>
         </svg>
-        <div class="figcap">LowID to LowID via eServer Buddy relay. The buddy may use classic OP_CALLBACKREQUEST to bring the target online, but it never carries file payload.</div>
+        <div class="figcap">LowID &lt;-&gt; LowID via eServer Buddy relay. No Lugdunum NAT extension is required; buddy may optionally use classic OP_CALLBACKREQUEST to bring target online.</div>
       </div>
     </section>
 
@@ -2700,9 +2659,9 @@
             <tbody>
               <tr><td>1</td><td>Open</td><td><div class="status-pair"><span class="status green">Open</span><span class="status green">Inbound OK</span></div></td><td><span class="status green">Open</span></td><td>Not needed</td><td>Use plain TCP/UDP; NAT-T not needed.</td></tr>
               <tr><td>2</td><td>Open</td><td><div class="status-pair"><span class="status red">Firewalled</span><span class="status red">Inbound blocked</span></div></td><td><span class="status green">Open</span></td><td>Not needed</td><td>Direct UDP callback works (LowID-&gt;HighID). NAT-T not needed for this path.</td></tr>
-              <tr><td>3</td><td>Open</td><td><div class="status-pair"><span class="status red">Firewalled</span><span class="status red">Inbound blocked</span></div></td><td><span class="status green">Open</span></td><td>Started (to enable rendezvous)</td><td>NAT-T is possible through buddy-mediated rendezvous and hole punching. QUIC is preferred, with uTP fallback.</td></tr>
+              <tr><td>3</td><td>Open</td><td><div class="status-pair"><span class="status red">Firewalled</span><span class="status red">Inbound blocked</span></div></td><td><span class="status green">Open</span></td><td>Started (to enable rendezvous)</td><td>NAT-T/uTP possible via buddy-mediated rendezvous/hole-punch. Useful for LowID&lt;-&gt;LowID.</td></tr>
               <tr><td>4</td><td>Firewalled</td><td><div class="status-pair"><span class="status green">Open</span><span class="status green">Inbound OK</span></div></td><td><span class="status red">Firewalled</span></td><td>Not needed</td><td>Plain TCP works; NAT-T not needed.</td></tr>
-              <tr><td>5</td><td>Firewalled</td><td><div class="status-pair"><span class="status red">Firewalled</span><span class="status red">Inbound blocked</span></div></td><td><div class="status-pair"><span class="status red">Firewalled</span><span class="status orange">Outbound usually OK</span></div></td><td>Uploader's buddy</td><td>NAT-T path through rendezvous and hole punching. The uploader-side buddy is required, while the downloader buddy is optional. QUIC is preferred and uTP is the fallback.</td></tr>
+              <tr><td>5</td><td>Firewalled</td><td><div class="status-pair"><span class="status red">Firewalled</span><span class="status red">Inbound blocked</span></div></td><td><div class="status-pair"><span class="status red">Firewalled</span><span class="status orange">Outbound usually OK</span></div></td><td>Uploader's buddy</td><td>NAT-T/uTP path via rendezvous + hole-punch. Uploader-side buddy is required; downloader buddy is optional.</td></tr>
               <tr><td>6</td><td>None</td><td><div class="status-pair"><span class="status red">Firewalled</span><span class="status red">Inbound blocked</span></div></td><td><div class="status-pair"><span class="status red">Firewalled</span><span class="status orange">Varies</span></div></td><td>Unavailable</td><td>Kad rendezvous is unavailable. Use eServer Buddy path only if requester has buddy on the same server.</td></tr>
             </tbody>
           </table>
@@ -2722,7 +2681,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr><td>1</td><td><span class="status green">Same eServer + requester has connected eServer buddy</span></td><td>LowID requester &lt;-&gt; LowID target</td><td>Buddy runs the OP_ESERVER relay handshake. After hole punching, both peers use QUIC when supported or fall back to uTP.</td></tr>
+              <tr><td>1</td><td><span class="status green">Same eServer + requester has connected eServer buddy</span></td><td>LowID requester &lt;-&gt; LowID target</td><td>Buddy runs OP_ESERVER relay handshake and both peers form uTP with hole punching.</td></tr>
               <tr><td>2</td><td><span class="status green">Target already connected to buddy</span></td><td>LowID requester &lt;-&gt; LowID target</td><td>Buddy forwards OP_ESERVER_PEER_INFO immediately; no server callback round-trip is needed.</td></tr>
               <tr><td>3</td><td><span class="status orange">Target not connected to buddy</span></td><td>LowID requester &lt;-&gt; LowID target</td><td>Buddy first tries classic OP_CALLBACKREQUEST (if server callback is available). Relay completes only after target connects and ACK is received; otherwise it fails.</td></tr>
               <tr><td>4</td><td><span class="status red">Different eServer or no connected buddy</span></td><td>Any LowID pair</td><td>eServer Buddy path is unavailable; fallback is Kad rendezvous (if prerequisites exist) or classic callback/TCP paths.</td></tr>
@@ -2745,10 +2704,10 @@
         </div>
         <hr class="divider"/>
         <div class="section">
-          <h3 class="h3">Enable NAT-T and select the transport</h3>
+          <h3 class="h3">Enable NAT-T / uTP</h3>
           <ul class="list">
-            <li>Enable NAT Traversal in Preferences and keep the default <strong>Prefer QUIC</strong> mode unless uTP-only compatibility is required.</li>
-            <li>QUIC requires current support on both peers. uTP remains available for compatible peers that do not advertise QUIC.</li>
+            <li>Ensure NAT Traversal (uTP) is enabled in Preferences.</li>
+            <li>Keep both peers on recent versions (supports rendezvous &amp; uTP).</li>
           </ul>
         </div>
         <hr class="divider"/>
@@ -2776,8 +2735,7 @@
       <h2 class="h2">FAQ</h2>
       <div class="card">
         <div class="qa"><div class="q">Is ED2K LowID the same as Kad Firewalled?</div><div class="a">No. ED2K HighID/LowID exists only while connected to a server and reflects TCP reachability. Kad Open/Firewalled is Kad's status about UDP reachability, independent of servers.</div></div>
-        <div class="qa"><div class="q">Does NAT-T help if one peer is Kad Firewalled?</div><div class="a">NAT-T still requires usable outbound UDP mappings on both sides. Kad status alone does not guarantee or rule out success, but restrictive NATs and blocked UDP can prevent hole punching.</div></div>
-        <div class="qa"><div class="q">When is uTP used in v1.5?</div><div class="a">uTP is used when the peer does not advertise QUIC, QUIC is unavailable or temporarily disabled for the endpoint, or the user selects uTP only in the NAT-T transport setting.</div></div>
+        <div class="qa"><div class="q">Does NAT-T help if one peer is Kad Firewalled?</div><div class="a">No. Direct callback and hole punching require UDP reachability (Kad Open + Verified) on both sides.</div></div>
         <div class="qa"><div class="q">What is the difference between Kad Buddy and eServer Buddy?</div><div class="a">Kad Buddy is the classic Kad callback helper. eServer Buddy is a newer eMule AI feature for same-server LowID&lt;-&gt;LowID relay. They are different paths with different prerequisites.</div></div>
         <div class="qa"><div class="q">Can LowID &lt;-&gt; LowID work with only one buddy?</div><div class="a">Yes. In Kad rendezvous, uploader-side buddy is required and downloader-side buddy is optional. In eServer Buddy path, requester-side eServer buddy is required while target-side buddy is not.</div></div>
         <div class="qa"><div class="q">What about CGNAT and symmetric NAT?</div><div class="a">Those NATs often create short-lived or address-dependent mappings which may break hole punching. Results vary and can be unreliable.</div></div>
@@ -2788,71 +2746,10 @@
       <h2 class="h2">Version History</h2>
       <article class="card stack">
         <div class="section">
-          <h3 class="h3">v1.5</h3>
+          <h3 class="h3">v1.5.1</h3>
           <ul class="list">
-            <li>Improved UI performance by moving several heavy disk, file, and list operations off the UI thread to reduce freezes during large updates.</li>
-            <li>Improved startup performance by loading large file, search, client, and transfer data in parallel where possible.</li>
-            <li>Added a startup loading overlay so the loading stage and current progress can be observed more easily.</li>
-            <li>Added an exit progress overlay so the shutdown stage and current progress can be observed more easily while eMule AI closes safely.</li>
-            <li>Added overlay info boxes to large list controls to show the status of long bulk operations.</li>
-            <li>Added a loading animation to search tabs while restored or large search result lists are being prepared.</li>
-            <li>Added a dedicated Upload Settings section with high bandwidth slot optimization, slow or idle slot recycling, dynamic upload I/O buffering, adaptive download write buffering, manual upload client limits, low ratio queue score boosting and session based upload rotation controls.</li>
-            <li>Added connection bind controls for interface or IP selection, startup blocking when the selected bind target is unavailable, runtime bind loss exit protection and random listen port selection at startup.</li>
-            <li>Added configurable eD2K and Kad search limits under Search Tweaks, including eD2K result and request limits, Kad file and keyword result targets, Kad search lifetimes and improved setting persistence.</li>
-            <li>Added a new sortable Last Request column to Files -&gt; All Shared Files, making it easier to see when shared files were last requested.</li>
-            <li>Added shared file startup caches to speed up large shared folder scans, reduce repeated duplicate checks and improve responsiveness during startup, runtime saving and shutdown.</li>
-            <li>Added safer shared file intake filtering for temporary, partial, system and other non shareable files during shared folder scans.</li>
-            <li>Added notification display mode selection with Tray balloon, Windows toast notification and Custom popup options</li>
-            <li>Added majority filename controls for automatic rename, including new download only mode, required agreement percentage, minimum vote count and per download state persistence across restarts.</li>
-            <li>Added a native Windows Firewall option under Options -&gt; Connection to keep eMule AI listen ports open and automatically repair missing or disabled firewall rules when needed. Enabling this option will prompt for UAC elevation.</li>
-            <li>Improved Low ID and Kad firewalled transfers to use the new QUIC transfer protocol, enabling downloads up to about 3x faster than uTP in supported client to client transfers.</li>
-            <li>Improved uTP performance for Low ID and Kad firewalled transfers, making downloads up to about 2x faster in client to client transfers where QUIC is not available or uTP is selected.</li>
-            <li>Improved IP Geolocation by switching to DB-IP.com's IP to City Lite database, now included in the release package, with support for both manual and automatic updates from the settings.</li>
-            <li>Improved bulk list operations, such as adding many downloads or deleting many items, so they no longer block the interface for long periods.</li>
-            <li>Improved very large list reload performance by avoiding unnecessary reload, sort, and redraw work when the visible list has not changed.</li>
-            <li>Improved shared files, file history, known clients, search results, and transfer list responsiveness with safer background preparation and lighter UI updates.</li>
-            <li>Improved the loading and reload behavior of restored search tabs, especially with large saved search result sets.</li>
-            <li>Improved the exit confirmation dialog with updated styling so it matches the newer overlay windows.</li>
-            <li>Improved Kad searches so rare or low result queries can keep looking a little further before giving up.</li>
-            <li>Improved real time folder tree updates so directory changes are reflected more accurately.</li>
-            <li>Improved opening large collection files by using a virtual collection viewer and deferring redraw, sorted row insertion and row update operations until each batch is fully processed.</li>
-            <li>Improved adding large batches of eD2K links by processing parsed links in smaller UI friendly batches and deferring list redraw, sorted insertion and row update work until each batch is fully processed.</li>
-            <li>Improved automatic shared files reloading to better handle large libraries and rapid folder changes without temporarily clearing the shared files list.</li>
-            <li>Improved shared files handling to preserve upload spread bar visuals and reduce unnecessary reloads during large folder scanning and hashing.</li>
-            <li>Improved bind handling across TCP, UDP, Kad, server UDP and web related sockets while preserving IPv6 automatic interface and address selection behavior.</li>
-            <li>Improved async configuration and metadata snapshot saving to use long path aware temporary, backup and final file operations.</li>
-            <li>Improved directory creation to use a dedicated long path preparation helper for Win32 edge cases near the directory length limit.</li>
-            <li>Improved the Transfers window so categories and list filters appear correctly and adapt smoothly to smaller window sizes without overlapping important controls.</li>
-            <li>Improved search result status updates so files now correctly reflect downloading, cancelled, shared or completed states across all open search tabs without slowing down large result lists.</li>
-            <li>Improved IP Filter list sorting responsiveness, especially when sorting very large IP filter lists by Description.</li>
-            <li>Improved log and status bar feedback for IP geolocation updates, server.met downloads and Kad bootstrap start messages.</li>
-            <li>Improved LowID connectivity by allowing compatible clients to reuse an existing eServer buddy as a faster Kad buddy candidate when possible or reuse an existing Kad buddy as an eServer buddy candidate when possible.</li>
-            <li>Fixed LowID to LowID downloads failing when the two clients were using different eServer buddies. Updated eServer buddy discovery to avoid using incompatible older buddy clients for new relay features.</li>
-            <li>Fixed LowID to LowID downloads failing to start when the uploader’s reachable UDP port was detected later during eServer buddy relay setup.</li>
-            <li>Fixed LowID to LowID downloads getting stuck at 0 B/s after the connection had already been established.</li>
-            <li>Fixed LowID to LowID sources being dropped when removing another active download from the same client.</li>
-            <li>Fixed failed buddy connection attempts occupying available buddy slots for too long.</li>
-            <li>Fixed LowID clients failing to reconnect to the same eServer buddy after the buddy changed servers.</li>
-            <li>Fixed eServer buddy reconnects failing after a server change due to stale client information.</li>
-            <li>Fixed an issue where eServer buddy requests could be rejected after all clients reconnected to the same server.</li>
-            <li>Fixed misleading eServer relay IP logging that could make connection troubleshooting confusing.</li>
-            <li>Fixed “Asked for another file” sources being lost after canceling a related download.</li>
-            <li>Fixed cases where list controls could temporarily appear stale or unresponsive while background work was still running.</li>
-            <li>Fixed Web UI file renaming from the Transfers page and improved refresh behavior so renamed files are shown correctly right away.</li>
-            <li>Fixed stale title transfer rates briefly showing after restoring from the system tray.</li>
-            <li>Fixed a rare known2_64.met recovery issue where very large AICH hashset files could be truncated incorrectly after corruption detection.</li>
-            <li>Fixed stalled 0 B/s upload slots caused by hidden part requests or clients that did not send block requests after upload slot activation.</li>
-            <li>Fixed dark mode list header hover flicker that could appear on the Files screen when the mouse was left idle over narrow or right side columns.</li>
-            <li>Fixed Protection Panel general settings not being restored correctly after restart because some values were saved and loaded with mismatched preference keys or variables.</li>
-            <li>Fixed a crash that could occur when viewing Known Clients after changing Credit System settings.</li>
-            <li>Fixed misleading source row transferred values being shown under the Completed column when the Transferred column was hidden.</li>
-            <li>Fixed expanded transfer source rows becoming stale when sources were added or removed by background download processing.</li>
-            <li>Fixed Save Load Sources generating garbled .txtsrc filenames by deriving the path from the part file at save time.</li>
-            <li>Fixed IP Filter list header rendering issues, including misaligned column separators and incorrectly positioned sort arrows.</li>
-            <li>Fixed a rare issue where minor filesystem timestamp differences could cause existing shared files to be reprocessed after reload, leading some servers to show the "Too many files republished by your client software. Please upgrade it." warning.</li>
-            <li>Fixed inconsistent speed unit display by moving the KB/s display option to Connection settings and applying it consistently to Connection, MiniMule and Web Interface speed controls.</li>
-            <li>Renamed Download Checker to Download Validator to make it easier to distinguish it from Download Inspector in translations.</li>
-            <li>Updated MediaInfoLib, MiniUPnPc, ResizableLib, and Crypto++. Please see https://emuleai.github.io for version details.</li>
+            <li>Added Docker support with the official emuleai/emuleai image on Docker Hub so Linux and macOS users can run eMule AI with Xpra desktop integration or access it through a browser with noVNC on headless Linux systems.</li>
+            <li>Fixed an issue where the Saving Downloads overlay could remain stuck after adding eD2K links from the clipboard and prevent eMule AI from closing.</li>
           </ul>
         </div>
         <hr class="divider"/>
@@ -2984,13 +2881,15 @@
       <article class="card stack">
         <div class="section"><h3 class="h3">QUIC NAT-T Transport</h3><p>QUIC is now the primary NAT Traversal data protocol for compatible peers. Direct capability negotiation selects QUIC when available and automatically falls back to uTP for compatibility.</p></div>
         <hr class="divider"/>
+        <div class="section"><h3 class="h3">Docker Support for Linux and macOS</h3><p>Use the official emuleai/emuleai image on Docker Hub to run eMule AI with Xpra desktop integration on Linux and macOS or noVNC browser access on headless Linux systems.</p></div>
+        <hr class="divider"/>
         <div class="section"><h3 class="h3">Upload Settings</h3><p>A dedicated settings group controls high-bandwidth slot targets, elastic overflow, slow and inactive slot recycling, low-ratio queue assistance, session transfer and time limits, and adaptive download write buffering.</p></div>
         <hr class="divider"/>
         <div class="section"><h3 class="h3">Network Binding and IP Guard</h3><p>Bind P2P sockets to an adapter or local address. IP Guard can block network activity until the binding and optional public IP allowlist are verified, including runtime changes.</p></div>
         <hr class="divider"/>
         <div class="section"><h3 class="h3">Startup, Exit, and Bulk Operation Overlays</h3><p>Progress overlays and list status boxes make parallel startup, safe shutdown, large reloads, and bulk add or delete operations visible without blocking the interface.</p></div>
         <hr class="divider"/>
-        <div class="section"><h3 class="h3">Shared File Startup Cache</h3><p><code>sharedcache.dat</code> accelerates large shared-folder scans, remembers verified path metadata, and reduces repeated duplicate checks while remaining disposable and automatically rebuildable.</p></div>
+        <div class="section"><h3 class="h3">Shared File Startup Cache</h3><p>sharedcache.dat accelerates large shared-folder scans, remembers verified path metadata, and reduces repeated duplicate checks while remaining disposable and automatically rebuildable.</p></div>
         <hr class="divider"/>
         <div class="section"><h3 class="h3">Search Limits and Last Request Column</h3><p>New eD2K and Kad result, request, and lifetime controls limit oversized searches. Files -&gt; All Shared Files adds a sortable Last Request column.</p></div>
         <hr class="divider"/>
@@ -3010,7 +2909,7 @@
         <hr class="divider"/>
         <div class="section"><h3 class="h3">IPv6 Support</h3><p>End-to-end IPv6 handling for peers, friends, and sockets alongside IPv4; addresses display and copy correctly across dialogs and tooltips.</p></div>
         <hr class="divider"/>
-        <div class="section"><h3 class="h3">Spam/Blacklist System</h3><p>A Spam Rating column (0-100), a customizable spam threshold, logging of rating results, and a Blacklist Panel with "recheck now" combine to surface quality results and hide junk.</p></div>
+        <div class="section"><h3 class="h3">Spam/Blacklist System</h3><p>A Spam Rating column (0-100), a customizable spam threshold, logging of rating results, and a Blacklist Panel with &quot;recheck now&quot; combine to surface quality results and hide junk.</p></div>
         <hr class="divider"/>
         <div class="section"><h3 class="h3">Client History</h3><p>Lightweight history of clients you met (with retention control) to enable once-per-client automation like first-time shared-files queries.</p></div>
         <hr class="divider"/>
@@ -3038,25 +2937,25 @@
         <hr class="divider"/>
         <div class="section"><h3 class="h3">Friend / User Hash / ID Type / Client Version Columns</h3><p>New columns in client lists show Friend status, User Hash, ID Type (High/LowID), and Client Version for quick grouping and sorting.</p></div>
         <hr class="divider"/>
-        <div class="section"><h3 class="h3">IP:Port Column</h3><p>Shows each peer's current endpoint in a sortable column.</p></div>
+        <div class="section"><h3 class="h3">IP:Port Column</h3><p>Shows each peer&#x27;s current endpoint in a sortable column.</p></div>
         <hr class="divider"/>
         <div class="section"><h3 class="h3">See Own Credits</h3><p>Displays how your credit ratio appears to the remote side for clearer give-and-take diagnostics.</p></div>
         <hr class="divider"/>
-        <div class="section"><h3 class="h3">Cancel Download from Context Menus</h3><p>Right-click in Search/Download/Shared lists to cancel downloads; an option lets you cancel without marking as "canceled" in history.</p></div>
+        <div class="section"><h3 class="h3">Cancel Download from Context Menus</h3><p>Right-click in Search/Download/Shared lists to cancel downloads; an option lets you cancel without marking as &quot;canceled&quot; in history.</p></div>
         <hr class="divider"/>
-        <div class="section"><h3 class="h3">Remote Client's Shared Files - Status Columns</h3><p>New columns indicate query status, last queried time, and number of files received for a client's shared list.</p></div>
+        <div class="section"><h3 class="h3">Remote Client&#x27;s Shared Files - Status Columns</h3><p>New columns indicate query status, last queried time, and number of files received for a client&#x27;s shared list.</p></div>
         <hr class="divider"/>
-        <div class="section"><h3 class="h3">Client Note</h3><p>Attach a short note to any client; optionally show it in the tab title when viewing that client's files.</p></div>
+        <div class="section"><h3 class="h3">Client Note</h3><p>Attach a short note to any client; optionally show it in the tab title when viewing that client&#x27;s files.</p></div>
         <hr class="divider"/>
         <div class="section"><h3 class="h3">Copy List Text with CTRL+C / CTRL+X</h3><p>Copy selected list rows as neat plain text for pasting into notes/spreadsheets.</p></div>
         <hr class="divider"/>
         <div class="section"><h3 class="h3">Clean Up Search Results</h3><p>A command to quickly purge obsolete/blacklisted items from active search tabs.</p></div>
         <hr class="divider"/>
-        <div class="section"><h3 class="h3">Disable "Find As You Type" Option</h3><p>Turn off type-to-search in heavy lists to avoid accidental scans.</p></div>
+        <div class="section"><h3 class="h3">Disable &quot;Find As You Type&quot; Option</h3><p>Turn off type-to-search in heavy lists to avoid accidental scans.</p></div>
         <hr class="divider"/>
-        <div class="section"><h3 class="h3">Don't Mark As Canceled (Menu Action)</h3><p>Cancel a download without adding it to the "canceled" history.</p></div>
+        <div class="section"><h3 class="h3">Don&#x27;t Mark As Canceled (Menu Action)</h3><p>Cancel a download without adding it to the &quot;canceled&quot; history.</p></div>
         <hr class="divider"/>
-        <div class="section"><h3 class="h3">Friend Link Recognition</h3><p>Understands ed2k "friend" links from clipboard to add friends quickly.</p></div>
+        <div class="section"><h3 class="h3">Friend Link Recognition</h3><p>Understands ed2k &quot;friend&quot; links from clipboard to add friends quickly.</p></div>
         <hr class="divider"/>
         <div class="section"><h3 class="h3">Source Cache</h3><p>Temporarily caches discovered sources so paused/resumed files can reuse them without re-querying.</p></div>
         <hr class="divider"/>
@@ -3064,35 +2963,25 @@
         <hr class="divider"/>
         <div class="section"><h3 class="h3">Client Version in Tooltips</h3><p>Download-list tooltips include full client software/version lines.</p></div>
         <hr class="divider"/>
-        <div class="section"><h3 class="h3">Webservices Enhancements</h3><p>Wide-character support and a "filename_untouched" placeholder in webservices.dat; multi-selection webservice actions.</p></div>
+        <div class="section"><h3 class="h3">Webservices Enhancements</h3><p>Wide-character support and a &quot;filename_untouched&quot; placeholder in webservices.dat; multi-selection webservice actions.</p></div>
         <hr class="divider"/>
         <div class="section"><h3 class="h3">SpeedMeter</h3><p>Built-in live up/down graphs in the Connection page and main window for a lightweight visual of throughput.</p></div>
         <hr class="divider"/>
-        <div class="section"><h3 class="h3">Auto Query Remote Client's Shared Files (First Connect)</h3><p>Optionally auto-query a client's shared files after first connection, paced by configurable per-period limits.</p></div>
+        <div class="section"><h3 class="h3">Auto Query Remote Client&#x27;s Shared Files (First Connect)</h3><p>Optionally auto-query a client&#x27;s shared files after first connection, paced by configurable per-period limits.</p></div>
         <hr class="divider"/>
-        <div class="section"><h3 class="h3">Save Application State (Button)</h3><p>One-click save of list layouts, column orders, and preferences for easy layout "bookmarks".</p></div>
+        <div class="section"><h3 class="h3">Save Application State (Button)</h3><p>One-click save of list layouts, column orders, and preferences for easy layout &quot;bookmarks&quot;.</p></div>
         <hr class="divider"/>
-        <div class="section"><h3 class="h3">Set Executable Directory as Default (First-Run Behavior)</h3><p>If no choice exists yet, uses the app's folder as the base location for a portable-style setup.</p></div>
+        <div class="section"><h3 class="h3">Set Executable Directory as Default (First-Run Behavior)</h3><p>If no choice exists yet, uses the app&#x27;s folder as the base location for a portable-style setup.</p></div>
         <hr class="divider"/>
-        <div class="section"><h3 class="h3">Migration Wizard</h3><p>Adds a built-in Migration Wizard that can run automatically on first launch after language selection or be scheduled later from <code>Tools &gt; Migration Wizard</code>. It helps restore supported legacy eMule configuration files into eMule AI with directory detection, copy results, and clear follow-up guidance.</p></div>
+        <div class="section"><h3 class="h3">Migration Wizard</h3><p>Adds a built-in Migration Wizard that can run automatically on first launch after language selection or be scheduled later from Tools &gt; Migration Wizard. It helps restore supported legacy eMule configuration files into eMule AI with directory detection, copy results, and clear follow-up guidance.</p></div>
         <hr class="divider"/>
-        <div class="section"><h3 class="h3">Don't Filter Private IPs Option</h3><p>Allow local/private addresses even when an IP filter is active, useful on home/lab networks.</p></div>
+        <div class="section"><h3 class="h3">Don&#x27;t Filter Private IPs Option</h3><p>Allow local/private addresses even when an IP filter is active, useful on home/lab networks.</p></div>
       </article>
     </section>
 
     <section data-nav-group="release" id="release-improvements">
       <h2 class="h2">Improvements</h2>
       <article class="card stack">
-        <div class="section"><h3 class="h3">Background Preparation and Parallel Loading</h3><p>Large file, search, client, transfer, collection, and shared-library operations are prepared outside the UI thread and committed in smaller UI-friendly batches.</p></div>
-        <hr class="divider"/>
-        <div class="section"><h3 class="h3">Large List Responsiveness</h3><p>Reload, sort, redraw, selection restoration, and status refresh work is skipped or deferred when the visible model has not changed, reducing stalls in very large lists.</p></div>
-        <hr class="divider"/>
-        <div class="section"><h3 class="h3">Safer Shared File Processing</h3><p>Startup caches, non-shareable file filtering, real-time tree updates, hashing-state preservation, and lighter reload commits improve large-library stability.</p></div>
-        <hr class="divider"/>
-        <div class="section"><h3 class="h3">DB-IP City Lite Integration</h3><p>IP Geolocation now uses the bundled DB-IP City Lite MMDB database and supports manual or automatic database updates.</p></div>
-        <hr class="divider"/>
-        <div class="section"><h3 class="h3">Long-Path-Safe Saving</h3><p>Configuration and metadata snapshots use long-path-aware temporary, backup, and final file operations. Directory creation also uses dedicated long-path preparation.</p></div>
-        <hr class="divider"/>
         <div class="section"><h3 class="h3">Long Path Support</h3><p>File operations (hash/preview/move/backup) work reliably beyond classic 260-char Windows limits by using long-path-safe APIs and formats.</p></div>
         <hr class="divider"/>
         <div class="section"><h3 class="h3">Virtual-List Performance &amp; List Engine</h3><p>Compact backing stores, batched refresh, selection/scroll restore, and combined/heap sorting make giant lists smooth and responsive.</p></div>
@@ -3112,6 +3001,8 @@
         <div class="section"><h3 class="h3">KAD Bootstrap UX</h3><p>Autocomplete/history for IP:port and URL fields, Enter-to-bootstrap, Delete to remove suggestions; remembers your last choice.</p></div>
         <hr class="divider"/>
         <div class="section"><h3 class="h3">IP Filter Improvements</h3><p>Static IP filter file, separate whitelist, better loader/merger behavior, and corrected save logic (no truncation).</p></div>
+        <hr class="divider"/>
+        <div class="section"><h3 class="h3">GeoLite2 Clarity/Performance</h3><p>Efficient flag handling and optional long vs. short country names; single-click enable/disable.</p></div>
         <hr class="divider"/>
         <div class="section"><h3 class="h3">Auto-Refreshing Network Info</h3><p>Keeps ports/IDs/Kad status current while open, with tidy formatting and consistent refresh.</p></div>
         <hr class="divider"/>
@@ -3174,16 +3065,6 @@
     <section data-nav-group="release" id="release-fixes">
       <h2 class="h2">Bug fixes</h2>
       <article class="card stack">
-        <div class="section"><h3 class="h3">LowID Relay Reliability</h3><p>Fixed cross-buddy LowID transfers, delayed UDP-port discovery, 0 B/s established connections, stale buddy data after server changes, premature source removal, and long-lived failed buddy slots.</p></div>
-        <hr class="divider"/>
-        <div class="section"><h3 class="h3">Upload Slot Stalls</h3><p>Fixed hidden part requests and clients that entered an upload slot without sending block requests, preventing persistent 0 B/s upload slots.</p></div>
-        <hr class="divider"/>
-        <div class="section"><h3 class="h3">List and UI Rendering</h3><p>Fixed stale expanded source rows, source values appearing under the wrong column, dark-mode list-header hover flicker, IP Filter header alignment, and stale title rates after tray restore.</p></div>
-        <hr class="divider"/>
-        <div class="section"><h3 class="h3">Metadata and Source Persistence</h3><p>Fixed very large <code>known2_64.met</code> recovery truncation, garbled saved-source filenames, and filesystem timestamp differences that could trigger unnecessary shared-file republishing.</p></div>
-        <hr class="divider"/>
-        <div class="section"><h3 class="h3">Settings and Web UI</h3><p>Fixed Protection Panel preference restoration, Known Clients crashes after credit-system changes, Web UI file renaming refresh, and inconsistent speed-unit handling.</p></div>
-        <hr class="divider"/>
         <div class="section"><h3 class="h3">"Encountered an improper argument" Crashes While Scrolling</h3><p>Guards progress-bar drawing to avoid invalid GDI calls during fast scrolling in the Download list.</p></div>
         <hr class="divider"/>
         <div class="section"><h3 class="h3">AICH Hashset Save</h3><p>Waits properly for internal locks and stops hashing on exit to eliminate "Failed to save HashSet" after hashing.</p></div>
@@ -3296,7 +3177,7 @@
       <article class="card stack" id="support-verbose-logs">
         <div class="section">
           <h3 class="support-topic">Verbose logs for diagnostics</h3>
-          <p>If the issue does not crash the client but still needs deeper analysis, verbose logs are usually the best starting point. They are especially helpful for connection behavior, NAT-T, QUIC, and uTP issues, unexpected state changes, retries, queue logic, and similar problems that are hard to explain with screenshots alone.</p>
+          <p>If the issue does not crash the client but still needs deeper analysis, verbose logs are usually the best starting point. They are especially helpful for connection behavior, NAT-T and uTP issues, unexpected state changes, retries, queue logic, and similar problems that are hard to explain with screenshots alone.</p>
         </div>
         <hr class="divider"/>
         <div class="section">
@@ -3307,7 +3188,7 @@
             <li>Enable <strong>Verbose</strong>.</li>
             <li>Set <strong>Log Level</strong> to <strong>5</strong>. This is the highest and most detailed log level.</li>
             <li>Enable <strong>Log NAT traversal events</strong> if the problem is related to connectivity, NAT-T, or uTP.</li>
-            <li>Keep the feature you are testing enabled while reproducing the problem. For example, if you are reporting a NAT-T, QUIC, or uTP issue, make sure <strong>Enable NAT Traversal (NAT-T)</strong> remains enabled during the test.</li>
+            <li>Keep the feature you are testing enabled while reproducing the problem. For example, if you are reporting a NAT-T or uTP issue, make sure <strong>Enable uTP &amp; NAT Traversal (NAT-T)</strong> remains enabled during the test.</li>
             <li>Reproduce the problem with the simplest possible test case you can find.</li>
             <li>After the test, compress the newly created files from the <code>logs</code> folder and attach them to the GitHub issue, or upload them to a file host if they are too large for GitHub.</li>
           </ol>
@@ -3361,7 +3242,7 @@
       <article class="card stack" id="support-network-reports">
         <div class="section">
           <h3 class="support-topic">Network, NAT-T, and uTP issue reports</h3>
-          <p>If your problem looks network-related, for example sources stay at <code>Unknown</code>, many sources end up as <code>Too many connections</code>, NAT-T, QUIC, or uTP works only on some networks, or transfers improve after disabling <code>Enable NAT Traversal (NAT-T)</code>, please include a deeper report than a normal bug description.</p>
+          <p>If your problem looks network-related, for example sources stay at <code>Unknown</code>, many sources end up as <code>Too many connections</code>, NAT-T or uTP works only on some networks, or transfers improve after disabling <code>Enable uTP &amp; NAT Traversal (NAT-T)</code>, please include a deeper report than a normal bug description.</p>
           <div class="callout" style="margin-top:14px">
             <strong>Why this matters:</strong> for this class of issue, screenshots alone are usually not enough. The most useful reports combine a simple reproduction path, full verbose logs, and a short packet capture taken during the same test session.
           </div>
@@ -3376,14 +3257,14 @@
             <li>Your current network setup, for example direct connection, home router, VPN, virtual machine, or mobile hotspot.</li>
             <li>A short description of what you expected and what happened instead.</li>
             <li>The smallest reliable reproduction case you can find, ideally one file with many sources.</li>
-            <li>Whether the problem changes when <code>Enable NAT Traversal (NAT-T)</code> is disabled.</li>
+            <li>Whether the problem changes when <code>Enable uTP &amp; NAT Traversal (NAT-T)</code> is disabled.</li>
             <li>Whether the same test behaves differently on another network, for example when you connect through your phone's hotspot instead of your usual router.</li>
           </ul>
         </div>
         <hr class="divider"/>
         <div class="section">
           <h4 class="h3">Capture the network side with Wireshark</h4>
-          <p><a href="https://www.wireshark.org/download.html" rel="noopener noreferrer" target="_blank">Wireshark</a> is a free network analysis tool. It helps show whether the expected UDP, QUIC, and uTP packets are actually reaching your PC during the failing test. You can download it here: <a href="https://www.wireshark.org/download.html" rel="noopener noreferrer" target="_blank">https://www.wireshark.org/download.html</a>.</p>
+          <p><a href="https://www.wireshark.org/download.html" rel="noopener noreferrer" target="_blank">Wireshark</a> is a free network analysis tool. It helps show whether the expected UDP and uTP packets are actually reaching your PC during the failing test. You can download it here: <a href="https://www.wireshark.org/download.html" rel="noopener noreferrer" target="_blank">https://www.wireshark.org/download.html</a>.</p>
           <ol class="list">
             <li>Download and install <a href="https://www.wireshark.org/download.html" rel="noopener noreferrer" target="_blank">Wireshark</a>.</li>
             <li>Open Wireshark and start capturing on the network adapter your PC is actively using, usually Ethernet or Wi-Fi.</li>
@@ -3415,37 +3296,32 @@
       <h2 class="h2">Compiling the Source Code</h2>
       <article class="card">
         <h3 class="h3">Build Environment</h3>
-        <p>The solution targets Visual Studio 18 with the <code>v145</code> platform toolset and provides Debug and Release configurations for Win32, x64, and ARM64.</p>
-        <p>Python must be installed and available in <code>PATH</code>, because the build runs <code>srchybrid/translations/ai_translator.py</code> for translation map validation and generated header output.</p>
+        <p>Built with Visual Studio 2026 v18.5.1, using the latest MSVC and MSVC Build Tools available at the time.</p>
+        <p>Python 3.7 or newer must also be installed and available in <code>PATH</code>, because the build runs <code>srchybrid/translations/ai_translator.py</code> for translation map validation and generated header output.</p>
       </article>
       <article class="card">
         <h3 class="h3">Libraries</h3>
-        <p>The v1.5 source archive bundles the third-party source trees at the repository root and includes them as projects in <code>eMuleAI.sln</code>. Build the solution so the dependency projects are produced in the shared <code>_Build</code> output tree before the main executable is linked.</p>
-        <p>The table reflects the bundled source revisions. QUIC adds the ngtcp2, GnuTLS, Nettle, and GMP chain. uTP remains included as the fallback NAT-T transport.</p>
-        <div style="margin-top:14px; overflow:auto">
-          <table class="pretty-table" style="width:100%; border-collapse:collapse; min-width:900px">
+        <p>Building eMule AI requires downloading and compiling additional third-party libraries that are not bundled with the distribution. The required dependencies are listed in the table below. Please note that some entries use official release versions, while others reference a specific commit and branch.</p>
+        <p>Download and place each library’s source code one directory level above the eMule AI source tree, then compile it. Check the project files for the expected folder names, or adjust the paths to match your layout.</p>
+        <div style="margin-top:14px">
+          <table class="pretty-table" style="width:100%; border-collapse:collapse">
             <thead>
               <tr style="background:var(--muted-surface)">
-                <th style="padding:12px; border-bottom:1px solid var(--border); width:18%">Library</th>
-                <th style="padding:12px; border-bottom:1px solid var(--border); width:22%">Bundled version / commit</th>
-                <th style="padding:12px; border-bottom:1px solid var(--border); width:30%">Role in eMule AI</th>
-                <th style="padding:12px; border-bottom:1px solid var(--border); width:30%">Official source</th>
+                <th style="padding:12px; border-bottom:1px solid var(--border); width:28%">Library</th>
+                <th style="padding:12px; border-bottom:1px solid var(--border); width:22%">Version / Commit</th>
+                <th style="padding:12px; border-bottom:1px solid var(--border)">Source</th>
               </tr>
             </thead>
             <tbody style="font-size:0.92em">
-              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Crypto++</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)"><code>4775a16</code> on master</td><td style="padding:10px; border-bottom:1px solid var(--border)">eMule cryptographic primitives and secure identification support.</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/weidai11/cryptopp/tree/4775a16622df92e6f57baae745b485b84c36c7a7" rel="noopener noreferrer" target="_blank">github.com/weidai11/cryptopp</a></td></tr>
-              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>GMP</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">6.3.0</td><td style="padding:10px; border-bottom:1px solid var(--border)">Multiple-precision arithmetic used by the GnuTLS and Nettle QUIC security chain.</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://gmplib.org/" rel="noopener noreferrer" target="_blank">gmplib.org</a></td></tr>
-              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>GnuTLS</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">3.8.13</td><td style="padding:10px; border-bottom:1px solid var(--border)">TLS handshake and keying integration for the ngtcp2 QUIC transport.</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://gitlab.com/gnutls/gnutls" rel="noopener noreferrer" target="_blank">gitlab.com/gnutls/gnutls</a></td></tr>
-              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>libmaxminddb</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">1.13.3</td><td style="padding:10px; border-bottom:1px solid var(--border)">Reads the bundled DB-IP City Lite MMDB geolocation database.</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/maxmind/libmaxminddb" rel="noopener noreferrer" target="_blank">github.com/maxmind/libmaxminddb</a></td></tr>
-              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>libutp</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)"><code>490874c</code> on <code>post-3.4-transmission</code></td><td style="padding:10px; border-bottom:1px solid var(--border)">Compatibility fallback transport for NAT-T when QUIC is unavailable or disabled.</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/transmission/libutp/tree/post-3.4-transmission" rel="noopener noreferrer" target="_blank">github.com/transmission/libutp</a></td></tr>
-              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Mbed TLS</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">4.1.0</td><td style="padding:10px; border-bottom:1px solid var(--border)">Existing TLS and cryptographic functionality outside the new ngtcp2-GnuTLS QUIC bridge.</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/Mbed-TLS/mbedtls/releases/tag/mbedtls-4.1.0" rel="noopener noreferrer" target="_blank">github.com/Mbed-TLS/mbedtls</a></td></tr>
-              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>MediaInfoLib</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">26.05</td><td style="padding:10px; border-bottom:1px solid var(--border)">Media container, codec, tag, and technical metadata analysis.</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/MediaArea/MediaInfoLib" rel="noopener noreferrer" target="_blank">github.com/MediaArea/MediaInfoLib</a></td></tr>
-              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>MiniUPnPc</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">2.3.3</td><td style="padding:10px; border-bottom:1px solid var(--border)">UPnP Internet Gateway Device discovery and port mapping.</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/miniupnp/miniupnp/tree/master/miniupnpc" rel="noopener noreferrer" target="_blank">github.com/miniupnp/miniupnp</a></td></tr>
-              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>Nettle</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">4.0</td><td style="padding:10px; border-bottom:1px solid var(--border)">Low-level cryptographic algorithms used by GnuTLS.</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://gitlab.com/gnutls/nettle/-/tags" rel="noopener noreferrer" target="_blank">https://gitlab.com/gnutls/nettle/-/tags</a></td></tr>
-              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>ngtcp2</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">1.23.0</td><td style="padding:10px; border-bottom:1px solid var(--border)">RFC 9000 QUIC transport engine for the preferred NAT-T data path.</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/ngtcp2/ngtcp2/releases/tag/v1.23.0" rel="noopener noreferrer" target="_blank">github.com/ngtcp2/ngtcp2</a></td></tr>
-              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>ResizableLib</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)"><code>bebab50</code> on master, 2026-06-23</td><td style="padding:10px; border-bottom:1px solid var(--border)">Resizable MFC dialog, page, frame, and layout helpers.</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/ppescher/resizablelib/tree/bebab50a5dbfbb0913b64d23b86d1c3110677c41" rel="noopener noreferrer" target="_blank">github.com/ppescher/resizablelib</a></td></tr>
-              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>ZenLib</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">0.4.41</td><td style="padding:10px; border-bottom:1px solid var(--border)">Utility layer used by MediaInfoLib.</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/MediaArea/ZenLib" rel="noopener noreferrer" target="_blank">github.com/MediaArea/ZenLib</a></td></tr>
-              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>zlib</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">1.3.2</td><td style="padding:10px; border-bottom:1px solid var(--border)">Compression and archive support.</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/madler/zlib" rel="noopener noreferrer" target="_blank">github.com/madler/zlib</a></td></tr>
+              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>cryptopp</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">8.9.0</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/weidai11/cryptopp" rel="noopener noreferrer" target="_blank">github.com/weidai11/cryptopp</a></td></tr>
+              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>libmaxminddb</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">1.13.3</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/maxmind/libmaxminddb/" rel="noopener noreferrer" target="_blank">github.com/maxmind/libmaxminddb</a></td></tr>
+              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>libutp</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">#490874c@post-3.4-transmission</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/transmission/libutp/tree/post-3.4-transmission" rel="noopener noreferrer" target="_blank">github.com/transmission/libutp</a></td></tr>
+              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>mbedtls</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">4.0.0</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/Mbed-TLS/mbedtls" rel="noopener noreferrer" target="_blank">github.com/Mbed-TLS/mbedtls</a></td></tr>
+              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>MediaInfoLib</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">26.01</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/MediaArea/MediaInfoLib" rel="noopener noreferrer" target="_blank">github.com/MediaArea/MediaInfoLib</a></td></tr>
+              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>miniupnpc</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">2.3.3</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/miniupnp/miniupnp" rel="noopener noreferrer" target="_blank">github.com/miniupnp/miniupnp</a></td></tr>
+              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>ResizableLib</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">#733ea0d@master</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/ppescher/resizablelib" rel="noopener noreferrer" target="_blank">github.com/ppescher/resizablelib</a></td></tr>
+              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>ZenLib</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">0.4.41</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/MediaArea/ZenLib" rel="noopener noreferrer" target="_blank">github.com/MediaArea/ZenLib</a></td></tr>
+              <tr><td style="padding:10px; border-bottom:1px solid var(--border)"><strong>zlib</strong></td><td style="padding:10px; border-bottom:1px solid var(--border)">1.3.2</td><td style="padding:10px; border-bottom:1px solid var(--border)"><a href="https://github.com/madler/zlib" rel="noopener noreferrer" target="_blank">github.com/madler/zlib</a></td></tr>
             </tbody>
           </table>
         </div>
@@ -3457,10 +3333,10 @@
 		<article class="card">
 			<p>Many thanks to everyone who contributed to eMule over the years. Without their work, eMule AI would not have been possible.</p>
 			<p><strong>Developers:</strong> Merkur, John aka. Unknown1, Ornis, Bluecow, Tecxx, Pach2, Juanjo, Dirus, Barry, zz, Some Support</p>
-			<p><strong>Modders:</strong> David Xanatos, Stulle, XMan, netfinity, WiZaRd, leuk_he, enkeyDev, SLUGFILLER, SiRoB, khaos, fox88, brand33d,
-			Enig123, TAHO, Pretender, Mighty Knife, Ottavio84, Dolphin, sFrQlXeRt, evcz, cyrex2001, zz_fly, Slaham, Spike, shadow2004, gomez82, JvA,
-			Pawcio, lovelace, MoNKi, Avi3k, Commander, emulEspaña, Maella, VQB, J.C.Conner</p>
-			<p><strong>Testers:</strong> fangguihua1995, QICKV8, lzk87, Heliotropo, Havokdan, Andrey23, mistressadmin, enone, AnneDane, edelkas, Aokromes, superlent, tchara, OConnell, potes31, lapollarecord, tictoc9, arturx, Sony, Monk, Myxin, Mr Ozon, Daan, Elandal, Frozen_North, kayfam, Khandurian, Masta2002, mrLabr, Nesi-San,
+			<p><strong>Modders:</strong> David Xanatos, Stulle, XMan, netfinity, WiZaRd, leuk_he, enkeyDev, SLUGFILLER, SiRoB, khaos, fox88, Enig123,
+			TAHO, Pretender, Mighty Knife, Ottavio84, Dolphin, sFrQlXeRt, evcz, cyrex2001, zz_fly, Slaham, Spike, shadow2004, gomez82, JvA, Pawcio,
+			lovelace, MoNKi, Avi3k, Commander, emulEspaña, Maella, VQB, J.C.Conner</p>
+			<p><strong>Testers:</strong> Sony, Monk, Myxin, Mr Ozon, Daan, Elandal, Frozen_North, kayfam, Khandurian, Masta2002, mrLabr, Nesi-San,
 			SeveredCross, Skynetman</p>
 		</article>
 	</section>
