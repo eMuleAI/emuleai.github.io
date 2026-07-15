@@ -3026,6 +3026,20 @@ docker inspect eMuleAI</code></pre>
       <h2 class="h2">Version History</h2>
       <article class="card stack">
         <div class="section">
+          <h3 class="h3">v1.5.2</h3>
+          <ul class="list">
+            <li>Added Known filtering checkbox to Search results.</li>
+            <li>Added bulk download options to the Search Results context menu.</li>
+            <li>Improved metadata updates to show progress in the Files list while allowing eMule AI to close normally.</li>
+            <li>Fixed an issue where the hashing progress overlay in the Files list could remain stuck after processing a shared file.</li>
+            <li>Fixed an issue where the exit confirmation could be hidden behind the About screen.</li>
+            <li>Fixed filter layouts so labels stay readable without overlapping nearby controls after changing languages.</li>            
+            <li>Fixed Blacklist Panel layout so translated option labels remain fully visible.</li>            
+          </ul>
+        </div>
+        <hr class="divider"/>
+        <div class="section">
+        <div class="section">
           <h3 class="h3">v1.5.1</h3>
           <ul class="list">
             <li>Added Docker support with the official emuleai/emuleai image and a shared launcher package for Windows, Linux, and macOS, with Xpra desktop integration or noVNC browser access.</li>
@@ -3652,7 +3666,7 @@ docker inspect eMuleAI</code></pre>
       <h2 class="h2">Compiling the Source Code</h2>
       <article class="card">
         <h3 class="h3">Build Environment</h3>
-        <p>Built with Visual Studio 2026 v18.5.1, using the latest MSVC and MSVC Build Tools available at the time.</p>
+        <p>Built with Visual Studio 2026 v18.8.0, using the latest MSVC and MSVC Build Tools available at the time.</p>
         <p>Python 3.7 or newer must also be installed and available in <code>PATH</code>, because the build runs <code>srchybrid/translations/ai_translator.py</code> for translation map validation and generated header output.</p>
       </article>
       <article class="card">
